@@ -45,30 +45,30 @@ class ListObj implements \Iterator
         $this->param = array_values($this->param);
     }
 
-    public function rewind()
+    function rewind()
     {
         reset($this->param);
     }
 
-    public function current()
+    function current()
     {
         $var = current($this->param);
         return $var;
     }
 
-    public function key()
+    function key()
     {
         $var = key($this->param);
         return $var;
     }
 
-    public function next()
+    function next()
     {
         $var = next($this->param);
         return $var;
     }
 
-    public function valid()
+    function valid()
     {
         $key = key($this->param);
         $var = ($key !== NULL && $key !== FALSE);
