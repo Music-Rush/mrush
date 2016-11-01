@@ -2,6 +2,6 @@
 
 @section('content')
     <div class="container">
-        Kek
+        Kekosik
     </div>
 @stop
