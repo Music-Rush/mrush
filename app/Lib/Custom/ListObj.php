@@ -1,14 +1,39 @@
 <?php
 
-namespace vendor\mrush\custom;
+namespace App\Lib\Custom;
+
+use PhpParser\Node\Expr\Cast\Object;
 
 class ListObj implements \Iterator
 {
     private $param = array();
+    private $listName;
+
+    public function __construct($name = 'Custom list')
+    {
+        $this->listName = $name;
+    }
 
     public function Add($item)
     {
-        $param[] = $item;
+        if ((count($this->param) == 0) || (gettype($item) == gettype($this->param[0])))
+            $this->param[] = $item;
+        else
+        {
+            if (is_object($this->param[0]))
+                $type = get_class($this->param[0]);
+            else
+                $type = gettype($this->param[0]);
+            dd('Error! This list \'' . $this->listName . '\' can contain only objects with type ' . $type);
+        }
+    }
+
+    public function First()
+    {
+        if (count($this->param) > 0)
+            return $this->param[0];
+
+        return null;
     }
 
     public function Last()
@@ -19,10 +44,8 @@ class ListObj implements \Iterator
 
     public function Remove($removeItem)
     {
-        foreach ($this->param as $key => $item)
-        {
-            if ($item == $removeItem)
-            {
+        foreach ($this->param as $key => $item) {
+            if ($item == $removeItem) {
                 unset($this->param[$key]);
                 break;
             }
@@ -33,10 +56,8 @@ class ListObj implements \Iterator
 
     public function RemoveAt($index)
     {
-        foreach ($this->param as $key => $item)
-        {
-            if ($key == $index)
-            {
+        foreach ($this->param as $key => $item) {
+            if ($key == $index) {
                 unset($this->param[$key]);
                 break;
             }
@@ -74,5 +95,4 @@ class ListObj implements \Iterator
         $var = ($key !== NULL && $key !== FALSE);
         return $var;
     }
-
 }
