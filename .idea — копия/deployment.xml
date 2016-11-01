@@ -20,6 +20,7 @@
         <serverdata>
           <mappings>
             <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
+            <mapping local="" web="" />
           </mappings>
         </serverdata>
       </paths>
