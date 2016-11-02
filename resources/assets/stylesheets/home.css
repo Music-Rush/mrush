@@ -1,0 +1,70 @@
+.home-wrapper{
+    background-image: url(/resources/assets/images/home_back.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    margin: 0;
+    width: 100%;
+}
+.inscription-block{
+    /*justify-content: center;
+    display: flex;
+    flex-direction: column;*/
+    padding-top: 35vh;
+    font-family: "ProximaNovaBold";
+    color: white;
+}
+.inscription-block p{
+    padding: 0;
+    margin: 0;
+}
+.inscription-block #music-portal{
+    font-family: "ProximaNovaRegular";
+    font-size: 63px;
+    text-transform: uppercase;
+    display: inline-block;
+}
+.inscription-block #mp-delimiter-before,
+.inscription-block #mp-delimiter-after{
+    width: 145px;
+    margin: 20px 34px;
+    height: 1px;
+    border: 1.5px solid red;
+    display: inline-block;
+}
+.inscription-block #music-rush{
+    font-family: "ProximaNovaBold";
+    font-size: 110px;
+    text-transform: uppercase;
+}
+.inscription-block #delimiter{
+    width: 20px;
+    height: 20px;
+    background: red;
+    /* Rotate */
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    /* Rotate Origin */
+    -webkit-transform-origin: 0 100%;
+    -moz-transform-origin: 0 100%;
+    -ms-transform-origin: 0 100%;
+    -o-transform-origin: 0 100%;
+    transform-origin: 0 100%;
+    margin: 0 0 -3px 18px;
+    display: inline-block;
+}
+.inscription-block #delimiter-before,
+.inscription-block #delimiter-after{
+    width: 380px;
+    margin: 9px 0;
+    height: 1px;
+    border: 1px solid white;
+    display: inline-block;
+}
+.inscription-block #tagline{
+    font-family: "ProximaNovaLight";
+    font-size: 41px;
+}

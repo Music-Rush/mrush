@@ -1,0 +1,46 @@
+@font-face {
+    font-family: ProximaNovaBold;
+    src: url(/resources/assets/fonts/ProximaNovaBold.otf);
+}
+@font-face {
+    font-family: ProximaNovaExtrabold;
+    src: url(/resources/assets/fonts/ProximaNovaExtrabold.otf);
+}
+@font-face {
+    font-family: ProximaNovaLight;
+    src: url(/resources/assets/fonts/ProximaNovaLight.otf);
+}
+@font-face {
+    font-family: ProximaNovaRegular;
+    src: url(/resources/assets/fonts/ProximaNovaRegular.otf);
+}
+@font-face {
+    font-family: ProximaNovaThin;
+    src: url(/resources/assets/fonts/ProximaNovaThin.otf);
+}
+.main-header{
+    height: 76px;
+    background-color: #383a48;
+    border-bottom: 1px solid #0b0c0f;
+    margin-bottom: -76px;
+}
+.main-menu{
+    margin: 0;
+    padding: 24px 70px 0 70px;
+}
+.main-menu li{
+    color: white;
+    margin-right: 20px !important;
+    float: right;
+    padding: 5px;
+}
+.main-menu li a{
+    color: white;
+    font-family: "ProximaNovaBold";
+    font-size: 15px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+.main-menu li a:hover{
+    text-decoration: underline;
+}
