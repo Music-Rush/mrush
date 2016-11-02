@@ -12,6 +12,7 @@ class HomeController extends Controller
 		$data = [
 			'title' => 'Music Rush'
 		];
+
 		return view('pages.home.home', $data);
 	}
 

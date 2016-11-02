@@ -41,7 +41,7 @@ trait AuthenticatesAndRegistersUsers {
 		$validator = $this->registrar->validator($request->all());
 
 		if ($validator->fails())
-		{
+		{	
 			$this->throwValidationException(
 				$request, $validator
 			);
