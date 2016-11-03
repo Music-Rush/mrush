@@ -1,0 +1,76 @@
+.login-contain{
+    background: url('/resources/assets/images/login_back.jpg') no-repeat;
+    height: 100vh;
+    background-size: cover;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0 !important;
+    padding: 0 !important;
+    padding-top: 20vh !important;
+}
+.login-form{
+    width: 340px;
+    margin-left: calc(50% - 210px);
+}
+.login-form input[type="email"], .login-form input[type="password"],
+.login-form input[type="text"]{
+    border: 0;
+    border-bottom: 1px solid white;
+    background: transparent;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    color: white !important;
+    padding-left: 0;
+}
+.login-form input::-webkit-input-placeholder{
+    color: white !important;
+}
+.login-form input::-moz-placeholder{
+    color: white !important;
+}
+.login-form input:-moz-placeholder{
+    color: white !important;
+}
+.login-form input:-ms-input-placeholder{
+    color: white !important;
+}
+.login-form .btn-signin{
+    margin-top: 10px;
+    width: 340px;
+    border: 1px solid white;
+    background: transparent;
+    color: white;
+    -webkit-transition: all .1s linear;
+    -moz-transition: all .1s linear;
+    -ms-transition: all .1s linear;
+    -o-transition: all .1s linear;
+    transition: all .1s linear;
+}
+.login-form .btn-signin:hover{
+    background: white;
+    color: black;
+}
+.image-logo{
+    margin-bottom: 20px;
+}
+.additional-info a{
+    text-decoration: none;
+    color: white !important;
+}
+.additional-info a:hover{
+    border-bottom: 1px solid white;
+}
+.signin-alert{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background: #f39c12;
+    color: white;
+    border: none;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}

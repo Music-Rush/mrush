@@ -27,7 +27,7 @@ trait AuthenticatesAndRegistersUsers {
 	 */
 	public function getRegister()
 	{
-		return view('auth.register');
+		return view('auth.register', ['title' => 'Sign up']);
 	}
 
 	/**
@@ -59,7 +59,7 @@ trait AuthenticatesAndRegistersUsers {
 	 */
 	public function getLogin()
 	{
-		return view('auth.login');
+		return view('auth.login', ['title' => 'Sign in']);
 	}
 
 	/**
@@ -132,7 +132,7 @@ trait AuthenticatesAndRegistersUsers {
 	 */
 	public function loginPath()
 	{
-		return property_exists($this, 'loginPath') ? $this->loginPath : '/auth/login';
+		return property_exists($this, 'loginPath') ? $this->loginPath : '/signin';
 	}
 
 }
