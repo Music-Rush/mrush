@@ -5,6 +5,7 @@ Route::get('/home', function(){
 	return redirect('/');
 });
 
+Route::get('/allmusic', 'AllMusic\AllMusic@index');
 
 Route::get('/signin', 'Auth\AuthController@getLogin');
 Route::post('/signin', 'Auth\AuthController@postLogin');

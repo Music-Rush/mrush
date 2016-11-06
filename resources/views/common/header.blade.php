@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="/resources/assets/stylesheets/home.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>{{ $title }}</title>
+    @if (!empty($styles) && is_array($styles))
+        @foreach ($styles as $style)
+            <link rel="stylesheet" href="/resources/assets/stylesheets/{{ $style }}">
+        @endforeach
+    @endif
 </head>
 <body>
     <div class="container-fluid main-header">
@@ -42,7 +47,7 @@
                     </li>
                     @endif
                     <li class="float-lg-right list-inline-item">
-                        <a href="">All Music</a>
+                        <a href="/allmusic">All Music</a>
                     </li>
                 </ul>
             </div>
