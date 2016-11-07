@@ -19,6 +19,62 @@ body{
     padding-left: 65px !important;
     margin-bottom: 15px;
 }
+.music-filters{
+    width: 25%;
+    padding-left: 65px;
+    display: inline-block;
+    margin: 0;
+}
+.music-filters > .search_filter .radio-btn{
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+.music-filters > .search_filter .title{
+    font-family: "ProximaNovaBold";
+    font-size: 13px;
+    text-transform: uppercase;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 15px;
+}
+.music-filters > .search_filter .radio-btn > label:hover{
+    background-color: #089680;
+    cursor: pointer;
+}
+.music-filters > .search_filter .radio-btn > label{
+    min-width: 75px;
+    text-align: center;
+    font-family: "ProximaNovaBold";
+    font-size: 14px;
+    text-transform: uppercase;
+    border: 2px solid #089680;
+    padding: 3px 5px;
+    border-radius: 10px;
+}
+.music-filters > .search_filter .radio-btn > .hidden{
+    display: none !important;
+}
+.music-filters > .search_filter input[type="text"]{
+    border: 2px solid #089680;
+    background-color: transparent;
+    color: white;
+    font-family: "ProximaNovaRegular";
+}
+.music-filters > .search_filter input[type="text"]::-webkit-input-placeholder {color:white;}
+.music-filters > .search_filter input[type="text"]::-moz-placeholder          {color:white;}/* Firefox 19+ */
+.music-filters > .search_filter input[type="text"]:-moz-placeholder           {color:white;}/* Firefox 18- */
+.music-filters > .search_filter input[type="text"]:-ms-input-placeholder      {color:white;}
+.music-filters > .search_filter .btn{
+    background-color: #089680;
+    color: white;
+    font-family: "ProximaNovaRegular";
+}
+.music-filters > .search_filter .btn:hover{
+    opacity: 0.8;
+}
+
+
 .in-music-container{
     height: calc(100% - 75px - 100px + 3px);
     width: 70%;
