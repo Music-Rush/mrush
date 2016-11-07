@@ -18,4 +18,14 @@ class AllMusic extends Controller {
 		];
 		return view('pages.allmusic.allmusic', $data);
 	}
+
+	public function GetAlbums()
+	{
+		
+	}
+
+	public function GetTracks()
+	{
+
+	}
 }
