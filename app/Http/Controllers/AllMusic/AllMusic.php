@@ -12,7 +12,8 @@ class AllMusic extends Controller {
 		$data = [
 			'title' => 'All music',
 			'styles' => [
-				'allmusic.css'
+				'allmusic.css',
+				'tracks.css'
 			]
 		];
 		return view('pages.allmusic.allmusic', $data);

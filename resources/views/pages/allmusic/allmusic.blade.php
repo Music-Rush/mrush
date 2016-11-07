@@ -9,7 +9,7 @@
                 <li class="list-inline-item"><a href="">Tracks</a></li>
             </ul>
         </div>
-        @include('pages.allmusic.albums')
+        @include('pages.allmusic.tracks')
     </div>
     <div class="music-right-sidebar">
         <div class="close-sidebar">
