@@ -21,9 +21,13 @@ body{
 }
 .music-filters{
     width: 25%;
+    height: calc(100% - 75px - 100px + 3px);
     padding-left: 65px;
     display: inline-block;
     margin: 0;
+    overflow: auto;
+    margin-top: -40px !important;
+    padding-bottom: 20px;
 }
 .music-filters > .search_filter .check-btn{
     display: inline-block;
@@ -73,6 +77,7 @@ body{
     color: white;
     font-family: "ProximaNovaRegular";
     margin-right: 10px;
+    margin-bottom: 10px;
 }
 .music-filters > .search_filter .btn-search:hover{
     opacity: 0.8;
