@@ -1,0 +1,265 @@
+body{
+    overflow: hidden;
+}
+.all-music-container{
+    background: url('/resources/assets/images/home_back.jpg') no-repeat;
+    height: 100vh;
+    background-size: cover;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0 !important;
+    padding: 74px 0 0 0 !important;
+    color: white;
+    font-family: "ProximaNovaRegular";
+}
+.music-settings{
+    margin-top: 10px;
+    padding-left: 65px !important;
+    margin-bottom: 15px;
+}
+.in-music-container{
+    height: calc(100% - 75px - 100px + 3px);
+    overflow: auto;
+    margin: 0 !important;
+    padding: 65px !important;
+    padding-top: 25px !important;
+    margin-top: -40px !important;
+}
+.all-music-container .title{
+    font-size: 28px;
+}
+ul.music-choice{
+    margin-bottom: 30px !important;
+}
+ul.music-choice li{
+    text-transform: uppercase;
+    color: #8a8a8a;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -ms-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}
+ul.music-choice li:hover{
+    color: white;
+}
+ul.music-choice li.active{
+    color: white;
+}
+ul.music-choice li a{
+    text-decoration: none;
+    color: inherit;
+}
+.album-item{
+    width: 270px;
+    height: 270px;
+    overflow: hidden;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 16px 32px 0px rgba(0, 0, 0, 0.31);
+    -moz-box-shadow: 0px 16px 32px 0px rgba(0, 0, 0, 0.31);
+    box-shadow: 0px 16px 32px 0px rgba(0, 0, 0, 0.31);
+    display: inline-block;
+    margin-bottom: 20px !important;
+    margin-top: 10px !important;
+    margin-right: 15px !important;
+    cursor: pointer;
+    position: relative;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -ms-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}
+.album-item:hover{
+    transform: scale(1.1);
+}
+.album-item > img{
+    max-width: 100%;
+}
+.album-item:hover .album-info{
+    opacity: 1;
+}
+.album-info{
+    padding: 18px;
+    font-size: 18px;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    color: white;
+    background-color: rgba(60, 60, 78, .75);
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -ms-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}
+.in-album-info{
+    position: absolute;
+    bottom: 10px;
+    width: 90%;
+}
+.in-album-info p.album-artist{
+    font-weight: bold;
+}
+.in-album-info p{
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.music-right-sidebar{
+    width: 30%;
+    height: calc(100% - 75px);
+    position: absolute;
+    top: 0;
+    right: -9999px;
+    background: rgba(55, 57, 73, .95);
+    -webkit-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    -moz-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+::-webkit-scrollbar-track{
+    background: rgba(0,0,0,.25);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+::-webkit-scrollbar{
+    width: 8px;
+}
+::-webkit-scrollbar-thumb{
+    background: rgba(0,0,0,.8);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.close-sidebar{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    height: 76px;
+    border-bottom: 1px solid rgba(0,0,0,.5);
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -ms-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+    background: transparent;
+    color: white;
+    padding-top: 25px;
+}
+.close-sidebar:hover{
+    background: rgba(255,255,255,.75);
+    color: black;
+}
+.music-player{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    bottom: 0;
+    position: absolute;
+    height: 60px;
+    background-color: rgba(56, 58, 73, .65);
+    padding-left: 65px !important;
+    padding-right: 65px !important;
+}
+.music-player-time{
+    background: #464759;
+    height: 15px;
+    position: absolute;
+    bottom: 60px;
+    width: 100%;
+    left: 0;
+    color: white;
+    font-family: "ProximaNovaRegular";
+    font-size: 12px;
+    z-index: 100;
+}
+.music-player-time-gone{
+    height: 15px;
+    position: absolute;
+    bottom: 60px;
+    width: 100%;
+    left: 0;
+    background: #089680;
+    z-index: 10;
+}
+.music-player-time:before{
+    content: '';
+    position: absolute;
+    height: 15px;
+    width: 30%;
+    background: #089680;
+}
+.music-player-time p{
+    display: inline-block;
+}
+.music-player-time p.time-curr{
+    float: left;
+    margin-left: 65px;
+}
+.music-player-time p.time-all{
+    float: right;
+    margin-right: 65px;
+}
+.music-player-controller{
+    vertical-align: top;
+    display: inline-block;
+    color: white;
+    margin-top: 4px;
+}
+.music-player-controller > div{
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 22px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.player-image{
+    margin-top: 11px;
+    vertical-align: top;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.player-image > img{
+    max-width: 100%;
+}
+.player-music-info{
+    vertical-align: top;
+    display: inline-block;
+    margin-left: 15px;
+    margin-top: 8px;
+}
+.player-music-info p{
+    margin: 0 !important;
+    padding: 0 !important;
+    color: white;
+    font-size: 13px;
+    font-family: "ProximaNovaLight";
+}
+.player-music-info p.music-title{
+    font-family: "ProximaNovaBold";
+}
+.player-music-info p.music-artist{
+    font-size: 12px;
+}
+.controller-play{
+    font-size: 34px !important;
+}

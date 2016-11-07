@@ -2,10 +2,15 @@
 <html>
 <head>
     <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+            integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
+            crossorigin="anonymous"></script>
     <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/resources/assets/stylesheets/header.css">
     <link rel="stylesheet" href="/resources/assets/stylesheets/home.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/resources/assets/font-awesome/css/font-awesome.min.css">
+    <script src="/resources/assets/js/all-m.js"></script>
     <title>{{ $title }}</title>
     @if (!empty($styles) && is_array($styles))
         @foreach ($styles as $style)
@@ -55,5 +60,27 @@
     </div>
 
     @yield('content')
+
+    <footer>
+        <div class="container-fluid music-player">
+            <div class="music-player-time">
+                <p class="time-curr">1:42</p>
+                <p class="time-all">3:15</p>
+            </div>
+            <div class="music-player-time-gone"></div>
+            <div class="music-player-controller">
+                <div class="controller-prev"><b class="fa fa-backward"></b></div>
+                <div class="controller-play"><b class="fa fa-play-circle-o"></b></div>
+                <div class="container-next"><b class="fa fa-forward "></b></div>
+            </div>
+            <div class="player-image">
+                <img src="https://d2ykdu8745rm9t.cloudfront.net/cover/i/009/432/567/mr-robot-5527.jpg?rect=25,0,549,549&q=98&fm=jpg&fit=max" alt="">
+            </div>
+            <div class="player-music-info">
+                <p class="music-title">OST Soundtrack #1</p>
+                <p class="music-artist">MR. ROBOT</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
