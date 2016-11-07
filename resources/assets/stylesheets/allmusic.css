@@ -25,7 +25,7 @@ body{
     display: inline-block;
     margin: 0;
 }
-.music-filters > .search_filter .radio-btn{
+.music-filters > .search_filter .check-btn{
     display: inline-block;
     margin-bottom: 10px;
     margin-right: 10px;
@@ -38,11 +38,14 @@ body{
     margin: 0;
     margin-bottom: 15px;
 }
-.music-filters > .search_filter .radio-btn > label:hover{
+.music-filters > .search_filter input[type="checkbox"]:checked + label{
     background-color: #089680;
+}
+.music-filters > .search_filter .check-btn > label:hover{
+    background-color: #157a6b !important;
     cursor: pointer;
 }
-.music-filters > .search_filter .radio-btn > label{
+.music-filters > .search_filter .check-btn > label{
     min-width: 75px;
     text-align: center;
     font-family: "ProximaNovaBold";
@@ -52,7 +55,7 @@ body{
     padding: 3px 5px;
     border-radius: 10px;
 }
-.music-filters > .search_filter .radio-btn > .hidden{
+.music-filters > .search_filter .check-btn > .hidden{
     display: none !important;
 }
 .music-filters > .search_filter input[type="text"]{
@@ -65,12 +68,13 @@ body{
 .music-filters > .search_filter input[type="text"]::-moz-placeholder          {color:white;}/* Firefox 19+ */
 .music-filters > .search_filter input[type="text"]:-moz-placeholder           {color:white;}/* Firefox 18- */
 .music-filters > .search_filter input[type="text"]:-ms-input-placeholder      {color:white;}
-.music-filters > .search_filter .btn{
+.music-filters > .search_filter .btn-search{
     background-color: #089680;
     color: white;
     font-family: "ProximaNovaRegular";
+    margin-right: 10px;
 }
-.music-filters > .search_filter .btn:hover{
+.music-filters > .search_filter .btn-search:hover{
     opacity: 0.8;
 }
 
@@ -177,7 +181,7 @@ ul.music-choice li a{
     height: calc(100% - 75px);
     position: absolute;
     top: 0;
-    right: -9999px;
+    left: -9999px;
     background: rgba(55, 57, 73, .95);
     -webkit-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     -moz-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
