@@ -4,10 +4,7 @@ $(function(){
         if (!isOpen)
         {
             $('.music-right-sidebar').css({
-                'right' : 0
-            });
-            $('.in-music-container').css({
-                'width': $(document).width() - $('.music-right-sidebar').width()
+                'left' : 0
             });
             isOpen = true;
         }
@@ -16,10 +13,7 @@ $(function(){
         if (isOpen)
         {
             $('.music-right-sidebar').css({
-                'right' : -9999
-            });
-            $('.in-music-container').css({
-                'width': 100 + '%'
+                'left' : -9999
             });
             isOpen = false;
         }
