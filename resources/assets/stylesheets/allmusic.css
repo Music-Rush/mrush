@@ -21,6 +21,8 @@ body{
 }
 .in-music-container{
     height: calc(100% - 75px - 100px + 3px);
+    width: 70%;
+    float: right;
     overflow: auto;
     margin: 0 !important;
     padding: 65px !important;
