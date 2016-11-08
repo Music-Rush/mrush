@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Models\Tracks;
 use Illuminate\Http\Request;
 
 class AllMusic extends Controller {
@@ -21,11 +22,11 @@ class AllMusic extends Controller {
 
 	public function GetAlbums()
 	{
-		
+
 	}
 
 	public function GetTracks()
 	{
-
+		dd(Tracks::all());
 	}
 }

@@ -14,20 +14,38 @@ body{
     color: white;
     font-family: "ProximaNovaRegular";
 }
+.all-music-container-test{
+    width: 70%;
+    float: right;
+    overflow: auto;
+
+}
 .music-settings{
     margin-top: 10px;
     padding-left: 65px !important;
     margin-bottom: 15px;
 }
+.music-filters-block{
+    display: inline-block;
+    vertical-align: top;
+    height: 100vh;
+    overflow: hidden;
+    width: 28%;
+}
 .music-filters{
-    width: 25%;
+    width: 100%;
     height: calc(100% - 75px - 100px + 3px);
     padding-left: 65px;
     display: inline-block;
     margin: 0;
     overflow: auto;
-    margin-top: -40px !important;
+    margin-top: 11px !important;
     padding-bottom: 20px;
+}
+.right-music-block{
+    width: 71%;
+    display: inline-block;
+    float: right;
 }
 .music-filters > .search_filter .check-btn{
     display: inline-block;
@@ -77,22 +95,19 @@ body{
     color: white;
     font-family: "ProximaNovaRegular";
     margin-right: 10px;
-    margin-bottom: 10px;
 }
 .music-filters > .search_filter .btn-search:hover{
     opacity: 0.8;
 }
 
-
 .in-music-container{
-    height: calc(100% - 75px - 100px + 3px);
-    width: 70%;
-    float: right;
+    height: calc(100vh - 251px);
+    width: 100%;
     overflow: auto;
     margin: 0 !important;
     padding: 65px !important;
-    padding-top: 25px !important;
-    margin-top: -40px !important;
+    padding-top: 0 !important;
+    margin-top: -20px !important;
 }
 .all-music-container .title{
     font-size: 28px;
@@ -102,7 +117,6 @@ ul.music-choice{
 }
 ul.music-choice li{
     text-transform: uppercase;
-    color: #8a8a8a;
     font-weight: bold;
     font-size: 14px;
     cursor: pointer;
@@ -111,6 +125,16 @@ ul.music-choice li{
     -ms-transition: all 0.1s linear;
     -o-transition: all 0.1s linear;
     transition: all 0.1s linear;
+}
+ul.music-choice li input[type=radio] + label{
+    cursor: pointer;
+    color: #8a8a8a;
+}
+ul.music-choice li input[type=radio]{
+    display: none;
+}
+ul.music-choice li input[type=radio]:checked + label{
+    color: white;
 }
 ul.music-choice li:hover{
     color: white;
@@ -123,8 +147,8 @@ ul.music-choice li a{
     color: inherit;
 }
 .album-item{
-    width: 270px;
-    height: 270px;
+    width: 220px;
+    height: 220px;
     overflow: hidden;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;

@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="/resources/assets/stylesheets/home.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/resources/assets/font-awesome/css/font-awesome.min.css">
-    <script src="/resources/assets/js/all-m.js"></script>
     <title>{{ $title }}</title>
     @if (!empty($styles) && is_array($styles))
         @foreach ($styles as $style)
