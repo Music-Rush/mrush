@@ -5,6 +5,7 @@ Route::get('/home', function(){
 	return redirect('/');
 });
 
+
 Route::get('/allmusic', 'AllMusic\AllMusic@index');
 Route::post('/allmusic/tracks', 'AllMusic\AllMusic@GetTracks');
 Route::post('/allmusic/albums', 'AllMusic\AllMusic@GetAlbums');

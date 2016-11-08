@@ -18,6 +18,7 @@ $(function(){
             isOpen = false;
         }
     });
+    
 
     $('input[name="music-type"]').on('change', function(){
         var currentType = $(this).val();

@@ -8,6 +8,7 @@
         </div>
     </div>
 </div>
+
 <!--<div class="album-item">
     <img src="https://upload.wikimedia.org/wikipedia/en/7/7d/Blurryface_by_Twenty_One_Pilots.png" alt="">
     <div class="album-info">

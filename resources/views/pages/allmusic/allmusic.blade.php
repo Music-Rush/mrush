@@ -2,6 +2,7 @@
 
 @section('content')
     <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
+
     <div class="container-fluid all-music-container">
         <div class="music-filters-block">
             <div class="container-fluid music-filters">

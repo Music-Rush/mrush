@@ -1,4 +1,5 @@
 @for($i = 0; $i < 5; $i++)
+
     <div class="track-item">
         <div class="track-img">
             <img src="https://upload.wikimedia.org/wikipedia/en/7/7d/Blurryface_by_Twenty_One_Pilots.png" alt="">

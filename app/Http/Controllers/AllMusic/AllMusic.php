@@ -22,6 +22,7 @@ class AllMusic extends Controller {
 
 	public function GetAlbums()
 	{
+		
 		setcookie('music_type', 'albums', time() + 3600, '/');
 		$albums = array();
 		$item['artist_name'] = 'Kek';
