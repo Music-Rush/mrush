@@ -32,7 +32,7 @@
                     @endif
                     <li class="float-lg-right list-inline-item my-profile">
                         @if (Auth::check())
-                            <a href="">My Profile</a>
+                            <a href="/profile">My Profile</a>
                         @else
                             <a href="/signin">Sign In / Sign Up</a>
                         @endif

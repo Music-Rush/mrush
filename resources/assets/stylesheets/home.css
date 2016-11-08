@@ -68,3 +68,106 @@
     font-family: "ProximaNovaLight";
     font-size: 41px;
 }
+
+/* PLAYER */
+
+.music-player{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    bottom: 0;
+    position: absolute;
+    height: 60px;
+    background-color: rgba(56, 58, 73, .65);
+    padding-left: 65px !important;
+    padding-right: 65px !important;
+}
+.music-player-time{
+    background: #464759;
+    height: 15px;
+    position: absolute;
+    bottom: 60px;
+    width: 100%;
+    left: 0;
+    color: white;
+    font-family: "ProximaNovaRegular";
+    font-size: 12px;
+    z-index: 100;
+}
+.music-player-time-gone{
+    height: 15px;
+    position: absolute;
+    bottom: 60px;
+    width: 100%;
+    left: 0;
+    background: #089680;
+    z-index: 10;
+}
+.music-player-time:before{
+    content: '';
+    position: absolute;
+    height: 15px;
+    width: 30%;
+    background: #089680;
+}
+.music-player-time p{
+    display: inline-block;
+}
+.music-player-time p.time-curr{
+    float: left;
+    margin-left: 65px;
+}
+.music-player-time p.time-all{
+    float: right;
+    margin-right: 65px;
+}
+.music-player-controller{
+    vertical-align: top;
+    display: inline-block;
+    color: white;
+    margin-top: 4px;
+}
+.music-player-controller > div{
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 22px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.player-image{
+    margin-top: 11px;
+    vertical-align: top;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.player-image > img{
+    max-width: 100%;
+}
+.player-music-info{
+    vertical-align: top;
+    display: inline-block;
+    margin-left: 15px;
+    margin-top: 8px;
+}
+.player-music-info p{
+    margin: 0 !important;
+    padding: 0 !important;
+    color: white;
+    font-size: 13px;
+    font-family: "ProximaNovaLight";
+}
+.player-music-info p.music-title{
+    font-family: "ProximaNovaBold";
+}
+.player-music-info p.music-artist{
+    font-size: 12px;
+}
+.controller-play{
+    font-size: 34px !important;
+}

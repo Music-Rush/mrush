@@ -5,6 +5,9 @@ Route::get('/home', function(){
 	return redirect('/');
 });
 
+Route::group(['middleware' => 'auth'], function(){
+	Route::get('/profile', 'Profile\Profile@index');
+});
 
 Route::get('/allmusic', 'AllMusic\AllMusic@index');
 Route::post('/allmusic/tracks', 'AllMusic\AllMusic@GetTracks');
