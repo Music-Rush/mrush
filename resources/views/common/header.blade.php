@@ -2,9 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
-            integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
-            crossorigin="anonymous"></script>
+    <script src="/resources/assets/js/jquery-3.0.0.min.js"></script>
     <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/resources/assets/stylesheets/header.css">
     <link rel="stylesheet" href="/resources/assets/stylesheets/home.css">
