@@ -22,11 +22,27 @@ class AllMusic extends Controller {
 
 	public function GetAlbums()
 	{
+		setcookie('music_type', 'albums', time() + 3600, '/');
+		$albums = array();
+		$item['artist_name'] = 'Kek';
+		$item['album_name'] = 'Lol album';
+		$item['year'] = 2016;
+		$item['album_image'] = 'picture';
+		$albums[] = $item;
 
+		echo json_encode($albums);
 	}
 
 	public function GetTracks()
 	{
-		dd(Tracks::all());
+		setcookie('music_type', 'tracks', time() + 3600, '/');
+		$tracks = array();
+		$item['track_name'] = 'Kek track';
+		$item['artist_name'] = 'Lol';
+		$item['year'] = 2016;
+		$item['track_image'] = 'picture';
+		$tracks[] = $item;
+
+		echo json_encode($tracks);
 	}
 }

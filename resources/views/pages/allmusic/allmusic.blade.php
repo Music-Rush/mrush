@@ -52,17 +52,23 @@
                 <p class="title">All music</p>
                 <ul class="list-inline music-choice">
                     <li class="list-inline-item active" id="get-albums">
-                        <input type="radio" id="album-type" name="music-type" value="0" checked>
+                        <input type="radio" id="album-type" name="music-type" value="0" {{ (!isset($_COOKIE['music_type']) || $_COOKIE['music_type'] == 'albums') ? 'checked' : '' }}>
                         <label for="album-type">Albums</label>
                     </li>
                     <li class="list-inline-item" id="get-tracks">
-                        <input type="radio" id="track-type" name="music-type" value="1">
+                        <input type="radio" id="track-type" name="music-type" value="1" {{ (isset($_COOKIE['music_type']) && $_COOKIE['music_type'] == 'tracks') ? 'checked' : '' }}>
                         <label for="track-type">Tracks</label>
                     </li>
                 </ul>
             </div>
             <div class="container-fluid in-music-container">
-                @include('pages.allmusic.albums')
+                <div class="items">
+                    @if (isset($_COOKIE['music_type']) && ($_COOKIE['music_type'] == 'tracks'))
+                        @include('pages.allmusic.tracks')
+                    @else
+                        @include('pages.allmusic.albums')
+                    @endif
+                </div>
             </div>
         </div>
     </div>

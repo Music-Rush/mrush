@@ -6,7 +6,7 @@ Route::get('/home', function(){
 });
 
 Route::get('/allmusic', 'AllMusic\AllMusic@index');
-Route::get('/allmusic/tracks', 'AllMusic\AllMusic@GetTracks');
+Route::post('/allmusic/tracks', 'AllMusic\AllMusic@GetTracks');
 Route::post('/allmusic/albums', 'AllMusic\AllMusic@GetAlbums');
 
 Route::get('/signin', 'Auth\AuthController@getLogin');
