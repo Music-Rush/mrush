@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 
 class Profile extends Controller
 {
@@ -15,6 +16,27 @@ class Profile extends Controller
 				'profile.css'
 			]
 		];
+		if((\Route::input("type") == null) || (\Route::input("type") == "tracks"))
+		{
+			$data['content'] = "tracks";
+		}
+		else if(\Route::input("type") == "playlists")
+		{
+			$data['content'] = "playlists";
+		}
+		else if(\Route::input("type") == "albums")
+		{
+			$data['content'] = "albums";
+		}
+		else if(\Route::input("type") == "mycommunities")
+		{
+			$data['content'] = "mycommunities";
+		}
+		else if(\Route::input("type") == "settings")
+		{
+			$data['content'] = "settings";
+		}
+
 
 		return view('pages.profile.profile', $data);
 	}

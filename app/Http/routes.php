@@ -6,7 +6,7 @@ Route::get('/home', function(){
 });
 
 Route::group(['middleware' => 'auth'], function(){
-	Route::get('/profile', 'Profile\Profile@index');
+	Route::get('/profile/{type?}', 'Profile\Profile@index');
 });
 
 Route::get('/allmusic', 'AllMusic\AllMusic@index');
