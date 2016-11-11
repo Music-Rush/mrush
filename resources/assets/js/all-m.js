@@ -18,7 +18,7 @@ $(function(){
             isOpen = false;
         }
     });
-    
+
 
     $('input[name="music-type"]').on('change', function(){
         var currentType = $(this).val();
@@ -26,8 +26,10 @@ $(function(){
         var generatedHtml = '';
         var tempItem = '';
         var token = $('input[name="csrf-token"]').val();
+        var loadOverlap = $('.loading-overlap');
 
         $(container).empty();
+        $(loadOverlap).fadeIn();
 
         if (currentType == 1) // track
         {
@@ -56,6 +58,7 @@ $(function(){
                             '</div>';
                         generatedHtml += tempItem;
                     });
+                    $(loadOverlap).fadeOut();
                     $(container).html(generatedHtml);
                 }
             });
@@ -82,6 +85,7 @@ $(function(){
                             '</div>';
                         generatedHtml += tempItem;
                     });
+                    $(loadOverlap).fadeOut();
                     $(container).html(generatedHtml);
                 }
             });

@@ -104,10 +104,12 @@ body{
     height: calc(100vh - 251px);
     width: 100%;
     overflow: auto;
+    overflow-x: hidden;
     margin: 0 !important;
     padding: 65px !important;
     padding-top: 0 !important;
     margin-top: -20px !important;
+    position: relative;
 }
 .all-music-container .title{
     font-size: 28px;
@@ -253,4 +255,26 @@ ul.music-choice li a{
 .close-sidebar:hover{
     background: rgba(255,255,255,.75);
     color: black;
+}
+
+/* LOADING OVERLAP */
+
+.loading-overlap{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 95%;
+    height: 96%;
+    margin-left: 55px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: rgba(255,255,255,.25);
+    color: white;
+    font-size: 37px;
+    text-align: center;
+    display: none;
+}
+.loading-overlap i{
+    margin-top: calc(28% - 90px);
 }

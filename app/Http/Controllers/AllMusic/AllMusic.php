@@ -17,6 +17,7 @@ class AllMusic extends Controller {
 				'tracks.css'
 			]
 		];
+
 		return view('pages.allmusic.allmusic', $data);
 	}
 
@@ -28,7 +29,7 @@ class AllMusic extends Controller {
 		$item['artist_name'] = 'Kek';
 		$item['album_name'] = 'Lol album';
 		$item['year'] = 2016;
-		$item['album_image'] = 'picture';
+		$item['album_image'] = 'https://d2ykdu8745rm9t.cloudfront.net/cover/i/009/432/567/mr-robot-5527.jpg?rect=25,0,549,549&q=98&fm=jpg&fit=max';
 		$albums[] = $item;
 
 		echo json_encode($albums);
@@ -41,7 +42,7 @@ class AllMusic extends Controller {
 		$item['track_name'] = 'Kek track';
 		$item['artist_name'] = 'Lol';
 		$item['year'] = 2016;
-		$item['track_image'] = 'picture';
+		$item['track_image'] = 'https://d2ykdu8745rm9t.cloudfront.net/cover/i/009/432/567/mr-robot-5527.jpg?rect=25,0,549,549&q=98&fm=jpg&fit=max';
 		$tracks[] = $item;
 
 		echo json_encode($tracks);
