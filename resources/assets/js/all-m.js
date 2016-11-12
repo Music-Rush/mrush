@@ -1,6 +1,7 @@
 $(function(){
     var isOpen = false;
-    $('.album-item').click(function(){
+    $('#main-content').on('click', '.album-item', function(){
+        console.log('click on album item');
         if (!isOpen)
         {
             $('.music-right-sidebar').css({
@@ -9,7 +10,7 @@ $(function(){
             isOpen = true;
         }
     });
-    $('.close-sidebar').click(function(){
+    $('#main-content').on('click', '.close-sidebar', function(){
         if (isOpen)
         {
             $('.music-right-sidebar').css({
@@ -19,8 +20,54 @@ $(function(){
         }
     });
 
+    var isOpenMusicList = false;
+    $('footer').on('click', '.controller-list', function(){
+        console.log('click on album item');
+        if (!isOpenMusicList)
+        {
+            $('.music-list').css({
+                'bottom' : 76
+            });
+            isOpenMusicList = true;
+        }
+        else
+        {
+            $('.music-list').css({
+                'bottom' : -9999
+            });
+            isOpenMusicList = false;
+        }
+    });
+    $('footer').on('click', '.music-list-close-sidebar', function(){
+        if (isOpenMusicList)
+        {
+            $('.music-list').css({
+                'bottom' : -9999
+            });
+            isOpenMusicList = false;
+        }
+    });
 
-    $('input[name="music-type"]').on('change', function(){
+    /*jQuery("#to-page").click(function(){
+        var href = jQuery(this).attr("href");
+        //if( href.indexOf('/') != 0 ) return;
+
+        if ( window.history && history.pushState ) {
+            history.pushState   ("", "", href);
+            history.replaceState("", "", href);
+            toPage(href);
+        } else {
+            location.hash = href;
+        }
+        return false;
+    });*/
+
+
+    $(window).bind('popstate', function() {
+        toPage(location.pathname, false);
+    });
+
+    $('#main-content').on('change', 'input[name="music-type"]', function(){
         var currentType = $(this).val();
         var container = $('.in-music-container .items');
         var generatedHtml = '';
@@ -91,4 +138,18 @@ $(function(){
             });
         }
     });
+
+    /* Load page with ajax */
+
+    toPage = function(pageName, flag)
+    {
+        console.log(pageName);
+        $('#main-content').load(pageName);
+        if(flag && pageName != window.location)
+            window.history.pushState(null, null, pageName);
+        /*window.history.pushState(null, null, "/" + pageName);
+        window.history.replaceState(null, null, "/" + pageName);
+        return false;*/
+    }
+
 });

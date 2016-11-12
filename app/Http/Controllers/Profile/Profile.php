@@ -1,6 +1,5 @@
 <?php namespace App\Http\Controllers\Profile;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -8,7 +7,7 @@ use Illuminate\Routing\Route;
 
 class Profile extends Controller
 {
-	public function index()
+	public function index(Request $request)
 	{
 		$data = [
 			'title' => 'My profile',
@@ -37,7 +36,9 @@ class Profile extends Controller
 			$data['content'] = "settings";
 		}
 
-
-		return view('pages.profile.profile', $data);
+		if ($request->ajax())
+			return view('pages.profile.profile', $data);
+		else
+			return view('pages.profile.profile-section', $data);
 	}
 }

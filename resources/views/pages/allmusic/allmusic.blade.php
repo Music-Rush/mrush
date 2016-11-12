@@ -1,6 +1,3 @@
-@extends('common.header')
-
-@section('content')
     <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
 
     <div class="container-fluid all-music-container">
@@ -81,5 +78,3 @@
             Close
         </div>
     </div>
-    <script src="/resources/assets/js/all-m.js"></script>
-@stop

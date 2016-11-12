@@ -32,13 +32,14 @@
     float: right;
     padding: 5px;
 }
-.main-menu li a{
+.main-menu a#to-page{
     color: white;
     font-family: "ProximaNovaBold";
     font-size: 15px;
     text-transform: uppercase;
     text-decoration: none;
 }
-.main-menu li a:hover{
+.main-menu a#to-page:hover{
     text-decoration: underline;
+    cursor: pointer;
 }

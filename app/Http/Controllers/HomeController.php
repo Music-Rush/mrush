@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 class HomeController extends Controller
 {
 	/*public function __construct()
@@ -7,13 +9,16 @@ class HomeController extends Controller
 		$this->middleware('auth');
 	}*/
 
-	public function index()
+	public function index(Request $request)
 	{
 		$data = [
 			'title' => 'Music Rush'
 		];
 
-		return view('pages.home.home', $data);
+		if ($request->ajax())
+			return view('pages.home.home');
+		else
+			return view('pages.home.home-section', $data);
 	}
 
 }

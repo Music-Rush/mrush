@@ -37,5 +37,6 @@
             }, 3000);
         });
     </script>
+    <script src="/resources/assets/js/all-m.js"></script>
 </body>
 </html>

@@ -25,9 +25,12 @@ trait AuthenticatesAndRegistersUsers {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function getRegister()
+	public function getRegister(Request $request)
 	{
-		return view('auth.register', ['title' => 'Sign up']);
+		if ($request->ajax())
+			return view('auth.register');
+		else
+			return view('auth.register-section', ['title' => 'Sign up']);
 	}
 
 	/**
@@ -57,9 +60,12 @@ trait AuthenticatesAndRegistersUsers {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function getLogin()
+	public function getLogin(Request $request)
 	{
-		return view('auth.login', ['title' => 'Sign in']);
+		if ($request->ajax())
+			return view('auth.login');
+		else
+			return view('auth.login-section', ['title' => 'Sign in']);
 	}
 
 	/**

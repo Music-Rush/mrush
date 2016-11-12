@@ -5,10 +5,11 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Tracks;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class AllMusic extends Controller {
 
-	public function index()
+	public function index(Request $request)
 	{
 		$data = [
 			'title' => 'All music',
@@ -18,7 +19,10 @@ class AllMusic extends Controller {
 			]
 		];
 
-		return view('pages.allmusic.allmusic', $data);
+		if ($request->ajax())
+			return view('pages.allmusic.allmusic');
+		else
+			return view('pages.allmusic.allmusic-section', $data);
 	}
 
 	public function GetAlbums()

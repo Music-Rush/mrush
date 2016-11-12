@@ -1,72 +1,72 @@
-.track-item{
+.in-music-container .track-item{
     min-width: 100%;
     height: 80px;
     margin-bottom: 15px;
     padding: 5px;
     border: 1px solid transparent;
 }
-.track-item:hover{
+.in-music-container .track-item:hover{
     border: 1px solid white;
     cursor: pointer;
 }
-.track-item:hover .track-time{
+.in-music-container .track-item:hover .track-time{
     display: none;
 }
-.track-item:hover .add-track-info > b{
+.in-music-container .track-item:hover .add-track-info > b{
     display: inline-block;
 }
 
-.track-img{
+.in-music-container .track-img{
     width: 70px;
     height: 70px;
     margin-right: 10px;
     display: inline-block;
 }
-.track-img img{
+.in-music-container .track-img img{
     width: 70px;
     height: 70px;
 }
 
-.track-info-block{
+.in-music-container .track-info-block{
     display: inline-block;
     font-family: "ProximaNovaRegular";
     vertical-align: middle;
     margin-right: 25px;
 }
 
-.track-info-block > .artist-name{
+.in-music-container .track-info-block > .artist-name{
     font-size: 16px;
     color: white;
     font-weight: bold;
     padding: 0;
     margin-bottom: 5px;
 }
-.track-info-block > .track-name{
+.in-music-container .track-info-block > .track-name{
     font-size: 16px;
     color: white;
     padding: 0;
     margin: 0;
 }
 
-.add-track-info{
+.in-music-container .add-track-info{
     float: right;
     display: inline-block;
     vertical-align: middle;
 }
-.add-track-info > b{
+.in-music-container .add-track-info > b{
     color: white;
     font-size: 25px;
     display: none;
     padding-top: 25px;
     margin-right: 10px;
 }
-.add-track-info .fa-download:hover,
-.add-track-info .fa-plus:hover,
-.add-track-info .fa-heart-o:hover{
+.in-music-container .add-track-info .fa-download:hover,
+.in-music-container .add-track-info .fa-plus:hover,
+.in-music-container .add-track-info .fa-heart-o:hover{
     color: #16c9ad;
     cursor: pointer;
 }
-.add-track-info > .track-time{
+.in-music-container .add-track-info > .track-time{
     font-family: "ProximaNovaRegular";
     font-size: 14px;
     color: white;
