@@ -1,0 +1,217 @@
+body{
+    overflow: hidden;
+}
+.concerts-container{
+    background: url('/resources/assets/images/home_back.jpg') no-repeat;
+    height: 100vh;
+    background-size: cover;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0 !important;
+    padding: 115px 0 0 0 !important;
+    color: white;
+    font-family: "ProximaNovaRegular";
+}
+.concerts-filter-container{
+    width: 100%;
+    height: 125px;
+    margin-bottom: 25px;
+    font-family: "ProximaNovaRegular";
+    font-size: 16px;
+    text-align: center;
+}
+.today-block{
+    text-align: center;
+    text-transform: uppercase;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 25px;
+    border: 1px solid transparent;
+    padding: 7px;
+}
+.today-block:hover{
+    cursor: pointer;
+    border: 1px solid white;
+}
+.today-block .title{
+    font-family: "ProximaNovaBold";
+    margin: 0;
+    padding: 0;
+}
+.today-block .today-date{
+    font-family: "ProximaNovaLight";
+    margin: 0;
+    padding: 0;
+}
+.date-slider{
+    display: inline-block;
+    vertical-align: top;
+    font-family: "ProximaNovaLight";
+    font-size: 32px;
+    overflow: hidden;
+    width: 1035px;
+}
+.date-slider .slider-items{
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
+    position: relative;
+    width: 9999px;
+    text-align: left;
+    left: 0;
+}
+.date-slider p.date{
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 3px;
+    margin-top: 5px;
+    padding: 0px 5px;
+    border: 1px solid transparent;
+    z-index: 90;
+}
+.date-slider .active{
+    position: absolute;
+    background-color: transparent;
+    z-index: 100;
+}
+.date-slider p.none-display{
+    display: none;
+}
+.date-slider p.display{
+    display: inline-block;
+}
+.date-slider p.first{
+    margin-left: 123px;
+}
+.slider-next{
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 5px;
+    margin-right: 15px;
+    font-size: 40px;
+}
+.slider-next:hover,
+.slider-prev:hover{
+    color: #089680;
+    cursor: pointer;
+}
+.slider-prev{
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 12px;
+    font-size: 40px;
+}
+.date-slider .today-month{
+    display: inline-block;
+    vertical-align: top;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-family: "ProximaNovaBold";
+    padding-top: 17px;
+    width: 120px;
+    text-align: center;
+}
+.date-slider p.date:hover{
+    cursor: pointer;
+    border: 1px solid white;
+}
+.selected-date{
+    font-family: "ProximaNovaBold" !important;
+    text-decoration: underline;
+}
+.date-slider .today-month:hover{
+    cursor: default;
+    border: none;
+}
+.cities-list {
+
+}
+.cities-list p.selected-city{
+    font-family: "ProximaNovaBold" !important;
+    text-decoration: underline;
+}
+.cities-list p.city{
+    display: inline-block;
+    vertical-align: top;
+    font-family: "ProximaNovaLight";
+    font-size: 18px;
+    margin-right: 8px;
+    padding: 7px;
+    border: 1px solid transparent;
+}
+.cities-list p.city:hover{
+    cursor: pointer;
+    border: 1px solid white;
+}
+
+.concerts-items-block{
+    width: 100%;
+    height: calc(100% - 210px);
+    position: relative;
+}
+.concerts-items-block .loading-overlap{
+    width: 100% !important;
+    height: 97% !important;
+    margin-left: 0px !important;
+}
+.concert-items{
+    padding: 10px 50px;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+}
+.concert-item{
+    width: 200px;
+    height: 300px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 3px;
+    display: inline-block;
+    margin-right: 15px;
+    margin-bottom: 15px;
+}
+.concert-item .concert-img{
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+}
+.concert-item .concert-img img{
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+}
+.concert-item:hover .concert-info{
+    height: auto;
+    padding: 10px 5px;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+}
+.concert-item .concert-info{
+    height: 0px;
+    overflow: hidden;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    background-color: rgba(8, 150, 128, 0.8);
+    color: white;
+    font-family: "ProximaNovaRegular";
+    text-align: center;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+}
+.concert-item .concert-info .concert-date{
+    font-size: 12px;
+}
+.concert-item .concert-info .concert-name{
+    font-family: 'ProximaNovaBold';
+    font-size: 16px;
+}
