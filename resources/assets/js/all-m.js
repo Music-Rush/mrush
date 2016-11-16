@@ -4,18 +4,14 @@ $(function(){
         console.log('click on album item');
         if (!isOpen)
         {
-            $('.music-right-sidebar').css({
-                'left' : 0
-            });
+            animateBlock(['.music-right-sidebar'], "fadeIn", 200);
             isOpen = true;
         }
     });
     $('#main-content').on('click', '.close-sidebar', function(){
         if (isOpen)
         {
-            $('.music-right-sidebar').css({
-                'left' : -9999
-            });
+            animateBlock(['.music-right-sidebar'], "fadeOut", 200);
             isOpen = false;
         }
     });
@@ -25,43 +21,22 @@ $(function(){
         console.log('click on album item');
         if (!isOpenMusicList)
         {
-            $('.music-list').css({
-                'bottom' : 76
-            });
+            animateBlock(['.music-list'], "fadeIn", 200);
             isOpenMusicList = true;
         }
         else
         {
-            $('.music-list').css({
-                'bottom' : -9999
-            });
+            animateBlock(['.music-list'], "fadeOut", 200);
             isOpenMusicList = false;
         }
     });
     $('footer').on('click', '.music-list-close-sidebar', function(){
         if (isOpenMusicList)
         {
-            $('.music-list').css({
-                'bottom' : -9999
-            });
+            animateBlock(['.music-list'], "fadeOut", 200);
             isOpenMusicList = false;
         }
     });
-
-    /*jQuery("#to-page").click(function(){
-        var href = jQuery(this).attr("href");
-        //if( href.indexOf('/') != 0 ) return;
-
-        if ( window.history && history.pushState ) {
-            history.pushState   ("", "", href);
-            history.replaceState("", "", href);
-            toPage(href);
-        } else {
-            location.hash = href;
-        }
-        return false;
-    });*/
-
 
     $(window).bind('popstate', function() {
         toPage(location.pathname, false);
@@ -76,7 +51,7 @@ $(function(){
         var loadOverlap = $('.loading-overlap');
 
         $(container).empty();
-        $(loadOverlap).fadeIn();
+        animateBlock(loadOverlap, "fadeIn", 200);
 
         if (currentType == 1) // track
         {
@@ -105,7 +80,7 @@ $(function(){
                             '</div>';
                         generatedHtml += tempItem;
                     });
-                    $(loadOverlap).fadeOut();
+                    animateBlock(loadOverlap, "fadeOut", 200);
                     $(container).html(generatedHtml);
                 }
             });
@@ -132,19 +107,216 @@ $(function(){
                             '</div>';
                         generatedHtml += tempItem;
                     });
-                    $(loadOverlap).fadeOut();
+                    animateBlock(loadOverlap, "fadeOut", 200);
                     $(container).html(generatedHtml);
                 }
             });
         }
     });
 
+
+    var isSliderNullPosition = true;
+    var clickCount = 0;
+    $("#main-content").on('click', '.slider-next', function () {
+        if(clickCount != 15) {
+            clickCount += 1;
+            if (isSliderNullPosition) {
+                //$(".slider-prev").attr("disabled", "false");
+                $(".slider-prev").css("cursor", "pointer");
+                isSliderNullPosition = false;
+            }
+            var firstBlock = $(".first");
+            console.log(firstBlock.next());
+            if (firstBlock.next().attr("class") == "today-month") {
+                var activeBlock = $(".active");
+                var todayMonth = firstBlock.next();
+                todayMonth.addClass("active");
+                activeBlock.removeClass("active");
+
+                todayMonth.next().addClass("first");
+                firstBlock.removeClass("first");
+
+                var mLeftString = activeBlock.css("left");
+                var mLeft = parseFloat(mLeftString);
+                $(".active").css("left", mLeft + 180);
+                mLeftString = $(".slider-items").css("left");
+                mLeft = parseFloat(mLeftString);
+                $(".slider-items").css("left", mLeft - 180);
+                /*mLeftString = $(".active").css("left");
+                mLeft = parseFloat(mLeftString);*/
+            }
+            else {
+
+                firstBlock.next().addClass("first");
+                firstBlock.removeClass("first");
+
+                var mLeftString = $(".slider-items").css("left");
+                var mLeft = parseFloat(mLeftString);
+                //$(".slider-items").css("left", mLeft - 62);
+                $(".slider-items").animate({ "left" : mLeft - 62 }, 300);
+
+                mLeftString = $(".active").css("left");
+                mLeft = parseFloat(mLeftString);
+                $(".active").animate({ "left" : mLeft + 62 }, 300);
+
+                //$(".active").css("left", mLeft + 62);
+            }
+        }
+    });
+    $("#main-content").on('click', '.slider-prev', function () {
+        if($(".slider-items").css("left") != "0px")
+        {
+            clickCount -= 1;
+            var firstBlock = $(".first");
+            if(firstBlock.prev().attr("class") == "today-month active")
+            {
+                var activeBlock = $(".active");
+                var todayMonth = firstBlock.prev();
+                todayMonth.prev().addClass("first");
+                firstBlock.removeClass("first");
+
+                while(todayMonth.attr("class") != "today-month")
+                    todayMonth = todayMonth.prev();
+                todayMonth.addClass("active");
+                activeBlock.removeClass("active");
+
+                var mLeftString = activeBlock.css("left");
+                var mLeft = parseFloat(mLeftString);
+                $(".active").css("left", mLeft - 180);
+                mLeftString = $(".slider-items").css("left");
+                mLeft = parseFloat(mLeftString);
+                $(".slider-items").css("left", mLeft + 180);
+                /*mLeftString = $(".active").css("left");
+                mLeft = parseFloat(mLeftString);*/
+            }
+            else
+            {
+                firstBlock.prev().addClass("first");
+                firstBlock.removeClass("first");
+
+
+                var mLeftString = $(".slider-items").css("left");
+                var mLeft = parseFloat(mLeftString);
+                //$(".slider-items").css("left", mLeft + 62);
+                $(".slider-items").animate({ "left" : mLeft + 62 }, 300);
+
+                mLeftString = $(".active").css("left");
+                mLeft = parseFloat(mLeftString);
+                $(".active").animate({ "left" : mLeft - 62 }, 300);
+
+                //$(".active").css("left", mLeft - 62);
+            }
+            if($(".slider-items").css("left") == "0px")
+            {
+                //$(this).attr("disabled", "true");
+                //$(this).css("cursor", "default");
+                isSliderNullPosition = true;
+            }
+        }
+        else
+        {
+            //$(this).attr("disabled", "true");
+            //$(this).css("cursor", "default");
+            isSliderNullPosition = true;
+        }
+    });
+
+    $("#main-content").on('click', '.city', function () {
+        $(".selected-city").removeClass("selected-city");
+        $(this).addClass("selected-city");
+    });
+
+    $("#main-content").on('click', '.today-block', function () {
+        $(".selected-date").removeClass("selected-date");
+        $(this).addClass("selected-date");
+        var container = $('.concerts-container .concert-items');
+        var generatedHtml = '';
+        var tempItem = '';
+        var token = $('input[name="csrf-token"]').val();
+        var loadOverlap = $('.loading-overlap');
+        var city = $(".selected-city").attr("info");
+        var url = "http://afisha.tut.by/concert-" + city + "/";
+
+
+        $(container).empty();
+        animateBlock(loadOverlap, "fadeIn", 200);
+        $.ajax({
+            type: 'POST',
+            url: '/concerts/getConcerts',
+            data: ({_token : token, pageUrl : url}),
+            success: function(data)
+            {
+                var items = JSON.parse(data);
+                console.log(items);
+                $.each(items, function(index, value){
+                    tempItem = '<a href="' + value.url + '" target="_blank">'+
+                    '<div class="concert-item">'+
+                        '<div class="concert-img">'+
+                        '<img src="' + value.img + '" alt="">' +
+                        '</div>'+
+                        '<div class="concert-info">'+
+                        '<p class="concert-date">' + value.where + '</p>'+
+                    '<p class="concert-name">' + value.name + '</p>'+
+                    '</div>'+
+                    '</div>'+
+                    '</a>';
+                    generatedHtml += tempItem;
+                });
+                animateBlock(loadOverlap, "fadeOut", 200);
+                $(container).html(generatedHtml);
+            }
+        });
+    });
+
+    $("#main-content").on('click', '.date', function () {
+        $(".selected-date").removeClass("selected-date");
+        $(this).addClass("selected-date");
+        var container = $('.concerts-container .concert-items');
+        var generatedHtml = '';
+        var tempItem = '';
+        var token = $('input[name="csrf-token"]').val();
+        var loadOverlap = $('.loading-overlap');
+        var date = $(".selected-date").attr("url");
+        var url = "http://afisha.tut.by/day/concert/" + date;
+
+        $(container).empty();
+        animateBlock(loadOverlap, "fadeIn", 200);
+        $.ajax({
+            type: 'POST',
+            url: '/concerts/getConcerts',
+            data: ({_token : token, pageUrl : url}),
+            success: function(data)
+            {
+                var items = JSON.parse(data);
+                console.log(items);
+                $.each(items, function(index, value){
+                    tempItem = '<a href="' + value.url + '" target="_blank">'+
+                        '<div class="concert-item">'+
+                        '<div class="concert-img">'+
+                        '<img src="' + value.img + '" alt="">' +
+                        '</div>'+
+                        '<div class="concert-info">'+
+                        '<p class="concert-date">' + value.where + '</p>'+
+                        '<p class="concert-name">' + value.name + '</p>'+
+                        '</div>'+
+                        '</div>'+
+                        '</a>';
+                    generatedHtml += tempItem;
+                });
+                animateBlock(loadOverlap, "fadeOut", 200);
+                $(container).html(generatedHtml);
+            }
+        });
+    });
     /* Load page with ajax */
 
     toPage = function(pageName, flag)
     {
         console.log(pageName);
-        $('#main-content').load(pageName);
+        $('.loading-back').fadeIn(400);
+        $('#main-content').load(pageName, function(){
+            $('.loading-back').fadeOut(400);
+        });
         if(flag && pageName != window.location)
             window.history.pushState(null, null, pageName);
         /*window.history.pushState(null, null, "/" + pageName);
@@ -152,4 +324,45 @@ $(function(){
         return false;*/
     }
 
+    animateBlock = function(blocks, fade, speed, merge)
+    {
+        merge = (merge == undefined) ? false : true;
+
+        if ($.isArray(blocks))
+        {
+            $.each(blocks, function(index, value){
+                if (fade == "fadeIn")
+                {
+                    if ($(value).is(":visible") && merge)
+                        $(value).fadeOut(speed);
+                    else
+                        $(value).fadeIn(speed);
+                }
+                else if (fade == "fadeOut")
+                {
+                    if ($(value).is(":hidden") && merge)
+                        $(value).fadeIn(speed);
+                    else
+                        $(value).fadeOut(speed);
+                }
+            });
+        }
+        else
+        {
+            if (fade == "fadeIn")
+            {
+                if (blocks.is(":visible") && merge)
+                    blocks.fadeOut(speed);
+                else
+                    blocks.fadeIn(speed);
+            }
+            else
+            {
+                if (blocks.is(":hidden") && merge)
+                    blocks.fadeIn(speed);
+                else
+                    blocks.fadeOut(speed);
+            }
+        }
+    };
 });

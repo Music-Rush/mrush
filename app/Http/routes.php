@@ -18,3 +18,6 @@ Route::post('/signin', 'Auth\AuthController@postLogin');
 Route::get('/signup', 'Auth\AuthController@getRegister');
 Route::post('/signup', 'Auth\AuthController@postRegister');
 Route::get('/logout', 'Auth\AuthController@getLogout');
+
+Route::get('/concerts', 'Concerts\Concerts@index');
+Route::match(['get', 'post'], '/concerts/getConcerts', 'Concerts\Concerts@getConcerts');

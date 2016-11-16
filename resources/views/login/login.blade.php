@@ -12,31 +12,6 @@
     @endif
 </head>
 <body>
-    <div class="container-fluid login-contain">
-        @if (count($errors) > 0)
-            <div class="alert alert-danger signin-alert">
-                <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        <div class="login-form center-block">
-            <div class="image-logo text-xs-center">
-                <a href="{{ url('/') }}"><img src="/resources/assets/images/logo.png" alt=""></a>
-            </div>
-            @yield('content')
-        </div>
-    </div>
-    <script type="text/javascript">
-        $(function(){
-            setTimeout(function(){
-                $('.signin-alert').slideUp();
-            }, 3000);
-        });
-    </script>
-    <script src="/resources/assets/js/all-m.js"></script>
+    @yield('content')
 </body>
 </html>

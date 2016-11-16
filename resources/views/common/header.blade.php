@@ -6,6 +6,7 @@
     <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/resources/assets/stylesheets/header.css">
     <link rel="stylesheet" href="/resources/assets/stylesheets/home.css">
+    <link rel="stylesheet" href="/resources/assets/stylesheets/login.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/resources/assets/font-awesome/css/font-awesome.min.css">
     <title>{{ $title }}</title>
@@ -17,6 +18,7 @@
     <link rel="stylesheet" href="/resources/assets/stylesheets/allmusic.css">
     <link rel="stylesheet" href="/resources/assets/stylesheets/tracks.css">
     <link rel="stylesheet" href="/resources/assets/stylesheets/profile.css">
+    <link rel="stylesheet" href="/resources/assets/stylesheets/concerts.css">
 </head>
 <body>
     <div class="container-fluid main-header">
@@ -41,14 +43,14 @@
                         @endif
                     </li>
                     <li class="float-lg-right list-inline-item">
-                        <a href="" id="to-page">Concerts</a>
+                        <a id="to-page" onclick="toPage('/concerts', true)">Concerts</a>
                     </li>
                     <li class="float-lg-right list-inline-item">
                         <a href="" id="to-page">Communities</a>
                     </li>
                     @if (Auth::check())
                     <li class="float-lg-right list-inline-item">
-                        <a href="" id="to-page">My Playlists</a>
+                        <a id="to-page" onclick="toPage('/profile/playlists', true)">My Playlists</a>
                     </li>
                     @endif
                     <li class="float-lg-right list-inline-item">
@@ -120,6 +122,11 @@
             </div>
         </div>
     </footer>
+
+    <div class="loading-back">
+        <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+    </div>
+
     <script src="/resources/assets/js/all-m.js"></script>
 
 </body>
