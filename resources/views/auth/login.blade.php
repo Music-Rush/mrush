@@ -22,7 +22,7 @@
 				<input type="password" class="form-control" name="password" placeholder="Password">
 			</div>
 			<div class="form-group">
-				<button type="submit" class="btn btn-signin">Sign in</button>
+				<button type="button" class="btn btn-signin ajax-signin-btn">Sign in</button>
 			</div>
 		</form>
 		<div class="text-xs-center additional-info">
@@ -40,3 +40,4 @@
 		}, 3000);
 	});
 </script>
+

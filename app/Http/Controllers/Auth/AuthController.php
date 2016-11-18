@@ -1,9 +1,11 @@
 <?php namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller {
 
@@ -33,6 +35,16 @@ class AuthController extends Controller {
 		$this->registrar = $registrar;
 
 		$this->middleware('guest', ['except' => 'getLogout']);
+	}
+
+	public function ajaxLogin()
+	{
+		$status['status'] = false;
+		if (\Auth::attempt(['email' => \Input::get('_email'), 'password' => \Input::get('_password')]))
+		{
+			$status['status'] = true;
+		}
+		return json_encode($status);
 	}
 
 }

@@ -15,6 +15,7 @@ Route::post('/allmusic/albums', 'AllMusic\AllMusic@GetAlbums');
 
 Route::get('/signin', 'Auth\AuthController@getLogin');
 Route::post('/signin', 'Auth\AuthController@postLogin');
+Route::post('/signin/ajax', 'Auth\AuthController@ajaxLogin');
 Route::get('/signup', 'Auth\AuthController@getRegister');
 Route::post('/signup', 'Auth\AuthController@postRegister');
 Route::get('/logout', 'Auth\AuthController@getLogout');

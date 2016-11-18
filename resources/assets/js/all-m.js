@@ -365,4 +365,39 @@ $(function(){
             }
         }
     };
+
+    signin = function(email, password, token)
+    {
+        $.ajax({
+            type: 'POST',
+            url: '/signin/ajax',
+            data: ({
+                _token: token,
+                _email: email,
+                _password: password
+            }),
+            success: function(data)
+            {
+                answer = JSON.parse(data);
+                console.log(answer);
+                if (answer.status)
+                {
+                    toPage('/home', true);
+                }
+                else
+                {
+                    alert('Authentication error, try again!');
+                }
+            }
+        });
+    };
+
+    $('body').on('click', '.ajax-signin-btn', function(){
+        console.log('kek');
+        token = $('input[name="_token"]').val();
+        email = $('input[name="email"]').val();
+        password = $('input[name="password"]').val();
+
+        signin(email, password, token);
+    });
 });

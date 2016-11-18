@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/resources/assets/stylesheets/login.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/resources/assets/font-awesome/css/font-awesome.min.css">
+    <script src="/resources/assets/js/all-m.js"></script>
     <title>{{ $title }}</title>
     @if (!empty($styles) && is_array($styles))
         @foreach ($styles as $style)
@@ -19,6 +20,7 @@
     <link rel="stylesheet" href="/resources/assets/stylesheets/tracks.css">
     <link rel="stylesheet" href="/resources/assets/stylesheets/profile.css">
     <link rel="stylesheet" href="/resources/assets/stylesheets/concerts.css">
+    <link rel="stylesheet" href="/resources/assets/stylesheets/login.css">
 </head>
 <body>
     <div class="container-fluid main-header">
@@ -126,8 +128,5 @@
     <div class="loading-back">
         <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
     </div>
-
-    <script src="/resources/assets/js/all-m.js"></script>
-
 </body>
 </html>

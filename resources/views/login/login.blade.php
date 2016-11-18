@@ -7,11 +7,37 @@
     <link rel="stylesheet" href="/resources/assets/stylesheets/header.css">
     <link rel="stylesheet" href="/resources/assets/stylesheets/login.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="/resources/assets/js/all-m.js.js"></script>
     @if (!empty($title))
         <title>{{ $title }}</title>
     @endif
 </head>
 <body>
-    @yield('content')
+    {{--<div class="container-fluid login-contain">--}}
+        {{--@if (count($errors) > 0)--}}
+            {{--<div class="alert alert-danger signin-alert">--}}
+                {{--<strong>Whoops!</strong> There were some problems with your input.<br><br>--}}
+                {{--<ul>--}}
+                    {{--@foreach ($errors->all() as $error)--}}
+                        {{--<li>{{ $error }}</li>--}}
+                    {{--@endforeach--}}
+                {{--</ul>--}}
+            {{--</div>--}}
+        {{--@endif--}}
+        {{--<div class="login-form center-block">--}}
+            {{--<div class="image-logo text-xs-center">--}}
+                {{--<a href="{{ url('/') }}"><img src="/resources/assets/images/logo.png" alt=""></a>--}}
+            {{--</div>--}}
+            @yield('content')
+        {{--</div>--}}
+    {{--</div>--}}
+    {{--<script type="text/javascript">--}}
+        {{--$(function(){--}}
+            {{--setTimeout(function(){--}}
+                {{--$('.signin-alert').slideUp();--}}
+            {{--}, 3000);--}}
+        {{--});--}}
+    {{--</script>--}}
+    {{--<script src="/resources/assets/js/all-m.js"></script>--}}
 </body>
 </html>
