@@ -7,6 +7,7 @@ Route::get('/home', function(){
 
 Route::group(['middleware' => 'auth'], function(){
 	Route::get('/profile/{type?}', 'Profile\Profile@index');
+	Route::post('/tracks/upload', 'AllMusic\Tracks@Create');
 });
 
 Route::get('/allmusic', 'AllMusic\AllMusic@index');

@@ -282,7 +282,7 @@
     bottom: 55px;
     display: none;
     z-index: 10;
-    background-color: rgba(56, 58, 73, .65);
+    background-color: rgba(56, 58, 73, .9);
 }
 .track-items{
     position: relative;

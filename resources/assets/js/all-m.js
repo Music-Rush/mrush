@@ -8,6 +8,22 @@ $(function(){
             isOpen = true;
         }
     });
+    $('#main-content').on('click', '.profile-album-item', function(){
+        console.log('click on album item');
+        if (!isOpen)
+        {
+            animateBlock(['.music-right-sidebar'], "fadeIn", 200);
+            isOpen = true;
+        }
+    });
+    $('#main-content').on('click', '.profile-playlist-item', function(){
+        console.log('click on playlist item');
+        if (!isOpen)
+        {
+            animateBlock(['.music-right-sidebar'], "fadeIn", 200);
+            isOpen = true;
+        }
+    });
     $('#main-content').on('click', '.close-sidebar', function(){
         if (isOpen)
         {
@@ -312,6 +328,8 @@ $(function(){
 
     toPage = function(pageName, flag)
     {
+        animateBlock($('.music-right-sidebar'), "fadeOut", 200);
+        isOpen = false;
         console.log(pageName);
         $('.loading-back').fadeIn(400);
         $('#main-content').load(pageName, function(){
@@ -400,4 +418,89 @@ $(function(){
 
         signin(email, password, token);
     });
+
+    $('body').on('click', '.upload-btn', function(){
+        var files = $('input[name="upload-track"]').prop('files');
+        var token = $('input[name="_token"]').val();
+        console.log(files);
+        if (files.length > 0)
+        {
+            uploadTrack(files, token);
+        }
+        else
+        {
+            console.log('error, file is empty');
+        }
+    });
+
+    $('body').on('change', '#upload_track', function(){
+        var container = $('.upload-track-block .title');
+        container.html('Selected ' + $('input[name="upload-track"]').prop('files').length + ' tracks');
+        container.css({
+            'font-size' : 16 + 'px',
+            'font-weight' : 'normal',
+            'margin-top' : 87 + 'px'
+        });
+    });
+
+    uploadTrack = function(files, token)
+    {
+        var formData = new FormData();
+        formData.append('_token', token);
+
+        animateBlock(['.form-upload-track'], 'fadeOut', 100);
+
+        $.each(files, function(key, value){
+            formData.append('file_' + key, value);
+        });
+
+        $.ajax({
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            url: '/tracks/upload',
+            data: formData,
+            beforeSend: function(){
+                console.log('Upload is started');
+            },
+            xhr: function()
+            {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt){
+                    if (evt.lengthComputable)
+                    {
+                        var percentComplete = evt.loaded / evt.total * 100;
+                        $('.upload-procent').html(Math.round(percentComplete) + '%');
+                        $('.progress').css({
+                            'height' : percentComplete + '%'
+                        });
+                    }
+                }, false);
+
+                return xhr;
+            },
+            success: function(data)
+            {
+                console.log(data);
+                animateBlock(['.upload', '.upload-ok'], 'fadeOut', 100, true);
+                setTimeout(function() {
+                    animateBlock(['.form-upload-track', '.upload-ok', '.upload'], 'fadeIn', 100, true);
+                    $('.progress').css({
+                        'height' : 0
+                    });
+                    $('.upload-procent').html('0%');
+                    var container = $('.upload-track-block .title');
+                    container.html('+');
+                    container.css({
+                        'font-size' : 50 + 'px',
+                        'font-weight' : 'bold',
+                        'margin-top' : 63 + 'px'
+                    });
+                }, 3000);
+            }
+        });
+    };
+
 });

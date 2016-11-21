@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*!
  * Bootstrap v4.0.0-alpha.5 (https://getbootstrap.com)
  * Copyright 2011-2016 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
@@ -6860,4 +6859,3 @@ var Popover = function ($) {
 }(jQuery);
 
 }();
->>>>>>> 5a2893ab35fae9cf18668250cc770ef8d60fb877

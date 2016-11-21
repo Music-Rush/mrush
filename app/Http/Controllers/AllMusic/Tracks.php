@@ -1,0 +1,55 @@
+<?php namespace App\Http\Controllers\AllMusic;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class Tracks extends Controller
+{
+    public function Create()
+    {
+        $result = array();
+
+        $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/resources/tracks/';
+        foreach ($_FILES as $file)
+        {
+            $uploadFile = $uploadDir . $file['name'];
+            if (move_uploaded_file($file['tmp_name'], $uploadFile)){
+                $result['track'] = $this->GetTrackInfo($uploadFile);
+                $result['result'] = "Track is uploaded";
+            } else {
+                $result['result'] = "Error";
+            }
+        }
+
+        echo json_encode($result);
+    }
+
+    public function GetTrackInfo($fileName)
+    {
+        $getIDObj = new \getID3();
+        $getIDObj->encoding = 'UTF-8';
+        $getIDObj->analyze($fileName);
+
+        $thisFileInfo = array();
+
+        $picFileName = preg_replace("/\.mp3$/", "", $getIDObj->info['filename']);
+        $file =  $picFileName . '.jpg';
+        $length = $getIDObj->info['comments']['picture'][0]['datalength'];
+        $text = $getIDObj->info['comments']['picture'][0]['data'];
+        if ($length > 0){
+            $filePath = $_SERVER['DOCUMENT_ROOT'] . '/resources/assets/images/music_images/' . $file;
+            file_put_contents($filePath, $text);
+            $thisFileInfo['image_path'] = $file;
+        } else {
+            $thisFileInfo['image_path'] = 'nophoto.jpg';
+        }
+
+        $thisFileInfo['artist'] = $getIDObj->info['tags']['id3v2']['artist'][0];
+        $thisFileInfo['name'] = $getIDObj->info['tags']['id3v2']['title'][0];
+        $thisFileInfo['genre'] = $getIDObj->info['tags']['id3v2']['genre'][0];
+
+        return $thisFileInfo;
+    }
+}
+
