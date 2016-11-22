@@ -11,7 +11,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tracks extends Model
+class Tracks extends \Eloquent
 {
     protected $primaryKey = 'track_id';
 }

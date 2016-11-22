@@ -39,15 +39,15 @@ class AllMusic extends Controller {
 		echo json_encode($albums);
 	}
 
-	public function GetTracks()
+	public static function GetTracks($returnHowArray = false)
 	{
 		setcookie('music_type', 'tracks', time() + 3600, '/');
-		$tracks = array();
-		$item['track_name'] = 'Kek track';
-		$item['artist_name'] = 'Lol';
-		$item['year'] = 2016;
-		$item['track_image'] = 'https://d2ykdu8745rm9t.cloudfront.net/cover/i/009/432/567/mr-robot-5527.jpg?rect=25,0,549,549&q=98&fm=jpg&fit=max';
-		$tracks[] = $item;
+
+		$tracks = Tracks::leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks.track_id')
+			->leftJoin('artists', 'artists.artist_id', '=', 'tracks_in_artists.artist_id')->get();
+
+		if ($returnHowArray)
+			return $tracks;
 
 		echo json_encode($tracks);
 	}

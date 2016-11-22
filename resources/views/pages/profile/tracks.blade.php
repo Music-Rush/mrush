@@ -52,7 +52,7 @@
         <p class="track-time">Time</p>
     </div>-->
     <div class="profile-track-items">
-        @for($i = 0; $i < 20; $i++)
+        {{--@for($i = 0; $i < 20; $i++)
             <div class="profile-track-item">
                 <div class="track-img">
                     <img src="https://upload.wikimedia.org/wikipedia/en/7/7d/Blurryface_by_Twenty_One_Pilots.png" alt="">
@@ -68,7 +68,24 @@
                     <b class="fa fa-download"></b>
                 </div>
             </div>
-        @endfor
+        @endfor--}}
+        @foreach(\App\Http\Controllers\AllMusic\Tracks::GetUserTracks(Auth::user()->user_id) as $key => $item)
+            <div class="profile-track-item">
+                <div class="track-img">
+                    <img src="{{ '/resources/assets/images/music_images/' . $item->track_photo }}" alt="">
+                </div>
+                <div class="track-info-block">
+                    <p class="artist-name">{{ $item->artist_name }}</p>
+                    <p class="track-name">{{ $item->track_name }}</p>
+                </div>
+                <div class="add-track-info">
+                    <p class="track-time">{{ $item->duration }}</p>
+                    <b class="fa fa-edit" data-toggle="modal" data-target="#editTrackModal"></b>
+                    <b class="fa fa-times-circle" data-toggle="modal" data-target="#deleteTrack"></b>
+                    <b class="fa fa-download"></b>
+                </div>
+            </div>
+        @endforeach
     </div>
 </div>
 <div class="modal fade bd-example-modal-sm" id="uploadNewTrack" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

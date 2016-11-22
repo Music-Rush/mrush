@@ -81,7 +81,7 @@ $(function(){
                     $.each(items, function(index, value){
                         tempItem = '<div class="track-item">' +
                             '<div class="track-img">' +
-                            '<img src="' + value.track_image + '" alt="">' +
+                            '<img src="/resources/assets/images/music_images/' + value.track_photo + '" alt="">' +
                             '</div>' +
                             '<div class="track-info-block">' +
                             '<p class="artist-name">' + value.artist_name + '</p>' +
@@ -558,7 +558,7 @@ $(function(){
             'height' : 0
         });
         $('.upload-procent').html('0%');
-        $('.form-upload-track').reset();
+        $('.input[name="music-type"]').val("");
         var container = $('.upload-track-block .title');
         container.html('+');
         container.css({
@@ -609,11 +609,37 @@ $(function(){
             success: function(data)
             {
                 console.log(data);
+                insertTrackBlock(data);
                 animateBlock(['.upload', '.upload-ok'], 'fadeOut', 100, true);
                 setTimeout(function() {
                     uploadClear();
-                }, 3000);
+                }, 1000);
             }
+        });
+    };
+
+    insertTrackBlock = function(data)
+    {
+        var tracks = JSON.parse(data);
+        var container = $(".profile-container .tracks-container .profile-track-items");
+        var trackHTML = "";
+        $.each(tracks, function(key, value){
+            trackHTML = "<div class='profile-track-item'>"+
+            "<div class='track-img'>" +
+            "<img src=" + "/resources/assets/images/music_images/" +  value['image_path'] + " alt=''>" +
+            "</div>" +
+            "<div class='track-info-block'>" +
+            "<p class='artist-name'>" + value['artist'] + "</p>" +
+            "<p class='track-name'>" + value['name'] + "</p>" +
+            "</div>" +
+            "<div class='add-track-info'>" +
+            "<p class='track-time'>" + value['duration'] + "</p>" +
+            "<b class='fa fa-edit' data-toggle='modal' data-target=''#editTrackModal'></b>" +
+            "<b class='fa fa-times-circle' data-toggle='modal' data-target='#deleteTrack'></b>" +
+            "<b class='fa fa-download'></b>" +
+            "</div>" +
+            "</div>";
+            container.append(trackHTML);
         });
     };
 
