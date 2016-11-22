@@ -33,8 +33,8 @@
                         </li>
                     </a>
                     @if (Auth::check())
-                    <li class="float-lg-right list-inline-item">
-                        <a href="/logout" id="to-page"><b class="fa fa-sign-out"></b></a>
+                    <li class="float-lg-right list-inline-item user-logout">
+                        <a id="to-page"><b class="fa fa-sign-out"></b></a>
                     </li>
                     @endif
                     <li class="float-lg-right list-inline-item my-profile">

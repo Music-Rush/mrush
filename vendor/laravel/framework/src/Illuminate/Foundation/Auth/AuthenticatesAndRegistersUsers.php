@@ -45,14 +45,21 @@ trait AuthenticatesAndRegistersUsers {
 
 		if ($validator->fails())
 		{	
-			$this->throwValidationException(
+			/*$this->throwValidationException(
 				$request, $validator
-			);
+			);*/
+
+			echo json_encode(['status' => false, 'messages' => $validator->getMessageBag()]);
+		}
+		else
+		{
+			$this->registrar->create($request->all());
+			echo json_encode(['status' => true]);
 		}
 
-		$this->auth->login($this->registrar->create($request->all()));
+		//$this->auth->login($this->registrar->create($request->all()));
 
-		return redirect($this->redirectPath());
+		//return redirect($this->redirectPath());
 	}
 
 	/**

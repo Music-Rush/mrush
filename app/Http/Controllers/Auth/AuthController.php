@@ -29,6 +29,7 @@ class AuthController extends Controller {
 	 * @param  \Illuminate\Contracts\Auth\Registrar  $registrar
 	 * @return void
 	 */
+
 	public function __construct(Guard $auth, Registrar $registrar)
 	{
 		$this->auth = $auth;
@@ -47,4 +48,12 @@ class AuthController extends Controller {
 		return json_encode($status);
 	}
 
+	public function ajaxSignup()
+	{
+		$status['status'] = false;
+
+		
+
+		return json_encode($status);
+	}
 }

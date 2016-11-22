@@ -1,5 +1,5 @@
 <div class="container-fluid login-contain">
-	@if (count($errors) > 0)
+	{{--@if (count($errors) > 0)
 		<div class="alert alert-danger signin-alert">
 			<strong>Whoops!</strong> There were some problems with your input.<br><br>
 			<ul>
@@ -8,7 +8,13 @@
 				@endforeach
 			</ul>
 		</div>
-	@endif
+	@endif --}}
+
+	<div class="alert alert-danger signin-alert">
+		<strong>Whoops!</strong> There were some problems with your input.<br><br>
+		<ul></ul>
+	</div>
+
 	<div class="login-form center-block">
 		<div class="image-logo text-xs-center">
 			<a href="{{ url('/') }}"><img src="/resources/assets/images/logo.png" alt=""></a>
@@ -34,10 +40,10 @@
 	</div>
 </div>
 <script type="text/javascript">
-	$(function(){
+	/*$(function(){
 		setTimeout(function(){
 			$('.signin-alert').slideUp();
 		}, 3000);
-	});
+	});*/
 </script>
 

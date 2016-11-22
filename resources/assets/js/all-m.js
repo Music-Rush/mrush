@@ -384,6 +384,53 @@ $(function(){
         }
     };
 
+    signup = function(username, userEmail, userPassword, userConfirmPassword, token)
+    {
+        $.ajax({
+            type: 'POST',
+            url: '/signup',
+            data: ({
+                _token: token,
+                email: userEmail,
+                password: userPassword,
+                name: username,
+                password_confirmation: userConfirmPassword
+            }),
+            beforeSend: function()
+            {
+                $('.ajax-signup-btn').html('<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="font-size: 13px"></i>');
+            },
+            error: function()
+            {
+                $('.ajax-signup-btn').html('Sign up');
+            },
+            success: function(data)
+            {
+                answer = JSON.parse(data);
+                console.log(answer);
+                if (answer.status)
+                {
+                    $('.ajax-signup-btn').html('<i class="fa fa-check" style="font-size: 13px"></i>');
+                    toPage('/signin', true);
+                }
+                else
+                {
+                    var errors = '';
+                    $.each(answer.messages, function(key, value){
+                        errors += '<li>' + value + '</li>';
+                    });
+                    $('.signin-alert ul').html(errors);
+                    $('.signin-alert').fadeIn(300, function(){
+                        setTimeout(function(){
+                            $('.signin-alert').fadeOut(300);
+                        }, 3000);
+                    });
+                    $('.ajax-signup-btn').html('Sign up');
+                }
+            }
+        });
+    };
+
     signin = function(email, password, token)
     {
         $.ajax({
@@ -394,29 +441,78 @@ $(function(){
                 _email: email,
                 _password: password
             }),
+            beforeSend: function()
+            {
+                $('.ajax-signin-btn').html('<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="font-size: 13px"></i>');
+            },
+            error: function()
+            {
+                $('.ajax-signin-btn').html('Sign in');
+            },
             success: function(data)
             {
                 answer = JSON.parse(data);
                 console.log(answer);
                 if (answer.status)
                 {
+                    $('.ajax-signin-btn').html('<i class="fa fa-check" style="font-size: 13px; color: #089680"></i>');
+                    $('ul.main-menu').empty();
+                    var htmlMenu = "<a id='to-page' onclick='toPage(\"/home\", true)'>" +
+                        "<li class='float-lg-left list-inline-item main-logo'>" +
+                        "<img src='/resources/assets/images/logo.png' alt=''>" +
+                        "</li>" +
+                        "</a>" +
+                        "<li class='float-lg-right list-inline-item user-logout'>" +
+                        "<a id='to-page'><b class='fa fa-sign-out'></b></a>" +
+                        "</li>" +
+                        "<li class='float-lg-right list-inline-item my-profile'>" +
+                        "<a id='to-page' onclick='toPage(\"/profile\", true)'>My Profile</a>" +
+                        "</li>" +
+                        "<li class='float-lg-right list-inline-item'>" +
+                        "<a id='to-page' onclick='toPage(\"/concerts\", true)'>Concerts</a>" +
+                        "</li>" +
+                        "<li class='float-lg-right list-inline-item'>" +
+                        "<a href='' id='to-page'>Communities</a>" +
+                        "</li>" +
+                        "<li class='float-lg-right list-inline-item'>" +
+                        "<a id='to-page' onclick='toPage(\"/profile/playlists\", true)'>My Playlists</a>" +
+                        "</li>" +
+                        "<li class='float-lg-right list-inline-item'>" +
+                        "<a id='to-page' onclick='toPage(\"/allmusic\", true)'>All Music</a>" +
+                        "</li>";
+                    $('ul.main-menu').html(htmlMenu);
                     toPage('/home', true);
                 }
                 else
                 {
-                    alert('Authentication error, try again!');
+                    $('.signin-alert ul').html('<li>Incorrect email or password. Check entered data and try again!</li>');
+                    $('.signin-alert').fadeIn(300, function(){
+                        setTimeout(function(){
+                            $('.signin-alert').fadeOut(300);
+                        }, 3000);
+                    });
+                    $('.ajax-signin-btn').html('Sign in');
                 }
             }
         });
     };
 
     $('body').on('click', '.ajax-signin-btn', function(){
-        console.log('kek');
         token = $('input[name="_token"]').val();
         email = $('input[name="email"]').val();
         password = $('input[name="password"]').val();
 
         signin(email, password, token);
+    });
+
+    $('body').on('click', '.ajax-signup-btn', function(){
+        name = $('input[name="name"]').val();
+        token = $('input[name="_token"]').val();
+        email = $('input[name="email"]').val();
+        password = $('input[name="password"]').val();
+        confirmPassword = $('input[name="password_confirmation"]').val();
+
+        signup(name, email, password, confirmPassword, token);
     });
 
     $('body').on('click', '.upload-btn', function(){
@@ -502,5 +598,38 @@ $(function(){
             }
         });
     };
+
+    $('body').on('click', '.user-logout', function(){
+        $.ajax({
+            url: '/logout',
+            type: 'GET',
+            beforeSend: function(){
+                $('.loading-back').fadeIn(400);
+            },
+            success: function(data)
+            {
+                $('ul.main-menu').empty();
+                var htmlMenu = "<a id='to-page' onclick='toPage(\"/home\", true)'>" +
+                    "<li class='float-lg-left list-inline-item main-logo'>" +
+                    "<img src='/resources/assets/images/logo.png' alt=''>" +
+                    "</li>" +
+                    "</a>" +
+                    "<li class='float-lg-right list-inline-item my-profile'>" +
+                    "<a id='to-page' onclick='toPage(\"/signin\", true)'>Sign In / Sign Up</a>" +
+                    "</li>" +
+                    "<li class='float-lg-right list-inline-item'>" +
+                    "<a id='to-page' onclick='toPage(\"/concerts\", true)'>Concerts</a>" +
+                    "</li>" +
+                    "<li class='float-lg-right list-inline-item'>" +
+                    "<a href='' id='to-page'>Communities</a>" +
+                    "</li>" +
+                    "<li class='float-lg-right list-inline-item'>" +
+                    "<a id='to-page' onclick='toPage(\"/allmusic\", true)'>All Music</a>" +
+                    "</li>";
+                $('ul.main-menu').html(htmlMenu);
+                toPage('/home', true);
+            }
+        });
+    });
 
 });

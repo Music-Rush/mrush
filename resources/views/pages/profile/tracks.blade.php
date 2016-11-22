@@ -80,7 +80,7 @@
                         <div class="progress"></div>
                         <span class="upload-procent">0%</span>
                     </div>
-                    <span class="upload-ok">OK</span>
+                    <span class="upload-ok"><i class="fa fa-check"></i></span>
                 </div>
                 <form action="" class="form-upload-track" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">

@@ -1,5 +1,5 @@
 <div class="container-fluid login-contain">
-	@if (count($errors) > 0)
+	{{--@if (count($errors) > 0)
 		<div class="alert alert-danger signin-alert">
 			<strong>Whoops!</strong> There were some problems with your input.<br><br>
 			<ul>
@@ -8,7 +8,13 @@
 				@endforeach
 			</ul>
 		</div>
-	@endif
+	@endif --}}
+
+	<div class="alert alert-danger signin-alert">
+		<strong>Whoops!</strong> There were some problems with your input.<br><br>
+		<ul></ul>
+	</div>
+
 	<div class="login-form center-block">
 		<div class="image-logo text-xs-center">
 			<a href="{{ url('/') }}"><img src="/resources/assets/images/logo.png" alt=""></a>
@@ -29,7 +35,7 @@
 				<input type="password" class="form-control" name="password_confirmation" placeholder="Password confirm">
 			</div>
 			<div class="form-group">
-				<button type="submit" class="btn btn-signin">Sign up</button>
+				<button type="button" class="btn btn-signin ajax-signup-btn">Sign up</button>
 			</div>
 		</form>
 		<div class="text-xs-center additional-info">
