@@ -82,15 +82,15 @@
                     </div>
                     <span class="upload-ok"><i class="fa fa-check"></i></span>
                 </div>
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <form action="" class="form-upload-track" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="form-group">
                         <label for="upload_track" class="center-block">
                             <div class="upload-track-block center-block">
                                 <p class="title">+</p>
                             </div>
                         </label>
-                        <input type="file" class="form-control" name="upload-track" id="upload_track" multiple>
+                        <input type="file" class="form-control" accept="audio/mpeg" name="upload-track" id="upload_track" multiple>
                     </div>
                 </form>
                 <button type="button" class="btn btn-primary upload-btn">Upload</button>

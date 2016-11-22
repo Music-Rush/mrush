@@ -516,7 +516,7 @@ $(function(){
     });
 
     $('body').on('click', '.upload-btn', function(){
-        var files = $('input[name="upload-track"]').prop('files');
+        var files = getValidatedFiles('input[name="upload-track"]');
         var token = $('input[name="_token"]').val();
         console.log(files);
         if (files.length > 0)
@@ -531,13 +531,42 @@ $(function(){
 
     $('body').on('change', '#upload_track', function(){
         var container = $('.upload-track-block .title');
-        container.html('Selected ' + $('input[name="upload-track"]').prop('files').length + ' tracks');
+        container.html('Selected ' + getValidatedFiles('input[name="upload-track"]').length + ' tracks');
         container.css({
             'font-size' : 16 + 'px',
             'font-weight' : 'normal',
             'margin-top' : 87 + 'px'
         });
     });
+
+    getValidatedFiles = function(input)
+    {
+        var files = $(input).prop('files');
+        var newFiles = [];
+        $.each(files, function(key, value){
+            if (value.type == "audio/mp3")
+                newFiles.push(value);
+        });
+
+        return newFiles;
+    };
+
+    uploadClear = function()
+    {
+        animateBlock(['.form-upload-track', '.upload-ok', '.upload'], 'fadeIn', 100, true);
+        $('.progress').css({
+            'height' : 0
+        });
+        $('.upload-procent').html('0%');
+        $('.form-upload-track').reset();
+        var container = $('.upload-track-block .title');
+        container.html('+');
+        container.css({
+            'font-size' : 50 + 'px',
+            'font-weight' : 'bold',
+            'margin-top' : 63 + 'px'
+        });
+    };
 
     uploadTrack = function(files, token)
     {
@@ -582,18 +611,7 @@ $(function(){
                 console.log(data);
                 animateBlock(['.upload', '.upload-ok'], 'fadeOut', 100, true);
                 setTimeout(function() {
-                    animateBlock(['.form-upload-track', '.upload-ok', '.upload'], 'fadeIn', 100, true);
-                    $('.progress').css({
-                        'height' : 0
-                    });
-                    $('.upload-procent').html('0%');
-                    var container = $('.upload-track-block .title');
-                    container.html('+');
-                    container.css({
-                        'font-size' : 50 + 'px',
-                        'font-weight' : 'bold',
-                        'margin-top' : 63 + 'px'
-                    });
+                    uploadClear();
                 }, 3000);
             }
         });
