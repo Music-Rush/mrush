@@ -6,3 +6,6 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-l
 RewriteRule ^(.*)$ public/$1 [L]
+
+php_value upload_max_filesize 40M
+php_value post_max_size 42M
