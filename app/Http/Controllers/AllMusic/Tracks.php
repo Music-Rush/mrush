@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\TracksInArtists;
+use App\Models\TracksInUsers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Models\Tracks as TracksModel;
@@ -26,11 +27,13 @@ class Tracks extends Controller
                 $track = new TracksModel();
                 $track->track_name = $result['track'][$i]['name'];
                 $track->track_photo = $result['track'][$i]['image_path'];
+                $track->track_download_name = $result['track'][$i]['filename'];
                 $track->duration = $result['track'][$i]['duration'];
                 $track->created_at_user = \Auth::user()->user_id;
                 $track->save();
 
                 Artists::AssociateWithTrack($track->track_id, Artists::Create($result['track'][$i]['artist']));
+                $result['track'][$i]['track_in_user_id'] = Tracks::AssociateWithUser(\Auth::user()->user_id, $track->track_id);
                 GenresController::AssociateWithTrack($track->track_id, GenresController::Create($result['track'][$i]['genre']));
             }
             else
@@ -71,7 +74,7 @@ class Tracks extends Controller
         $thisFileInfo['artist'] = isset($getIDObj->info['tags']['id3v2']['artist'][0]) ? $getIDObj->info['tags']['id3v2']['artist'][0] : "Unknown artist";
         $thisFileInfo['name'] = isset($getIDObj->info['tags']['id3v2']['title'][0]) ? $getIDObj->info['tags']['id3v2']['title'][0] : "Unknown";
         $thisFileInfo['genre'] = isset($getIDObj->info['tags']['id3v2']['genre'][0]) ? $getIDObj->info['tags']['id3v2']['genre'][0] : "Other";
-
+        $thisFileInfo['filename'] = $getIDObj->info['filename'];
         $thisFileInfo['duration'] = isset($getIDObj->info['playtime_string']) ? $getIDObj->info['playtime_string'] : 0;
 
         return $thisFileInfo;
@@ -79,11 +82,61 @@ class Tracks extends Controller
 
     public static function GetUserTracks($userId)
     {
-        $tracks = TracksModel::leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks.track_id')
+        $tracks = TracksInUsers::leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks_in_users.track_id')
             ->leftJoin('artists', 'artists.artist_id', '=', 'tracks_in_artists.artist_id')
-            ->where('tracks.created_at_user', '=', $userId)->get();
+            ->leftJoin('tracks', 'tracks.track_id', '=', 'tracks_in_users.track_id')
+            ->where('tracks_in_users.user_id', '=', $userId)->orderBy('tracks_in_users.track_in_user_id', 'desc')->get();
 
         return $tracks;
+    }
+
+    public static function AssociateWithUser($userId, $trackId)
+    {
+        $trackInUsers = new TracksInUsers();
+
+        $trackInUsers->track_id = $trackId;
+        $trackInUsers->user_id = $userId;
+
+        $trackInUsers->save();
+
+        return $trackInUsers->track_in_user_id;
+    }
+
+    public static function DeleteTrackFromUserTracks()
+    {
+        $result = false;
+        $userId = \Auth::user()->user_id;
+        $trackId = \Route::input('track_id');
+
+        if(TracksInUsers::where('tracks_in_users.user_id', '=', $userId)
+                ->where('tracks_in_users.track_in_user_id', '=', $trackId)
+                ->delete())
+            $result = true;
+
+        return json_encode($result, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+    }
+    
+    /* Delete before push */
+    
+    public static function AddTrackToUserList()
+    {
+        $result = false;
+
+        $userId = \Auth::getUser()->user_id;
+        $trackId = \Route::input('track_id');
+
+        $addedTrack = new TracksInUsers();
+        $addedTrack->track_id = $trackId;
+        $addedTrack->user_id = $userId;
+        $addedTrack->save();
+
+        if (!is_null($addedTrack->track_in_user_id))
+        {
+            $result['status'] = true;
+            $result['new_id'] = $addedTrack->track_in_user_id;
+        }
+
+        echo json_encode($result);
     }
 }
 

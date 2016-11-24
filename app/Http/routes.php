@@ -6,8 +6,10 @@ Route::get('/home', function(){
 });
 
 Route::group(['middleware' => 'auth'], function(){
+	Route::match(['get', 'post'], '/profile/tracks/{track_id}/delete', 'AllMusic\Tracks@DeleteTrackFromUserTracks');
 	Route::get('/profile/{type?}', 'Profile\Profile@index');
 	Route::post('/tracks/upload', 'AllMusic\Tracks@Create');
+	Route::post('/profile/tracks/{track_id}/add', 'AllMusic\Tracks@AddTrackToUserList');
 });
 
 Route::get('/allmusic', 'AllMusic\AllMusic@index');

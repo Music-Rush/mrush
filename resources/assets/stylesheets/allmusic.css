@@ -279,3 +279,18 @@ ul.music-choice li a{
 .loading-overlap i{
     margin-top: calc(28% - 90px);
 }
+
+.add-track-info .fa-times-circle:hover{
+    color: rgba(255, 0, 0, 1);
+}
+
+.ink {
+    display: block; position: absolute;
+    background: hsl(240, 64%, 93%);
+    border-radius: 100%;
+    transform: scale(0);
+}
+.ink.animate {animation: ripple 0.65s linear;}
+@keyframes ripple {
+    100% {opacity: 0; transform: scale(2.5);}
+}

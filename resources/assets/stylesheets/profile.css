@@ -98,6 +98,8 @@ body{
     margin-bottom: 15px;
     padding: 5px;
     border: 1px solid transparent;
+    overflow: hidden;
+    position: relative;
 }
 .tracks-container .profile-track-item:hover{
     border: 1px solid white;

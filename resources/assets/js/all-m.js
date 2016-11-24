@@ -91,7 +91,7 @@ $(function(){
                             '<p class="track-time">' + value.duration + '</p>' +
                             '<b class="fa fa-heart-o"></b>' +
                             '<b class="fa fa-plus"></b>' +
-                            '<b class="fa fa-download"></b>' +
+                            '<a class="fa fa-download" href="/resources/tracks/' + value.track_download_name + '" download></a>' +
                             '</div>' +
                             '</div>';
                         generatedHtml += tempItem;
@@ -624,7 +624,7 @@ $(function(){
         var container = $(".profile-container .tracks-container .profile-track-items");
         var trackHTML = "";
         $.each(tracks, function(key, value){
-            trackHTML = "<div class='profile-track-item'>"+
+            trackHTML = "<div class='profile-track-item' track_id=" + value['track_in_user_id'] + ">"+
             "<div class='track-img'>" +
             "<img src=" + "/resources/assets/images/music_images/" +  value['image_path'] + " alt=''>" +
             "</div>" +
@@ -634,12 +634,12 @@ $(function(){
             "</div>" +
             "<div class='add-track-info'>" +
             "<p class='track-time'>" + value['duration'] + "</p>" +
-            "<b class='fa fa-edit' data-toggle='modal' data-target=''#editTrackModal'></b>" +
+            "<b class='fa fa-edit' data-toggle='modal' data-target='#editTrackModal'></b>" +
             "<b class='fa fa-times-circle' data-toggle='modal' data-target='#deleteTrack'></b>" +
             "<b class='fa fa-download'></b>" +
             "</div>" +
             "</div>";
-            container.append(trackHTML);
+            container.prepend(trackHTML);
         });
     };
 
@@ -676,4 +676,155 @@ $(function(){
         });
     });
 
+    $('#main-content').on('click', '#delete-track-from-profile', function () {
+        var addInfo = $(this).parent();
+        var trackBlock = addInfo.parent();
+        var trackInUserId = trackBlock.attr("track_id");
+
+        $('#deleteTrack #delete-track-profile-btn').attr('track_id', trackInUserId);
+    });
+
+    $('#main-content').on('click', '#delete-track-profile-btn', function () {
+        var trackInUserId = $(this).attr("track_id");
+        console.log(trackInUserId);
+        var trackBlock = $('.profile-track-item[track_id=' + trackInUserId + ']');
+        console.log(trackBlock);
+        var token = $('input[name="_token"]').val();
+
+        $.ajax({
+            url: '/profile/tracks/' + trackInUserId + '/delete',
+            type: 'POST',
+            data: ({
+                _token: token
+            }),
+            success: function(data)
+            {
+                console.log(data);
+                status = JSON.parse(data);
+
+                if(status == "true")
+                {
+                    trackBlock.fadeOut(200, function () {
+                        trackBlock.remove();
+                    });
+                }
+            },
+            error: function(data)
+            {
+                console.log(data.responseText);
+            }
+        });
+    });
+
+    $('#main-content').on('click', '.add-track-to-user', function(e){
+        var trackItem = $(this).parents('.track-item');
+        var trackId = $(trackItem).attr('track-id');
+        var token = $('input[name="_token"]').val();
+        var thisBtn = this;
+
+        $.ajax({
+            url: '/profile/tracks/' + trackId + '/add',
+            type: 'POST',
+            data: {_token: token},
+            beforeSend: function()
+            {
+                $(thisBtn).removeClass();
+                $(thisBtn).addClass('fa fa-spinner fa-spin fa-3x fa-fw');
+            },
+            success: function(data)
+            {
+                console.log(data);
+                var result = JSON.parse(data);
+                if (result.status)
+                {
+                    console.log('okay');
+                    $(thisBtn).removeClass();
+                    $(thisBtn).addClass('fa fa-check');
+                    setTimeout(function(){
+                        $(thisBtn).removeClass();
+                        $(thisBtn).addClass('fa fa-times-circle');
+                        $(thisBtn).addClass('delete-track-from-user');
+                    }, 500);
+                    $(trackItem).attr('track-in-user', result.new_id);
+                }
+                else
+                {
+                    console.log('error');
+                }
+            },
+            error: function(data)
+            {
+                console.log(data.responseText);
+            }
+        });
+    });
+
+    $('#main-content').on('click', '.delete-track-from-user', function(e){
+        var trackItem = $(this).parents('.track-item');
+        var trackId = $(trackItem).attr('track-in-user');
+        var token = $('input[name="_token"]').val();
+        var thisBtn = this;
+
+        $.ajax({
+            url: '/profile/tracks/' + trackId + '/delete',
+            type: 'POST',
+            data: {_token: token},
+            beforeSend: function()
+            {
+                $(thisBtn).removeClass();
+                $(thisBtn).addClass('fa fa-spinner fa-spin fa-3x fa-fw');
+            },
+            success: function(data)
+            {
+                console.log(data);
+                var result = JSON.parse(data);
+                if (result)
+                {
+                    console.log('okay');
+                    $(thisBtn).removeClass();
+                    $(thisBtn).addClass('fa fa-check');
+                    setTimeout(function(){
+                        $(thisBtn).removeClass();
+                        $(thisBtn).addClass('fa fa-plus');
+                        $(thisBtn).addClass('add-track-to-user');
+                    }, 500);
+                }
+                else
+                {
+                    console.log('error');
+                }
+            },
+            error: function(data)
+            {
+                console.log(data.responseText);
+            }
+        });
+    });
+
+    $('#main-content').on('click', '.track-item, .profile-track-item', function(e){
+        playMaterialAnimate(this, e);
+    });
+
+    playMaterialAnimate = function(button, e)
+    {
+        var parent, ink, d, x, y;
+        parent = $(button);
+        console.log(parent);
+        if(parent.find(".ink").length == 0)
+            parent.prepend("<span class='ink'></span>");
+
+        ink = parent.find(".ink");
+        ink.removeClass("animate");
+
+        if(!ink.height() && !ink.width())
+        {
+            d = Math.max(parent.outerWidth(), parent.outerHeight());
+            ink.css({height: d, width: d});
+        }
+
+        x = e.pageX - parent.offset().left - ink.width()/2;
+        y = e.pageY - parent.offset().top - ink.height()/2;
+
+        ink.css({top: y+'px', left: x+'px'}).addClass("animate");
+    };
 });

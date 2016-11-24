@@ -70,7 +70,7 @@
             </div>
         @endfor--}}
         @foreach(\App\Http\Controllers\AllMusic\Tracks::GetUserTracks(Auth::user()->user_id) as $key => $item)
-            <div class="profile-track-item">
+            <div class="profile-track-item" track_id="{{ $item->track_in_user_id }}">
                 <div class="track-img">
                     <img src="{{ '/resources/assets/images/music_images/' . $item->track_photo }}" alt="">
                 </div>
@@ -81,7 +81,7 @@
                 <div class="add-track-info">
                     <p class="track-time">{{ $item->duration }}</p>
                     <b class="fa fa-edit" data-toggle="modal" data-target="#editTrackModal"></b>
-                    <b class="fa fa-times-circle" data-toggle="modal" data-target="#deleteTrack"></b>
+                    <b class="fa fa-times-circle" data-toggle="modal" data-target="#deleteTrack" id="delete-track-from-profile"></b>
                     <b class="fa fa-download"></b>
                 </div>
             </div>
@@ -118,8 +118,9 @@
 <div class="modal fade bd-example-modal-sm" id="deleteTrack" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <p class="title">You really want to delete this track?</p>
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="delete-track-profile-btn">Yes</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
         </div>
     </div>

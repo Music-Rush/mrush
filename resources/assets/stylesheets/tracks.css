@@ -4,6 +4,8 @@
     margin-bottom: 15px;
     padding: 5px;
     border: 1px solid transparent;
+    overflow: hidden;
+    position: relative;
 }
 .in-music-container .track-item:hover{
     border: 1px solid white;
@@ -12,8 +14,12 @@
 .in-music-container .track-item:hover .track-time{
     display: none;
 }
-.in-music-container .track-item:hover .add-track-info > b{
+.in-music-container .track-item:hover .add-track-info > b,
+.in-music-container .track-item:hover .add-track-info > a{
     display: inline-block;
+}
+.in-music-container .track-item:hover .add-track-info > a{
+    text-decoration: none;
 }
 
 .in-music-container .track-img{
@@ -53,11 +59,12 @@
     display: inline-block;
     vertical-align: middle;
 }
-.in-music-container .add-track-info > b{
+.in-music-container .add-track-info > b,
+.in-music-container .add-track-info > a{
     color: white;
     font-size: 25px;
     display: none;
-    padding-top: 25px;
+    margin-top: 25px;
     margin-right: 10px;
 }
 .in-music-container .add-track-info .fa-download:hover,
