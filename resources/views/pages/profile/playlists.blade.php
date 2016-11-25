@@ -177,7 +177,7 @@
                 <div class="track-items">
                     @for($i = 0; $i < 15; $i++)
                         <div class="track-item-check-btn">
-                            <input type="checkbox" name="salary" id="track_{{$i}}" class="hidden">
+                            <input type="checkbox" name="track-check" id="track_{{$i}}" class="hidden">
                             <label for="track_{{$i}}" class="track-item">
                                 <div class="track-img">
                                     <img src="https://upload.wikimedia.org/wikipedia/en/7/7d/Blurryface_by_Twenty_One_Pilots.png" alt="">

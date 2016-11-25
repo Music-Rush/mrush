@@ -46,9 +46,13 @@ class AllMusic extends Controller {
 
 		$userId = \Auth::check() ? \Auth::user()->user_id : 0;
 
-		$tracks = Tracks::select(\DB::raw("*, (SELECT track_in_user_id FROM tracks_in_users WHERE tracks_in_users.user_id = {$userId} AND tracks_in_users.track_id = tracks.track_id) as exist_id"))
+		/*$tracks = Tracks::select(\DB::raw("*, (SELECT track_in_user_id FROM tracks_in_users WHERE tracks_in_users.user_id = {$userId} AND tracks_in_users.track_id = tracks.track_id) as exist_id"))
 			->leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks.track_id')
 			->leftJoin('artists', 'artists.artist_id', '=', 'tracks_in_artists.artist_id')
+			->get();*/
+
+		$tracks = Tracks::select(\DB::raw("*, (SELECT track_in_user_id FROM tracks_in_users WHERE tracks_in_users.user_id = {$userId} AND tracks_in_users.track_id = tracks.track_id) as exist_id"))
+			->where('tracks.is_copy', '=', 0)
 			->get();
 
 		if ($returnHowArray)

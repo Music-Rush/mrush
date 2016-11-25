@@ -1,5 +1,5 @@
 <div class="music-filters-block">
-    <button class="btn btn-secondary btn-upload-track">Add new album</button>
+    <button class="btn btn-secondary btn-upload-track" data-toggle="modal" data-target="#addAlbumModal">Add new album</button>
     <div class="container-fluid music-filters">
         <form action="" method="get" class="search_filter">
             <p class="title">Genres</p>
@@ -189,11 +189,12 @@
                             <input type="text" class="form-control" name="album-year" placeholder="Album year">
                         </div>
                     </div>
+                    <b class="add-track-in-album-btn" data-toggle="modal" data-target="#user-track-list">+</b>
                 </form>
                 <div class="track-items">
                     @for($i = 0; $i < 15; $i++)
                         <div class="track-item-check-btn">
-                            <input type="checkbox" name="salary" id="track_{{$i}}" class="hidden">
+                            <input type="checkbox" name="track-check" id="track_{{$i}}" class="hidden">
                             <label for="track_{{$i}}" class="track-item">
                                 <div class="track-img">
                                     <img src="https://upload.wikimedia.org/wikipedia/en/7/7d/Blurryface_by_Twenty_One_Pilots.png" alt="">
@@ -214,8 +215,106 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <!--<button type="button" class="remove-selected-track-btn">Remove selected</button>-->
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bd-example-modal-lg" id="addAlbumModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color: white">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Add album</h4>
+            </div>
+            <div class="modal-body">
+                <form action="" class="album-info-form" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <div class="form-group form-group-album-img">
+                        <label for="upload_album_img" class="album_img_label">
+                            <img src="https://d2ykdu8745rm9t.cloudfront.net/cover/i/009/432/567/mr-robot-5527.jpg?rect=25,0,549,549&q=98&fm=jpg&fit=max" alt="">
+                            <div class="over-album-img">
+                                <b class="fa fa-download"></b>
+                            </div>
+                        </label>
+                        <input type="file" class="form-control" name="upload-track" id="upload_album_img">
+                    </div>
+                    <div class="form-group-album-info">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="album-name" placeholder="Album name">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="album-artist" placeholder="Album artist">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="album-year" placeholder="Album year">
+                        </div>
+                    </div>
+                    <b class="add-track-in-album-btn" data-toggle="modal" data-target="#user-track-list">+</b>
+                </form>
+                <div class="track-items">
+                        <!--<div class="track-item-check-btn">
+                            <input type="checkbox" name="salary" id="track_{{$i}}" class="hidden">
+                            <label for="track_{{$i}}" class="track-item">
+                                <div class="track-img">
+                                    <img src="https://upload.wikimedia.org/wikipedia/en/7/7d/Blurryface_by_Twenty_One_Pilots.png" alt="">
+                                </div>
+                                <div class="track-info-block">
+                                    <p class="artist-name">Twenty One Pilots</p>
+                                    <p class="track-name">Ride</p>
+                                </div>
+                                <div class="add-track-info">
+                                    <p class="track-time">2:28</p>
+                                    <!--<b class="fa fa-edit" data-toggle="modal" data-target="#editTrackModal"></b>
+                                    <b class="fa fa-times-circle" data-toggle="modal" data-target="#deleteTrack"></b>
+                                    <b class="fa fa-download"></b>-
+                                </div>
+                            </label>
+                        </div>-->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="user-track-list" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p class="title">Select tracks</p>
+                <div class="track-items">
+                    @foreach(\App\Http\Controllers\AllMusic\Tracks::GetUserTracks(Auth::user()->user_id) as $key => $item)
+                        <div class="track-item-check-btn">
+                            <input type="checkbox" name="track-check" id="modal_track {{ $item->track_id }}" class="hidden">
+                            <label for="modal_track {{ $item->track_id }}" class="track-item">
+                                <div class="track-img">
+                                    <img src="{{ '/resources/assets/images/music_images/' . $item->track_photo }}" alt="">
+                                </div>
+                                <div class="track-info-block">
+                                    <p class="artist-name">{{ $item->artist_name }}</p>
+                                    <p class="track-name">{{ $item->track_name }}</p>
+                                </div>
+                                <div class="add-track-info">
+                                    <p class="track-time">{{ $item->duration }}</p>
+                                    <!--<b class="fa fa-edit" data-toggle="modal" data-target="#editTrackModal"></b>
+                                    <b class="fa fa-times-circle" data-toggle="modal" data-target="#deleteTrack"></b>
+                                    <b class="fa fa-download"></b>-->
+                                </div>
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Add</button>
             </div>
         </div>
     </div>

@@ -70,7 +70,7 @@
             </div>
         @endfor--}}
         @foreach(\App\Http\Controllers\AllMusic\Tracks::GetUserTracks(Auth::user()->user_id) as $key => $item)
-            <div class="profile-track-item" track_id="{{ $item->track_in_user_id }}">
+            <div class="profile-track-item" track_id="{{ $item->track_in_user_id }}" two-track-id="{{ $item->track_id }}">
                 <div class="track-img">
                     <img src="{{ '/resources/assets/images/music_images/' . $item->track_photo }}" alt="">
                 </div>
@@ -80,7 +80,7 @@
                 </div>
                 <div class="add-track-info">
                     <p class="track-time">{{ $item->duration }}</p>
-                    <b class="fa fa-edit" data-toggle="modal" data-target="#editTrackModal"></b>
+                    <b class="fa fa-edit track-edit-btn" data-toggle="modal" data-target="#editTrackModal"></b>
                     <b class="fa fa-times-circle" data-toggle="modal" data-target="#deleteTrack" id="delete-track-from-profile"></b>
                     <b class="fa fa-download"></b>
                 </div>
@@ -146,8 +146,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary close-track-edit-btn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary save-track-edit-btn">Save changes</button>
             </div>
         </div>
     </div>

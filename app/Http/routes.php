@@ -10,6 +10,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('/profile/{type?}', 'Profile\Profile@index');
 	Route::post('/tracks/upload', 'AllMusic\Tracks@Create');
 	Route::post('/profile/tracks/{track_id}/add', 'AllMusic\Tracks@AddTrackToUserList');
+	Route::post('/profile/tracks/{track_id}/get', 'AllMusic\Tracks@GetTrackById');
+	Route::post('/profile/tracks/{track_id}/edit', 'AllMusic\Tracks@SaveTrackChanges');
 });
 
 Route::get('/allmusic', 'AllMusic\AllMusic@index');

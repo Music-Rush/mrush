@@ -801,7 +801,69 @@ $(function(){
         });
     });
 
-    $('#main-content').on('click', '.track-item, .profile-track-item', function(e){
+    $('#main-content').on('click', '.track-edit-btn', function () {
+        var trackItem = $(this).parents('.profile-track-item');
+        var trackId = trackItem.attr('two-track-id');
+        var token = $('input[name="_token"]').val();
+
+        $.ajax({
+            url: '/profile/tracks/' + trackId + '/get',
+            type: 'POST',
+            data: {_token: token},
+            success: function(data)
+            {
+                var track = JSON.parse(data);
+
+                $('#editTrackModal').attr('track_id', trackId);
+                $('#editTrackModal input[name="track-name"]').val(track.track_name);
+                $('#editTrackModal input[name="track-artist"]').val(track.artist_name);
+            },
+            error: function(data)
+            {
+                console.log(data.responseText);
+            }
+        });
+    });
+
+    $('#main-content').on('click', '.save-track-edit-btn', function () {
+        var editModal = $(this).parents('#editTrackModal');
+        var trackId = editModal.attr('track_id');
+        var token = $('input[name="_token"]').val();
+        var trackName = $('#editTrackModal input[name="track-name"]').val();
+        var artistName = $('#editTrackModal input[name="track-artist"]').val();
+
+        $.ajax({
+            url: '/profile/tracks/' + trackId + '/edit',
+            type: 'POST',
+            data: ({
+                _token: token,
+                artist: artistName,
+                track_name: trackName
+            }),
+            success: function(data)
+            {
+                var status = JSON.parse(data);
+                console.log(status);
+
+                if(status)
+                {
+                    console.log("okay");
+                    $('.profile-track-item[two-track-id=' + trackId + '] .track-info-block .artist-name').text(artistName);
+                    $('.profile-track-item[two-track-id=' + trackId + '] .track-info-block .track-name').text(trackName);
+                }
+                else
+                {
+                    console.log("error");
+                }
+            },
+            error: function(data)
+            {
+                console.log(data.responseText);
+            }
+        });
+    });
+
+    $('#main-content').on('click', '.all-music-container .track-item, .profile-track-item', function(e){
         playMaterialAnimate(this, e);
     });
 
@@ -826,5 +888,57 @@ $(function(){
         y = e.pageY - parent.offset().top - ink.height()/2;
 
         ink.css({top: y+'px', left: x+'px'}).addClass("animate");
+    };
+
+    $('#main-content').on('click', '#editAlbumModal input[name=track-check]', function () {
+        showRemoveButton('editAlbumModal');
+    });
+
+    $('#main-content').on('click', '#editPlaylistModal input[name=track-check]', function () {
+        showRemoveButton('editPlaylistModal');
+    });
+
+    showRemoveButton = function (parentBlock) {
+        var countCheckedTrack = $('#' + parentBlock + ' input[name=track-check]:checked').length;
+        if(countCheckedTrack > 0 )
+        {
+            $('#' + parentBlock + ' .remove-selected-track-btn').remove();
+            var removeBtn = "<button type='button' class='remove-selected-track-btn'>Remove selected</button>";
+            $('#' + parentBlock + ' .modal-footer').prepend(removeBtn);
+        }
+        else
+        {
+            $('#' + parentBlock + ' .remove-selected-track-btn').fadeOut(200, function () {
+                $('#' + parentBlock + ' .remove-selected-track-btn').remove();
+            });
+        }
+    };
+
+    $('#main-content').on('hidden.bs.modal', '#user-track-list', function () {
+        cancelChecked('user-track-list');
+    });
+
+    $('#main-content').on('hidden.bs.modal', '#editAlbumModal', function () {
+        cancelChecked('editAlbumModal');
+    });
+
+    $('#main-content').on('hidden.bs.modal', '#editPlaylistModal', function () {
+        cancelChecked('editPlaylistModal');
+    });
+
+    $('#main-content').on('hidden.bs.modal', '#addAlbumModal', function () {
+        cancelChecked('addAlbumModal');
+    });
+
+    cancelChecked = function (parentElement) {
+        $.each($('#' + parentElement + ' input[name=track-check]'), function (index, value) {
+            value.checked = false;
+        });
+        $('#' + parentElement + ' .modal-footer .remove-selected-track-btn').remove();
+        if(parentElement == "addAlbumModal")
+        {
+            $('#' + parentElement + ' .track-items').empty();
+            $('#' + parentElement + ' input[class=form-control]').val("");
+        }
     };
 });
