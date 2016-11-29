@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @mixin \Eloquent
  */
-class Albums extends Model {
+class Albums extends \Eloquent
+{
 
 	protected $primaryKey = 'album_id';
 

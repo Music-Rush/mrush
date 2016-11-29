@@ -852,6 +852,7 @@ body{
 #editPlaylistModal .modal-footer .btn-primary:hover{
     background-color: rgba(8, 150, 128, 0.5);
 }
+#addAlbumModal .modal-footer .remove-selected-track-btn,
 #editPlaylistModal .modal-footer .remove-selected-track-btn,
 #editAlbumModal .modal-footer .remove-selected-track-btn{
     background-color: transparent;
@@ -868,6 +869,7 @@ body{
     white-space: nowrap;
     vertical-align: middle;
 }
+#addAlbumModal .modal-footer .remove-selected-track-btn:hover,
 #editPlaylistModal .modal-footer .remove-selected-track-btn:hover,
 #editAlbumModal .modal-footer .remove-selected-track-btn:hover{
     background-color: rgba(255, 0, 0, 0.7);
@@ -1063,6 +1065,8 @@ body{
     display: none;
 }
 .profile-container .music-right-sidebar .album-track-items .profile-track-item:hover .add-track-info > b,
+.profile-container .music-right-sidebar .album-track-items .profile-track-item:hover .add-track-info > a,
+.profile-container .music-right-sidebar .playlist-track-items .profile-track-item:hover .add-track-info > a,
 .profile-container .music-right-sidebar .playlist-track-items .profile-track-item:hover .add-track-info > b{
     display: inline-block;
 }
@@ -1107,7 +1111,9 @@ body{
     vertical-align: middle;
 }
 .profile-container .music-right-sidebar .album-track-items .add-track-info > b,
-.profile-container .music-right-sidebar .playlist-track-items .add-track-info > b{
+.profile-container .music-right-sidebar .album-track-items .add-track-info > a,
+.profile-container .music-right-sidebar .playlist-track-items .add-track-info > b,
+.profile-container .music-right-sidebar .playlist-track-items .add-track-info > a{
     color: white;
     font-size: 25px;
     display: none;
@@ -1116,6 +1122,7 @@ body{
 }
 .profile-container .music-right-sidebar .album-track-items .add-track-info .fa-download:hover,
 .profile-container .music-right-sidebar .playlist-track-items .add-track-info .fa-download:hover{
+    text-decoration: none;
     color: #16c9ad;
     cursor: pointer;
 }

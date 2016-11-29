@@ -48,7 +48,7 @@
             <img src="https://d2ykdu8745rm9t.cloudfront.net/cover/i/009/432/567/mr-robot-5527.jpg?rect=25,0,549,549&q=98&fm=jpg&fit=max" alt="">
             <div class="profile-playlist-info">
                 <div class="in-profile-playlist-info">
-                    <p class="profile-playlist-artist">MR. ROBOT</p>
+                    <p class="profile-playlist-name">MR. ROBOT</p>
                 </div>
             </div>
         </div>

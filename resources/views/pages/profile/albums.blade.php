@@ -44,16 +44,18 @@
 </div>
 <div class="container-fluid albums-container">
     <div class="profile-album-items">
-        <div class="profile-album-item">
-            <img src="https://d2ykdu8745rm9t.cloudfront.net/cover/i/009/432/567/mr-robot-5527.jpg?rect=25,0,549,549&q=98&fm=jpg&fit=max" alt="">
-            <div class="profile-album-info">
-                <div class="in-profile-album-info">
-                    <p class="profile-album-artist">MR. ROBOT</p>
-                    <p class="profile-album-name">OST</p>
-                    <p class="profile-album-year">2016</p>
+        @foreach(\App\Http\Controllers\AllMusic\Albums::GetUserAlbums(Auth::user()->user_id) as $key => $item)
+            <div class="profile-album-item" album_id="{{$item->album_id}}">
+                <img src="{{ '/resources/assets/images/album_images/' . $item->album_photo }}" alt="">
+                <div class="profile-album-info">
+                    <div class="in-profile-album-info">
+                        <p class="profile-album-artist">{{$item->artist_name}}</p>
+                        <p class="profile-album-name">{{$item->album_name}}</p>
+                        <p class="profile-album-year">{{$item->album_year}}</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endforeach
     </div>
 </div>
 <div class="music-right-sidebar">
@@ -61,13 +63,12 @@
         Close
     </div>
     <div class="album-title">
-        <p class="album-name">MR. ROBOT</p>
+        <p class="album-name">LOL</p>
         <b class="fa fa-times-circle" data-toggle="modal" data-target="#deleteAlbum"></b>
-        <b class="fa fa-edit" data-toggle="modal" data-target="#editAlbumModal"></b>
+        <b class="fa fa-edit" data-toggle="modal" data-target="#editAlbumModal" id="album-edit-btn"></b>
     </div>
     <div class="album-track-items">
-        @for($i = 0; $i < 15; $i++)
-            <div class="profile-track-item">
+            <!--<div class="profile-track-item">
                 <div class="track-img">
                     <img src="https://upload.wikimedia.org/wikipedia/en/7/7d/Blurryface_by_Twenty_One_Pilots.png" alt="">
                 </div>
@@ -81,8 +82,7 @@
                     <b class="fa fa-times-circle" data-toggle="modal" data-target="#deleteTrack"></b>
                     <b class="fa fa-download"></b>
                 </div>
-            </div>
-        @endfor
+            </div>-->
     </div>
 </div>
 <div class="modal fade bd-example-modal-sm" id="uploadNewTrack" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -192,10 +192,9 @@
                     <b class="add-track-in-album-btn" data-toggle="modal" data-target="#user-track-list">+</b>
                 </form>
                 <div class="track-items">
-                    @for($i = 0; $i < 15; $i++)
-                        <div class="track-item-check-btn">
-                            <input type="checkbox" name="track-check" id="track_{{$i}}" class="hidden">
-                            <label for="track_{{$i}}" class="track-item">
+                        <!--<div class="track-item-check-btn">
+                            <input type="checkbox" name="track-check" id="track_" class="hidden">
+                            <label for="track_" class="track-item">
                                 <div class="track-img">
                                     <img src="https://upload.wikimedia.org/wikipedia/en/7/7d/Blurryface_by_Twenty_One_Pilots.png" alt="">
                                 </div>
@@ -207,11 +206,10 @@
                                     <p class="track-time">2:28</p>
                                     <!--<b class="fa fa-edit" data-toggle="modal" data-target="#editTrackModal"></b>
                                     <b class="fa fa-times-circle" data-toggle="modal" data-target="#deleteTrack"></b>
-                                    <b class="fa fa-download"></b>-->
+                                    <b class="fa fa-download"></b>-
                                 </div>
                             </label>
-                        </div>
-                    @endfor
+                        </div>-->
                 </div>
             </div>
             <div class="modal-footer">
@@ -236,7 +234,7 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="form-group form-group-album-img">
                         <label for="upload_album_img" class="album_img_label">
-                            <img src="https://d2ykdu8745rm9t.cloudfront.net/cover/i/009/432/567/mr-robot-5527.jpg?rect=25,0,549,549&q=98&fm=jpg&fit=max" alt="">
+                            <img src="/resources/assets/images/album_images/album-nophoto.png" alt="">
                             <div class="over-album-img">
                                 <b class="fa fa-download"></b>
                             </div>
@@ -258,8 +256,8 @@
                 </form>
                 <div class="track-items">
                         <!--<div class="track-item-check-btn">
-                            <input type="checkbox" name="salary" id="track_{{$i}}" class="hidden">
-                            <label for="track_{{$i}}" class="track-item">
+                            <input type="checkbox" name="salary" id="track_" class="hidden">
+                            <label for="track_" class="track-item">
                                 <div class="track-img">
                                     <img src="https://upload.wikimedia.org/wikipedia/en/7/7d/Blurryface_by_Twenty_One_Pilots.png" alt="">
                                 </div>
@@ -314,7 +312,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Add</button>
+                <button type="button" class="btn btn-primary add-track-btn">Add</button>
             </div>
         </div>
     </div>

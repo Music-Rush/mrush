@@ -2,25 +2,212 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\Models\Albums as AlbumsModel;
+use App\Models\AlbumsInUsers;
+use App\Models\TracksInAlbums;
 use Illuminate\Http\Request;
 
-class Albums extends Controller
-{
-    public function Create()
+class Albums extends Controller {
+
+	public function Create()
     {
-        $newAlbumName = $_POST['albumName'];
-        
+        $result = false;
+        $userId = \Auth::user()->user_id;
+        $artistName = $_POST['artist_name'];
+        $albumName = $_POST['album_name'];
+        $albumYear = $_POST['album_year'];
+        $tracksList = array();
+        $tracksList = $_POST['tracks_list'];
+        $trackCount = $_POST['count_track'];
+
+        $tracksId = preg_split("/,/", $tracksList);
+
+        //return json_encode($_FILES['file']);
+
+        $addedAlbum = new AlbumsModel();
+
+        if(isset($_POST['file']))
+        {
+            //noph
+            $addedAlbum->album_name = $albumName;
+            $addedAlbum->album_year = $albumYear;
+            $addedAlbum->artist_name = $artistName;
+            $addedAlbum->album_photo = $_POST['file'];
+        }
+        else
+        {
+            //yesph
+            $file = $_FILES['file'];
+            $addedAlbum->album_name = $albumName;
+            $addedAlbum->album_year = $albumYear;
+            $addedAlbum->artist_name = $artistName;
+            $addedAlbum->album_photo = $file['name'];
+
+            $filePath = $_SERVER['DOCUMENT_ROOT'] . '/resources/assets/images/album_images/' . $file['name'];
+            if (move_uploaded_file($file['tmp_name'], $filePath))
+            {
+                $result = true;
+            }
+            else
+            {
+                $result = false;
+            }
+        }
+
+        $addedAlbum->save();
+
+        if($trackCount != 0)
+        {
+            for($i = 0; $i < $trackCount; $i++)
+            {
+                Albums::AssociateWithAlbums($tracksId[$i], $addedAlbum->album_id);
+            }
+        }
+
+        Albums::AssociateWithUsers(\Auth::user()->user_id, $addedAlbum->album_id);
     }
 
-    public function AddTracks()
+    public static function AssociateWithAlbums($trackId, $albumId)
     {
+        $trackInAlbums = new TracksInAlbums();
 
+        $trackInAlbums->track_id = $trackId;
+        $trackInAlbums->album_id = $albumId;
+
+        $trackInAlbums->save();
+
+        //return $trackInAlbums->track_in_album_id;
     }
 
-    public function DeleteTracks()
+    public static function AssociateWithUsers($userId, $albumId)
     {
+        $albumsInUsers = new AlbumsInUsers();
 
+        $albumsInUsers->user_id = $userId;
+        $albumsInUsers->album_id = $albumId;
+
+        $albumsInUsers->save();
+
+        //return $trackInAlbums->track_in_album_id;
+    }
+
+    public static function GetUserAlbums($userId)
+    {
+        /*$tracks = TracksInUsers::leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks_in_users.track_id')
+            ->leftJoin('artists', 'artists.artist_id', '=', 'tracks_in_artists.artist_id')
+            ->leftJoin('tracks', 'tracks.track_id', '=', 'tracks_in_users.track_id')
+            ->where('tracks_in_users.user_id', '=', $userId)->orderBy('tracks_in_users.track_in_user_id', 'desc')->get();*/
+
+        $albums = AlbumsInUsers::leftJoin('albums', 'albums.album_id', '=', 'albums_in_users.album_id')
+            ->where('albums_in_users.user_id', '=', $userId)
+            ->orderBy('albums_in_users.album_in_user_id', 'desc')
+            ->get();
+
+        return $albums;
+    }
+
+    public static function GetAlbumTracks()
+    {
+        $userId = \Auth::user()->user_id;
+        $albumId = \Route::input("album_id");
+
+        $tracks = TracksInAlbums::leftJoin('tracks', 'tracks.track_id', '=', 'tracks_in_albums.track_id')
+            ->where('tracks_in_albums.album_id', '=', $albumId)
+            ->get();
+
+        return json_encode($tracks);
+    }
+
+    public static function GetAlbumById()
+    {
+        $userId = \Auth::user()->user_id;
+        $albumId = \Route::input("album_id");
+
+        $album = AlbumsModel::leftJoin('albums_in_users', 'albums_in_users.album_id', '=', 'albums.album_id')
+            ->where('albums_in_users.user_id', '=', $userId)
+            ->where('albums.album_id', '=', $albumId)
+            ->first();
+
+        $tracks = TracksInAlbums::leftJoin('tracks', 'tracks.track_id', '=', 'tracks_in_albums.track_id')
+            ->where('tracks_in_albums.album_id', '=', $albumId)
+            ->get();
+
+        $result['album'] = $album;
+        $result['tracks'] = $tracks;
+
+        /*$album = AlbumsInUsers::select(\DB::raw("*", "albums.artist_name as album_artist_name"))
+            ->leftJoin('albums', 'albums.album_id', '=', 'albums_in_users.album_id')
+            ->leftJoin('tracks_in_albums', 'tracks_in_albums.album_id', '=', 'albums.album_id')
+            ->leftJoin('tracks', 'tracks.track_id', '=', 'tracks_in_albums.track_id')
+            ->where('albums_in_users.user_id', '=', $userId)
+            ->where('albums.album_id', '=', $albumId)
+            ->first();*/
+
+        return json_encode($result);
+    }
+
+    public static function AlbumEdit()
+    {
+        $result = false;
+        $userId = \Auth::user()->user_id;
+        $albumId = \Route::input('album_id');
+        $artistName = $_POST['artist_name'];
+        $albumName = $_POST['album_name'];
+        $albumYear = $_POST['album_year'];
+        $tracksList = array();
+        $tracksList = $_POST['tracks_list'];
+        $trackCount = $_POST['count_track'];
+
+        $tracksId = preg_split("/,/", $tracksList);
+
+        $addedAlbum = AlbumsModel::where('albums.album_id', '=', $albumId)
+            ->first();
+
+        //return json_encode($_FILES['file']);
+
+        if(isset($_POST['file']))
+        {
+            //noph
+            $addedAlbum->album_name = $albumName;
+            $addedAlbum->album_year = $albumYear;
+            $addedAlbum->artist_name = $artistName;
+            $addedAlbum->album_photo = $_POST['file'];
+        }
+        else
+        {
+            //yesph
+            $file = $_FILES['file'];
+            $addedAlbum->album_name = $albumName;
+            $addedAlbum->album_year = $albumYear;
+            $addedAlbum->artist_name = $artistName;
+            $addedAlbum->album_photo = $file['name'];
+
+            $filePath = $_SERVER['DOCUMENT_ROOT'] . '/resources/assets/images/album_images/' . $file['name'];
+            if (move_uploaded_file($file['tmp_name'], $filePath))
+            {
+                $result = true;
+            }
+            else
+            {
+                $result = false;
+            }
+        }
+
+        $addedAlbum->save();
+
+        TracksInAlbums::where('tracks_in_albums.album_id', '=', $albumId)
+            ->delete();
+
+        if($trackCount != 0)
+        {
+            for($i = 0; $i < $trackCount; $i++)
+            {
+                Albums::AssociateWithAlbums($tracksId[$i], $albumId);
+            }
+        }
+
+        $album = \App\Models\Albums::where('album_id', '=', $albumId)
+            ->first();
+        return json_encode($album);
     }
 }
-

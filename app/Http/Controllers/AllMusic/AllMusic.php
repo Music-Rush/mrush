@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Models\Albums;
 use App\Models\Tracks;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,16 +27,24 @@ class AllMusic extends Controller {
 			return view('pages.allmusic.allmusic-section', $data);
 	}
 
-	public function GetAlbums()
+	public static function GetAlbums($returnHowArray = false)
 	{
 		
 		setcookie('music_type', 'albums', time() + 3600, '/');
-		$albums = array();
+
+		$userId = \Auth::check() ? \Auth::user()->user_id : 0;
+
+		/*$albums = array();
 		$item['artist_name'] = 'Kek';
 		$item['album_name'] = 'Lol album';
 		$item['year'] = 2016;
 		$item['album_image'] = 'https://d2ykdu8745rm9t.cloudfront.net/cover/i/009/432/567/mr-robot-5527.jpg?rect=25,0,549,549&q=98&fm=jpg&fit=max';
-		$albums[] = $item;
+		$albums[] = $item;*/
+
+		$albums = Albums::get();
+
+		if ($returnHowArray)
+			return $albums;
 
 		echo json_encode($albums);
 	}
