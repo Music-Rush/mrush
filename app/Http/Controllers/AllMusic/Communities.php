@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\CommentsInCommunity;
 use App\Models\Community;
 use App\Models\Genres;
+use App\Models\Playlists;
+use App\Models\PlaylistsInCommunities;
 use App\Models\UsersInCommunity;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
@@ -62,6 +64,17 @@ class Communities extends Controller
             return view('pages.allmusic.communities.in-community-section', $data);
     }
 
+    public static function GetUserCommunity()
+    {
+        $userId = \Auth::getUser()->user_id;
+        $communities = Community::select(\DB::raw('*, (SELECT COUNT(*) FROM users_in_communities WHERE users_in_communities.community_id = communities.community_id) as members_count'))
+            ->leftJoin('users_in_communities', 'users_in_communities.community_id', '=', 'communities.community_id')
+            ->where('users_in_communities.user_id', '=', $userId)
+            ->get();
+        return $communities;
+
+    }
+
     public static function GetAll()
     {
         $communities = Community::
@@ -93,12 +106,13 @@ class Communities extends Controller
             $community->community_photo = 'community_nophoto.jpg';
 
         $community->community_name = $communityName;
-        $community->community_genre = GenresController::Create($communityGenre);
+        $community->genre_id = GenresController::Create($communityGenre);
         $community->created_at_user = $userId;
         $community->save();
 
         if ($community->community_id > 0)
         {
+            $this->CreateCommunityPlaylist($community);
             $this->AssociateWithUser($community->community_id, $userId);
             echo json_encode(['status' => true]);
         }
@@ -124,9 +138,8 @@ class Communities extends Controller
         $userInCommunity = new UsersInCommunity();
         $userInCommunity->user_id = $userId;
         $userInCommunity->community_id = $communityId;
-        $userInCommunity->save();
 
-        if ($userInCommunity->user_in_community_id > 0)
+        if ($userInCommunity->save())
             echo json_encode(['status' => true]);
         else
             echo json_encode(['status' => false, 'text' => 'User is already in this community']);
@@ -141,5 +154,26 @@ class Communities extends Controller
             echo json_encode(['status' => true]);
         else
             echo json_encode(['status' => false, 'text' => 'User is already leave from this community']);
+    }
+
+    public function CreateCommunityPlaylist($community)
+    {
+        $playlistInCommunity = null;
+
+        $playlist = new Playlists();
+        $playlist->playlist_name = $community->community_name;
+        $playlist->created_at_user = \Auth::getUser()->user_id;
+        $playlist->playlist_photo = $community->community_photo;
+        $playlist->save();
+
+        if ($playlist->playlist_id > 0)
+        {
+            $playlistInCommunity = new PlaylistsInCommunities();
+            $playlistInCommunity->playlist_id = $playlist->playlist_id;
+            $playlistInCommunity->community_id = $community->community_id;
+            $playlistInCommunity->save();
+        }
+
+        return $playlistInCommunity;
     }
 }

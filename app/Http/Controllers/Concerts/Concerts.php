@@ -9,7 +9,7 @@ class Concerts extends Controller {
 
     public function index(Request $request)
     {
-        $html = new Htmldom("http://afisha.tut.by/concert");
+        $html = new Htmldom("https://afisha.tut.by/concert");
         $list = $html->find('.events-block', 0);//->find('.lists__li', 0);
         $i = 0;
         $lists_li = $list->find('.lists__li');
@@ -40,7 +40,7 @@ class Concerts extends Controller {
                 $dateBlock = $dateBlock->find("a", 0);
                 $href = $dateBlock->href;
                 preg_match('@(?=\s*)\d+@i', $dateBlock->innertext, $text);
-                $href = preg_replace('@http\:\/\/afisha\.tut\.by\/day\/concert\/@i', "", $href);
+                $href = preg_replace('@https\:\/\/afisha\.tut\.by\/day\/concert\/@i', "", $href);
                 $dateBlocks[$i] = [
                     'text' => $text[0],
                     'url' => $href
@@ -79,7 +79,7 @@ class Concerts extends Controller {
     public function getConcerts()
     {
         $html = new Htmldom($_POST['pageUrl']);
-        $list = $html->find('.events-block', 0);//->find('.lists__li', 0);
+        $list = $html->find('.events-block', 0);
         $i = 0;
         $lists = array();
         $lists_li = $list->find('.lists__li');

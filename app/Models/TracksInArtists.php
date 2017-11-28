@@ -9,6 +9,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class TracksInArtists extends Model {
 
-	protected $primaryKey = 'track_in_artist_id	';
+	protected $primaryKey = 'track_in_artist_id';
 
 }

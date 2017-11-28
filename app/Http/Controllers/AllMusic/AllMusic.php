@@ -34,14 +34,28 @@ class AllMusic extends Controller {
 
 		$userId = \Auth::check() ? \Auth::user()->user_id : 0;
 
-		/*$albums = array();
-		$item['artist_name'] = 'Kek';
-		$item['album_name'] = 'Lol album';
-		$item['year'] = 2016;
-		$item['album_image'] = 'https://d2ykdu8745rm9t.cloudfront.net/cover/i/009/432/567/mr-robot-5527.jpg?rect=25,0,549,549&q=98&fm=jpg&fit=max';
-		$albums[] = $item;*/
+		$albums = Albums::where('album_id', '>', 0);
 
-		$albums = Albums::get();
+		if (\Input::has('search_singer'))
+		{
+			$singer = \Input::get('search_singer');
+			if ($singer != '')
+				$albums = $albums->where('albums.artist_name', 'LIKE', '%' . $singer . '%');
+		}
+		if (\Input::has('search_song'))
+		{
+			$song = \Input::get('search_song');
+			if ($song != '')
+				$albums = $albums->where('albums.album_name', 'LIKE', '%' . $song . '%');
+		}
+		if (\Input::has('genre'))
+		{
+			$genre = \Input::get('genre');
+			if ($genre != '')
+				$albums = $albums->where('albums.genre_id', '=', $genre);
+		}
+
+		$albums = $albums->get();
 
 		if ($returnHowArray)
 			return $albums;
@@ -55,14 +69,37 @@ class AllMusic extends Controller {
 
 		$userId = \Auth::check() ? \Auth::user()->user_id : 0;
 
-		/*$tracks = Tracks::select(\DB::raw("*, (SELECT track_in_user_id FROM tracks_in_users WHERE tracks_in_users.user_id = {$userId} AND tracks_in_users.track_id = tracks.track_id) as exist_id"))
-			->leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks.track_id')
-			->leftJoin('artists', 'artists.artist_id', '=', 'tracks_in_artists.artist_id')
-			->get();*/
+//		$tracks = Tracks::select(\DB::raw("*, (SELECT track_in_user_id FROM tracks_in_users WHERE tracks_in_users.user_id = {$userId} AND tracks_in_users.track_id = tracks.track_id) as exist_id"))
+//			->leftJoin('genres', 'genres.genre_id', '=', 'tracks.genre_id')
+//			->where('tracks.is_copy', '=', 0);
 
 		$tracks = Tracks::select(\DB::raw("*, (SELECT track_in_user_id FROM tracks_in_users WHERE tracks_in_users.user_id = {$userId} AND tracks_in_users.track_id = tracks.track_id) as exist_id"))
 			->where('tracks.is_copy', '=', 0)
-			->get();
+			->leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks.track_id')
+			->leftJoin('artists', 'artists.artist_id', '=', 'tracks_in_artists.artist_id')
+			->leftJoin('tracks_in_genres', 'tracks_in_genres.track_id', '=', 'tracks.track_id')
+			->leftJoin('genres', 'genres.genre_id', '=', 'tracks_in_genres.genre_id');
+
+		if (\Input::has('search_singer'))
+		{
+			$singer = \Input::get('search_singer');
+			if ($singer != '')
+				$tracks = $tracks->where('tracks.artist_name', 'LIKE', '%' . $singer . '%');
+		}
+		if (\Input::has('search_song'))
+		{
+			$song = \Input::get('search_song');
+			if ($song != '')
+				$tracks = $tracks->where('tracks.track_name', 'LIKE', '%' . $song . '%');
+		}
+		if (\Input::has('genre'))
+		{
+			$genre = \Input::get('genre');
+			if ($genre != '')
+				$tracks = $tracks->where('genres.genre_id', '=', $genre);
+		}
+
+		$tracks = $tracks->get();
 
 		if ($returnHowArray)
 			return $tracks;

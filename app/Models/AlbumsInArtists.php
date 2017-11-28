@@ -1,7 +1,14 @@
-<?php
+<?php namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
 /**
- * Created by PhpStorm.
- * User: Александр
- * Date: 10.11.2017
- * Time: 22:07
+ * App\Models\TracksInAlbums
+ *
+ * @mixin \Eloquent
  */
+class AlbumsInArtists extends \Eloquent {
+
+    protected $primaryKey = 'album_in_artist_id';
+
+}

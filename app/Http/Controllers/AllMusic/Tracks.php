@@ -2,7 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\Artists;
+use App\Http\Controllers\AllMusic\Artists;
 use App\Models\TracksInArtists;
 use App\Models\TracksInUsers;
 use App\User;
@@ -27,14 +27,18 @@ class Tracks extends Controller
 
                 $track = new TracksModel();
                 $track->track_name = $result['track'][$i]['name'];
-                $track->artist_name = $result['track'][$i]['artist'];
+//                $track->artist_name = $result['track'][$i]['artist'];
                 $track->track_photo = $result['track'][$i]['image_path'];
                 $track->track_download_name = $result['track'][$i]['filename'];
                 $track->duration = $result['track'][$i]['duration'];
                 $track->is_copy = 0;
                 $track->created_at_user = \Auth::user()->user_id;
+//                $genre = GenresController::Create($result['track'][$i]['genre']);
+//                $track->genre_id = $genre;
                 $track->save();
 
+//                Artists::AssociateWithTrack($track->track_id, Artists::Create($result['track'][$i]['artist']));
+//                $result['track'][$i]['track_in_user_id'] = Tracks::AssociateWithUser(\Auth::user()->user_id, $track->track_id);
                 Artists::AssociateWithTrack($track->track_id, Artists::Create($result['track'][$i]['artist']));
                 $result['track'][$i]['track_in_user_id'] = Tracks::AssociateWithUser(\Auth::user()->user_id, $track->track_id);
                 GenresController::AssociateWithTrack($track->track_id, GenresController::Create($result['track'][$i]['genre']));
@@ -85,13 +89,13 @@ class Tracks extends Controller
 
     public static function GetUserTracks($userId)
     {
-        /*$tracks = TracksInUsers::leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks_in_users.track_id')
-            ->leftJoin('artists', 'artists.artist_id', '=', 'tracks_in_artists.artist_id')
-            ->leftJoin('tracks', 'tracks.track_id', '=', 'tracks_in_users.track_id')
-            ->where('tracks_in_users.user_id', '=', $userId)->orderBy('tracks_in_users.track_in_user_id', 'desc')->get();*/
 
         $tracks = TracksInUsers::leftJoin('tracks', 'tracks.track_id', '=', 'tracks_in_users.track_id')
             ->where('tracks_in_users.user_id', '=', $userId)
+            ->leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks.track_id')
+            ->leftJoin('artists', 'artists.artist_id', '=', 'tracks_in_artists.artist_id')
+            ->leftJoin('tracks_in_genres', 'tracks_in_genres.track_id', '=', 'tracks.track_id')
+            ->leftJoin('genres', 'genres.genre_id', '=', 'tracks_in_genres.genre_id')
             ->orderBy('tracks_in_users.track_in_user_id', 'desc')
             ->get();
 
@@ -133,16 +137,10 @@ class Tracks extends Controller
             if($deletedTrackInUsers->delete())
                 $result = true;
         }
-        /*if(TracksInUsers::where('tracks_in_users.user_id', '=', $userId)
-                ->where('tracks_in_users.track_in_user_id', '=', $trackId)
-                ->delete())
-            $result = true;*/
-
         return json_encode($result, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
     }
     
-    /* Delete before push */
-    
+
     public static function AddTrackToUserList()
     {
         $result = false;
@@ -179,17 +177,6 @@ class Tracks extends Controller
             $result['new_id'] = $track_in_user_id;
         }
 
-        /*$addedTrack = new TracksInUsers();
-        $addedTrack->track_id = $trackId;
-        $addedTrack->user_id = $userId;
-        $addedTrack->save();
-
-        if (!is_null($addedTrack->track_in_user_id))
-        {
-            $result['status'] = true;
-            $result['new_id'] = $addedTrack->track_in_user_id;
-        }*/
-
         echo json_encode($result);
     }
 
@@ -198,14 +185,9 @@ class Tracks extends Controller
         $userId = \Auth::user()->user_id;
         $trackId = \Route::input('track_id');
 
-       /* $track = TracksInUsers::leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks_in_users.track_id')
-            ->leftJoin('artists', 'artists.artist_id', '=', 'tracks_in_artists.artist_id')
-            ->leftJoin('tracks', 'tracks.track_id', '=', 'tracks_in_users.track_id')
-            ->where('tracks_in_users.user_id', '=', $userId)
-            ->where('tracks_in_users.track_id', '=', $trackId)
-            ->first();*/
-
         $track = TracksInUsers::leftJoin('tracks', 'tracks.track_id', '=', 'tracks_in_users.track_id')
+            ->leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks.track_id')
+            ->leftJoin('artists', 'tracks_in_artists.artist_id', '=', 'artists.artist_id')
             ->where('tracks_in_users.user_id', '=', $userId)
             ->where('tracks_in_users.track_id', '=', $trackId)
             ->first();
@@ -222,36 +204,54 @@ class Tracks extends Controller
         $artistName = $_POST['artist'];
         $trackName = $_POST['track_name'];
 
-        /*$trackInUsers = TracksInUsers::leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks_in_users.track_id')
-            ->leftJoin('artists', 'artists.artist_id', '=', 'tracks_in_artists.artist_id')
-            ->leftJoin('tracks', 'tracks.track_id', '=', 'tracks_in_users.track_id')
-            ->where('tracks_in_users.user_id', '=', $userId)
-            ->where('tracks_in_users.track_id', '=', $trackId)
-            ->first();*/
-
         $trackInUsers = TracksInUsers::where('tracks_in_users.user_id', '=', $userId)
             ->where('tracks_in_users.track_id', '=', $trackId)
             ->first();
 
         if(!is_null($trackInUsers))
         {
-            /*$trackInArtist = TracksInArtists::where('tracks_in_artists.track_id', '=', $trackInUsers->track_id)
-                ->first();
-            $artist = Artists::where('artists.artist_id', '=', $trackInArtist->artist_id)
-                ->first();
-            $artist->artist_name = $artistName;
-            $artist->save();*/
 
             $track = TracksModel::where('tracks.track_id', '=',  $trackInUsers->track_id)
                 ->first();
             $track->track_name = $trackName;
-            $track->artist_name = $artistName;
             $track->save();
 
+            $trackInArtist = TracksInArtists::where('tracks_in_artists.track_id', '=', $trackId)
+                ->first();
+            $trackInArtist->delete();
+
+            Artists::AssociateWithTrack($trackInUsers->track_id, Artists::Create($artistName));
             $result = true;
             return json_encode($result);
         }
         return json_encode($result);
+    }
+
+    public function Info()
+    {
+
+        $tracksInfo = array();
+        $tracksId = json_decode(\Input::get('tracks'));
+        $arrId = array();
+        $i = 0;
+        foreach ($tracksId as $key => $item)
+        {
+            $arrId[$i] = $item->id;
+            $i++;
+        }
+        $tracksInfo = TracksModel::leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks.track_id')
+            ->leftJoin('artists', 'artists.artist_id', '=', 'tracks_in_artists.artist_id')
+            ->whereIn('tracks.track_id', $arrId)
+            ->orderByRaw(\DB::raw('FIELD(tracks.track_id, ' . implode(',', $arrId) . ')'))
+            ->get();
+        if(count($tracksInfo) == 0)
+        {
+            return json_encode(["success" => false]);
+        }
+        else
+        {
+            return json_encode(["success" => true, "info" => $tracksInfo]);
+        }
     }
 }
 

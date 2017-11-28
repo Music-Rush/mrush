@@ -6,42 +6,20 @@
                 <p class="title">Filters</p>
                 <form action="" method="get" class="search_filter">
                     <p class="title">Genres</p>
-                    <div class="form-group check-btn">
-                        <input type="checkbox" name="salary" id="genre_0" value="10" class="hidden">
-                        <label for="genre_0">Rock</label>
-                    </div>
-                    <div class="form-group check-btn">
-                        <input type="checkbox" name="salary" id="genre_1" value="10" class="hidden">
-                        <label for="genre_1">Jazz</label>
-                    </div>
-                    <div class="form-group check-btn">
-                        <input type="checkbox" name="salary" id="genre_2" value="10" class="hidden">
-                        <label for="genre_2">Blues</label>
-                    </div>
-                    <div class="form-group check-btn">
-                        <input type="checkbox" name="salary" id="genre_3" value="10" class="hidden">
-                        <label for="genre_3">Pop</label>
-                    </div>
-                    <div class="form-group check-btn">
-                        <input type="checkbox" name="salary" id="genre_4" value="10" class="hidden">
-                        <label for="genre_4">Rap</label>
-                    </div>
-                    <div class="form-group check-btn">
-                        <input type="checkbox" name="salary" id="genre_5" value="10" class="hidden">
-                        <label for="genre_5">Hip-Hop</label>
-                    </div>
-                    <div class="form-group check-btn">
-                        <input type="checkbox" name="salary" id="genre_6" value="10" class="hidden">
-                        <label for="genre_6">Other</label>
+                    @foreach (\App\Models\Genres::all() as $key => $item)
+                        <div class="form-group check-btn">
+                            <input type="checkbox" name="genre" id="genre_{{ $item->genre_id }}" value="{{ $item->genre_id }}" class="hidden" {{$item->genre_id == Input::get('genre_id') ? 'checked' : ''}}>
+                            <label for="genre_{{ $item->genre_id }}">{{ $item->genre_name }}</label>
+                        </div>
+                    @endforeach
+                    <div class="form-group">
+                        <input type="text" name="search_singer" class="form-control" placeholder="Singer" maxlength="50" pattern="[A-Za-zА-Яа-я\d\s]{1,50}" value="{{ (Input::has('search_singer')) ? Input::get('search_singer') : '' }}">
                     </div>
                     <div class="form-group">
-                        <input type="text" name="search_singer" class="form-control" placeholder="Singer" maxlength="50" pattern="[A-Za-zА-Яа-я\d]{1,50}" value="">
+                        <input type="text" name="search_song" class="form-control" placeholder="Song name" maxlength="50" pattern="[A-Za-zА-Яа-я\d\s]{1,50}" value="{{ (Input::has('search_song')) ? Input::get('search_song') : ''}}">
                     </div>
-                    <div class="form-group">
-                        <input type="text" name="search_song" class="form-control" placeholder="Song name" maxlength="50" pattern="[A-Za-zА-Яа-я\d]{1,50}" value="">
-                    </div>
-                    <button class="btn btn-search">Search</button>
-                    <a href=" /allmusic "><button type="button" class="btn btn-danger">Reset filter</button></a>
+                    <button type="button" class="btn btn-search" onclick="searchFilter(this)">Search</button>
+                    <button type="button" class="btn btn-danger" onclick="resetFilter(this)">Reset filter</button>
                 </form>
             </div>
         </div>
@@ -77,4 +55,56 @@
         <div class="close-sidebar">
             Close
         </div>
+        <div class="album-title">
+            <p class="album-name"></p>
+            <b class="fa fa-plus"></b>
+            <b class="fa fa-outdent fa-rotate-180 fa-1x"></b>
+            <b class="fa fa-play"></b>
+
+            <!--<b class="fa fa-times-circle" data-toggle="modal" data-target="#deleteAlbum"></b>
+            <b class="fa fa-edit" data-toggle="modal" data-target="#editAlbumModal" id="album-edit-btn"></b>-->
+        </div>
+        <div class="album-track-items">
+            <!--<div class="profile-track-item">
+                <div class="track-img">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/7/7d/Blurryface_by_Twenty_One_Pilots.png" alt="">
+                </div>
+                <div class="track-info-block">
+                    <p class="artist-name">Twenty One Pilots</p>
+                    <p class="track-name">Ride</p>
+                </div>
+                <div class="add-track-info">
+                    <p class="track-time">2:28</p>
+                    <b class="fa fa-edit" data-toggle="modal" data-target="#editTrackModal"></b>
+                    <b class="fa fa-times-circle" data-toggle="modal" data-target="#deleteTrack"></b>
+                    <b class="fa fa-download"></b>
+                </div>
+            </div>-->
+        </div>
     </div>
+
+    {{--<div class="modal fade" id="user-playlist-list" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">--}}
+        {{--<div class="modal-dialog">--}}
+            {{--<div class="modal-content">--}}
+                {{--<div class="modal-body">--}}
+                    {{--<p class="title">Select playlist</p>--}}
+                    {{--<div class="playlist-items">--}}
+                        {{--@foreach(\App\Http\Controllers\AllMusic\Playlists::GetUserPlaylists(Auth::user()->user_id) as $key => $item)--}}
+                            {{--<div class="profile-playlist-item" playlist_id="{{$item->playlist_id}}">--}}
+                                {{--<img src="{{ '/resources/assets/images/album_images/' . $item->playlist_photo }}" alt="">--}}
+                                {{--<div class="profile-playlist-info">--}}
+                                    {{--<div class="in-profile-playlist-info">--}}
+                                        {{--<p class="profile-playlist-name">{{$item->playlist_name}}</p>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--@endforeach--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<!--<div class="modal-footer">--}}
+                    {{--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
+                    {{--<button type="button" class="btn btn-primary add-track-btn">Add</button>--}}
+                {{--</div>-->--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}

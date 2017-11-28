@@ -12,7 +12,7 @@
             <p class="track-time">{{ $item->duration }}</p>
             @if (Auth::check())
             <b class="fa fa-heart-o"></b>
-            <b class="fa {{ $item->exist_id > 0 ? 'fa-times-circle delete-track-from-user' : 'fa-plus add-track-to-user' }}"></b>
+            <b class="fa fa-plus add-track-to-user"></b>
             @endif
             <a class="fa fa-download" href="/resources/tracks/{{ $item->track_download_name }}" download target="_blank"></a>
         </div>

@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @mixin \Eloquent
  */
-class AlbumsInUsers extends \Eloquent {
+class TracksInPlaylists extends \Eloquent {
 
-    protected $primaryKey = 'album_in_user_id';
+    protected $primaryKey = 'track_in_playlist_id';
 
 }

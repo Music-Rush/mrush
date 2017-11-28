@@ -32,10 +32,10 @@
                 <label for="genre_6">Other</label>
             </div>
             <div class="form-group">
-                <input type="text" name="search_singer" class="form-control" placeholder="Singer" maxlength="50" pattern="[A-Za-zА-Яа-я\d]{1,50}" value="">
+                <input type="text" name="search_singer" class="form-control" placeholder="Singer" maxlength="50" pattern="[A-Za-zА-Яа-я\d\s]{1,50}" value="">
             </div>
             <div class="form-group">
-                <input type="text" name="search_song" class="form-control" placeholder="Song name" maxlength="50" pattern="[A-Za-zА-Яа-я\d]{1,50}" value="">
+                <input type="text" name="search_song" class="form-control" placeholder="Song name" maxlength="50" pattern="[A-Za-zА-Яа-я\d\s]{1,50}" value="">
             </div>
             <button class="btn btn-search">Search</button>
             <a href=" /allmusic "><button type="button" class="btn btn-danger">Reset filter</button></a>
@@ -43,32 +43,7 @@
     </div>
 </div>
 <div class="container-fluid tracks-container" onselectstart="return false" onmousedown="return false">
-    <!--<div class="profile-track-item default-track-item">
-        <p class="track-number">#</p>
-        <p class="control-btn"></p>
-        <p class="track-name">Title</p>
-        <p class="track-performer">Artist</p>
-        <p class="track-options">Options</p>
-        <p class="track-time">Time</p>
-    </div>-->
     <div class="profile-track-items">
-        {{--@for($i = 0; $i < 20; $i++)
-            <div class="profile-track-item">
-                <div class="track-img">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/7/7d/Blurryface_by_Twenty_One_Pilots.png" alt="">
-                </div>
-                <div class="track-info-block">
-                    <p class="artist-name">Twenty One Pilots</p>
-                    <p class="track-name">Ride</p>
-                </div>
-                <div class="add-track-info">
-                    <p class="track-time">2:28</p>
-                    <b class="fa fa-edit" data-toggle="modal" data-target="#editTrackModal"></b>
-                    <b class="fa fa-times-circle" data-toggle="modal" data-target="#deleteTrack"></b>
-                    <b class="fa fa-download"></b>
-                </div>
-            </div>
-        @endfor--}}
         @foreach(\App\Http\Controllers\AllMusic\Tracks::GetUserTracks(Auth::user()->user_id) as $key => $item)
             <div class="profile-track-item" track_id="{{ $item->track_in_user_id }}" two-track-id="{{ $item->track_id }}">
                 <div class="track-img">

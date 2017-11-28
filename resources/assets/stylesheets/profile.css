@@ -220,7 +220,7 @@ body{
     transform: scale(1.1);
 }
 .profile-playlist-item > img{
-    max-width: 100%;
+    max-height: 100%;
 }
 .profile-playlist-item:hover .profile-playlist-info{
     opacity: 1;
@@ -378,7 +378,7 @@ body{
     transform: scale(1.1);
 }
 .profile-album-item > img{
-    max-width: 100%;
+    max-height: 100%;
 }
 .profile-album-item:hover .profile-album-info{
     opacity: 1;
@@ -601,44 +601,52 @@ body{
 }
 
 #addAlbumModal,
+#addPlaylistModal,
 #editAlbumModal,
 #editPlaylistModal{
     overflow-y: hidden;
 }
 #addAlbumModal .modal-dialog,
+#addPlaylistModal .modal-dialog,
 #editAlbumModal .modal-dialog,
 #editPlaylistModal .modal-dialog{
     height: 100%;
 }
 #addAlbumModal .modal-content,
+#addPlaylistModal .modal-content,
 #editAlbumModal .modal-content,
 #editPlaylistModal .modal-content{
     background-color: rgba(60, 60, 78, .95);
     height: calc(100% - 20%);
 }
 #addAlbumModal .modal-header,
+#addPlaylistModal .modal-header,
 #editAlbumModal .modal-header,
 #editPlaylistModal .modal-header{
     border-bottom: 1px solid rgba(221, 221, 236, 0.7) !important;
     padding-bottom: 0px;
 }
 #addAlbumModal .modal-body,
+#addPlaylistModal .modal-body,
 #editAlbumModal .modal-body,
 #editPlaylistModal .modal-body{
     padding-top: 0px;
     height: calc(100% - 120px);
 }
 #addAlbumModal .modal-footer,
+#addPlaylistModal .modal-footer,
 #editAlbumModal .modal-footer,
 #editPlaylistModal .modal-footer{
     border-top: 1px solid rgba(221, 221, 236, 0.7) !important;
 }
 #addAlbumModal .modal-content .modal-body .album-info-form input[type=file],
+#addPlaylistModal .modal-content .modal-body .playlist-info-form input[type=file],
 #editAlbumModal .modal-content .modal-body .album-info-form input[type=file],
 #editPlaylistModal .modal-content .modal-body .playlist-info-form input[type=file]{
     display: none;
 }
 #addAlbumModal .modal-content .modal-body .album-info-form label.album_img_label,
+#addPlaylistModal .modal-content .modal-body .playlist-info-form label.playlist_img_label,
 #editAlbumModal .modal-content .modal-body .album-info-form label.album_img_label,
 #editPlaylistModal .modal-content .modal-body .playlist-info-form label.playlist_img_label{
     width: 75px;
@@ -650,6 +658,7 @@ body{
     border-radius: 3px;
 }
 #addAlbumModal .modal-content .modal-body .album-info-form label.album_img_label img,
+#addPlaylistModal .modal-content .modal-body .playlist-info-form label.playlist_img_label img,
 #editAlbumModal .modal-content .modal-body .album-info-form label.album_img_label img,
 #editPlaylistModal .modal-content .modal-body .playlist-info-form label.playlist_img_label img{
     width: 100%;
@@ -660,6 +669,7 @@ body{
     border-radius: 3px;
 }
 #addAlbumModal .modal-content .modal-body .album-info-form label .over-album-img,
+#addPlaylistModal .modal-content .modal-body .playlist-info-form label .over-playlist-img,
 #editAlbumModal .modal-content .modal-body .album-info-form label .over-album-img,
 #editPlaylistModal .modal-content .modal-body .playlist-info-form label .over-playlist-img{
     position: absolute;
@@ -678,6 +688,7 @@ body{
     border-radius: 3px;
 }
 #addAlbumModal .modal-content .modal-body .album-info-form,
+#addPlaylistModal .modal-content .modal-body .playlist-info-form,
 #editAlbumModal .modal-content .modal-body .album-info-form,
 #editPlaylistModal .modal-content .modal-body .playlist-info-form{
     //border-top: 1px solid rgba(221, 221, 236, 0.7);
@@ -685,11 +696,13 @@ body{
     padding-top: 10px;
 }
 #addAlbumModal .modal-content .modal-body .album-info-form label.album_img_label:hover .over-album-img,
+#addPlaylistModal .modal-content .modal-body .playlist-info-form label.playlist_img_label:hover .over-playlist-img,
 #editAlbumModal .modal-content .modal-body .album-info-form label.album_img_label:hover .over-album-img,
 #editPlaylistModal .modal-content .modal-body .playlist-info-form label.playlist_img_label:hover .over-playlist-img{
     display: block;
 }
 #addAlbumModal .album-info-form .form-group-album-img,
+#addPlaylistModal .playlist-info-form .form-group-playlist-img,
 #editAlbumModal .album-info-form .form-group-album-img,
 #editPlaylistModal .playlist-info-form .form-group-playlist-img{
     display: inline-block;
@@ -697,6 +710,7 @@ body{
     margin-bottom: 0px;
 }
 #addAlbumModal .album-info-form .form-group-album-info,
+#addPlaylistModal .playlist-info-form .form-group-playlist-info,
 #editAlbumModal .album-info-form .form-group-album-info,
 #editPlaylistModal .playlist-info-form .form-group-playlist-info{
     padding-top: 15px;
@@ -706,26 +720,30 @@ body{
     margin-left: 15px;
 }
 #addAlbumModal .album-info-form .add-track-in-album-btn,
+#addPlaylistModal .playlist-info-form .add-track-in-playlist-btn,
 #editAlbumModal .album-info-form .add-track-in-album-btn,
-#editPlaylistModal .playlist-info-form .add-track-in-album-btn{
+#editPlaylistModal .playlist-info-form .add-track-in-playlist-btn{
     display: inline-block;
     color: rgba(255, 255, 255, 0.7);
     font-size: 48px;
     font-family: "ProximaNovaRegular";
 }
 #addAlbumModal .album-info-form .add-track-in-album-btn:hover,
+#addPlaylistModal .playlist-info-form .add-track-in-playlist-btn:hover,
 #editAlbumModal .album-info-form .add-track-in-album-btn:hover,
-#editPlaylistModal .playlist-info-form .add-track-in-album-btn:hover{
+#editPlaylistModal .playlist-info-form .add-track-in-playlist-btn:hover{
     cursor: pointer;
     color: rgba(255, 255, 255, 0.5);
 }
 #addAlbumModal .form-group-album-info .form-group,
+#addPlaylistModal .form-group-playlist-info .form-group,
 #editAlbumModal .form-group-album-info .form-group,
 #editPlaylistModal .form-group-playlist-info .form-group{
     display: inline-block;
     margin-right: 10px;
 }
 #addAlbumModal .form-group-album-info .form-control,
+#addPlaylistModal .form-group-playlist-info .form-control,
 #editAlbumModal .form-group-album-info .form-control,
 #editPlaylistModal .form-group-playlist-info .form-control{
     background-color: transparent;
@@ -733,16 +751,19 @@ body{
     color: white;
 }
 #addAlbumModal .track-items .track-item-check-btn .hidden,
+#addPlaylistModal .track-items .track-item-check-btn .hidden,
 #editAlbumModal .track-items .track-item-check-btn .hidden,
 #editPlaylistModal .track-items .track-item-check-btn .hidden{
     display: none;
 }
 #addAlbumModal .track-items input[type="checkbox"]:checked + label.track-item,
+#addPlaylistModal .track-items input[type="checkbox"]:checked + label.track-item,
 #editAlbumModal .track-items input[type="checkbox"]:checked + label.track-item,
 #editPlaylistModal .track-items input[type="checkbox"]:checked + label.track-item{
     background-color: #089680;
 }
 #addAlbumModal .track-items,
+#addPlaylistModal .track-items,
 #editAlbumModal .track-items,
 #editPlaylistModal .track-items{
     width: 100%;
@@ -751,6 +772,7 @@ body{
     height: calc(100% - 80px);
 }
 #addAlbumModal .track-items .track-item,
+#addPlaylistModal .track-items .track-item,
 #editAlbumModal .track-items .track-item,
 #editPlaylistModal .track-items .track-item{
     min-width: 100%;
@@ -760,6 +782,7 @@ body{
     border: 1px solid transparent;
 }
 #addAlbumModal .track-items .track-item:hover,
+#addPlaylistModal .track-items .track-item:hover,
 #editAlbumModal .track-items .track-item:hover,
 #editPlaylistModal .track-items .track-item:hover{
     border: 1px solid white;
@@ -769,11 +792,13 @@ body{
     display: none;
 }*/
 #addAlbumModal .track-items .track-item:hover .add-track-info > b,
+#addPlaylistModal .track-items .track-item:hover .add-track-info > b,
 #editAlbumModal .track-items .track-item:hover .add-track-info > b,
 #editPlaylistModal .track-items .track-item:hover .add-track-info > b{
     display: inline-block;
 }
 #addAlbumModal .track-items .track-item .track-img,
+#addPlaylistModal .track-items .track-item .track-img,
 #editAlbumModal .track-items .track-item .track-img,
 #editPlaylistModal .track-items .track-item .track-img{
     width: 40px;
@@ -782,12 +807,14 @@ body{
     display: inline-block;
 }
 #addAlbumModal .track-items .track-item .track-img img,
+#addPlaylistModal .track-items .track-item .track-img img,
 #editAlbumModal .track-items .track-item .track-img img,
 #editPlaylistModal .track-items .track-item .track-img img{
     width: 40px;
     height: 40px;
 }
 #addAlbumModal .track-items .track-item .track-info-block,
+#addPlaylistModal .track-items .track-item .track-info-block,
 #editAlbumModal .track-items .track-item .track-info-block,
 #editPlaylistModal .track-items .track-item .track-info-block{
     display: inline-block;
@@ -796,6 +823,7 @@ body{
     margin-right: 25px;
 }
 #addAlbumModal .track-items .track-item .track-info-block > .artist-name,
+#addPlaylistModal .track-items .track-item .track-info-block > .artist-name,
 #editAlbumModal .track-items .track-item .track-info-block > .artist-name,
 #editPlaylistModal .track-items .track-item .track-info-block > .artist-name{
     font-size: 14px;
@@ -805,6 +833,7 @@ body{
     margin-bottom: 3px;
 }
 #addAlbumModal .track-items .track-item .track-info-block > .track-name,
+#addPlaylistModal .track-items .track-item .track-info-block > .track-name,
 #editAlbumModal .track-items .track-item .track-info-block > .track-name,
 #editPlaylistModal .track-items .track-item .track-info-block > .track-name{
     font-size: 14px;
@@ -813,6 +842,7 @@ body{
     margin: 0;
 }
 #addAlbumModal .track-items .track-item .add-track-info,
+#addPlaylistModal .track-items .track-item .add-track-info,
 #editAlbumModal .track-items .track-item .add-track-info,
 #editPlaylistModal .track-items .track-item .add-track-info{
     float: right;
@@ -820,6 +850,7 @@ body{
     vertical-align: middle;
 }
 #addAlbumModal .track-items .track-item .add-track-info > .track-time,
+#addPlaylistModal .track-items .track-item .add-track-info > .track-time,
 #editAlbumModal .track-items .track-item .add-track-info > .track-time,
 #editPlaylistModal .track-items .track-item .add-track-info > .track-time{
     font-family: "ProximaNovaRegular";
@@ -830,29 +861,34 @@ body{
     padding-top: 11px;
 }
 #addAlbumModal .modal-footer .btn-secondary,
+#addPlaylistModal .modal-footer .btn-secondary,
 #editAlbumModal .modal-footer .btn-secondary,
 #editPlaylistModal .modal-footer .btn-secondary{
     background-color: transparent;
     color: white;
 }
 #addAlbumModal .modal-footer .btn-secondary:hover,
+#addPlaylistModal .modal-footer .btn-secondary:hover,
 #editAlbumModal .modal-footer .btn-secondary:hover,
 #editPlaylistModal .modal-footer .btn-secondary:hover{
     background-color: rgba(255, 255, 255, 0.7);
     color: rgba(0, 0, 0, 0.7);
 }
 #addAlbumModal .modal-footer .btn-primary,
+#addPlaylistModal .modal-footer .btn-primary,
 #editAlbumModal .modal-footer .btn-primary,
 #editPlaylistModal .modal-footer .btn-primary{
     background-color: transparent;
     border-color: rgba(8, 150, 128, 0.8);
 }
 #addAlbumModal .modal-footer .btn-primary:hover,
+#addPlaylistModal .modal-footer .btn-primary:hover,
 #editAlbumModal .modal-footer .btn-primary:hover,
 #editPlaylistModal .modal-footer .btn-primary:hover{
     background-color: rgba(8, 150, 128, 0.5);
 }
 #addAlbumModal .modal-footer .remove-selected-track-btn,
+#addPlaylistModal .modal-footer .remove-selected-track-btn,
 #editPlaylistModal .modal-footer .remove-selected-track-btn,
 #editAlbumModal .modal-footer .remove-selected-track-btn{
     background-color: transparent;
@@ -870,6 +906,7 @@ body{
     vertical-align: middle;
 }
 #addAlbumModal .modal-footer .remove-selected-track-btn:hover,
+#addPlaylistModal .modal-footer .remove-selected-track-btn:hover,
 #editPlaylistModal .modal-footer .remove-selected-track-btn:hover,
 #editAlbumModal .modal-footer .remove-selected-track-btn:hover{
     background-color: rgba(255, 0, 0, 0.7);
@@ -1144,4 +1181,10 @@ body{
     padding: 0;
     margin: 0;
     padding-top: 25px;
+}
+
+/*COMMUNITIES*/
+.mycommunities-container .all-music-container{
+    padding: 0 !important;
+    background: none !important;
 }

@@ -2,73 +2,142 @@ $(function(){
     var isOpen = false;
     $('#main-content').on('click', '.album-item', function(){
         console.log('click on album item');
+        var token = $('input[name="token"]').val();
+        console.log(token);
         var albumId = $(this).attr("album_id");
+        var albumName = $(this).find('.album-name').text();
+        var contentBlock = $('.music-right-sidebar .album-track-items');
+        $('.music-right-sidebar .fa-plus').attr('album_id', albumId);
         if (!isOpen)
         {
+            showAlbumContent(albumId, contentBlock, token, albumName);
             animateBlock(['.music-right-sidebar'], "fadeIn", 200);
             isOpen = true;
         }
+        else
+        {
+            showAlbumContent(albumId, contentBlock, token, albumName);
+        }
     });
-    $('#main-content').on('click', '.profile-album-item', function(){
-        console.log('click on album item');
-        helpName = $(this).find('.profile-album-name').text()
-        var token = $('input[name="_token"]').val();
-        var albumId = $(this).attr("album_id");
-        var albumName = $(this).find('.profile-album-name').text();
+    showAlbumContent = function (albumId, contentBlock, token, albumName) {
         var generatedHtml = '';
         var tempItem = '';
+        $.ajax({
+            url: '/profile/albums/' + albumId + '/getAlbumTracks',
+            type: 'POST',
+            data: ({
+                _token: token
+            }),
+            success: function(data)
+            {
+                $('.music-right-sidebar .album-title .album-name').text(albumName);
+                console.log(data);
+                var tracks = JSON.parse(data);
+                contentBlock.empty();
+                $.each(tracks, function (index, value) {
+                    tempItem = "<div class='profile-track-item' track_id='" + value.track_id + "'>" +
+                        "<div class='track-img'>" +
+                        "<img src='/resources/assets/images/music_images/" + value.track_photo + "' alt=''>" +
+                        "</div>" +
+                        "<div class='track-info-block'>" +
+                        "<p class='artist-name'>" + value.artist_name + "</p>" +
+                        "<p class='track-name'>" + value.track_name + "</p>" +
+                        "</div>" +
+                        "<div class='add-track-info'>" +
+                        "<p class='track-time'>" + value.duration + "</p>" +
+                        "<b class='fa fa-edit' data-toggle='modal' data-target='#editTrackModal'></b>" +
+                        "<b class='fa fa-times-circle' data-toggle='modal' data-target='#deleteTrack'></b>" +
+                        "<a class='fa fa-download' href='/resources/tracks/" + value.track_download_name + "' download></a>" +
+                        "</div>" +
+                        "</div>";
+                    generatedHtml += tempItem;
+                });
+                $(contentBlock).html(generatedHtml);
+            },
+            error: function(data)
+            {
+                console.log(data.responseText);
+            }
+        });
+    };
+    showPlaylistContent = function (playlistId, contentBlock, token, playlistName) {
+        var generatedHtml = '';
+        var tempItem = '';
+        $.ajax({
+            url: '/profile/playlists/' + playlistId + '/getPlaylistTracks',
+            type: 'POST',
+            data: ({
+                _token: token
+            }),
+            success: function(data)
+            {
+                $('.music-right-sidebar .playlist-title .playlist-name').text(playlistName);
+                console.log(data);
+                var tracks = JSON.parse(data);
+                contentBlock.empty();
+                $.each(tracks, function (index, value) {
+                    tempItem = "<div class='profile-track-item' track_id='" + value.track_id + "'>" +
+                        "<div class='track-img'>" +
+                        "<img src='/resources/assets/images/music_images/" + value.track_photo + "' alt=''>" +
+                        "</div>" +
+                        "<div class='track-info-block'>" +
+                        "<p class='artist-name'>" + value.artist_name + "</p>" +
+                        "<p class='track-name'>" + value.track_name + "</p>" +
+                        "</div>" +
+                        "<div class='add-track-info'>" +
+                        "<p class='track-time'>" + value.duration + "</p>" +
+                        "<b class='fa fa-edit' data-toggle='modal' data-target='#editTrackModal'></b>" +
+                        "<b class='fa fa-times-circle' data-toggle='modal' data-target='#deleteTrack'></b>" +
+                        "<a class='fa fa-download' href='/resources/tracks/" + value.track_download_name + "' download></a>" +
+                        "</div>" +
+                        "</div>";
+                    generatedHtml += tempItem;
+                });
+                $(contentBlock).html(generatedHtml);
+            },
+            error: function(data)
+            {
+                console.log(data.responseText);
+            }
+        });
+    };
+    $('#main-content').on('click', '.profile-album-item', function(){
+        console.log('click on album item');
+        helpName = $(this).find('.profile-album-name').text();
+        var token = $('input[name="token"]').val();
+        var albumId = $(this).attr("album_id");
+        var albumName = $(this).find('.profile-album-name').text();
         var contentBlock = $('.music-right-sidebar .album-track-items');
         $('.music-right-sidebar #album-edit-btn').attr('album_id', albumId);
         if (!isOpen)
         {
-            $.ajax({
-                url: '/profile/albums/' + albumId + '/getAlbumTracks',
-                type: 'POST',
-                data: ({
-                    _token: token
-                }),
-                success: function(data)
-                {
-                    $('.music-right-sidebar .album-title .album-name').text(albumName);
-                    console.log(data);
-                    var tracks = JSON.parse(data);
-                    contentBlock.empty();
-                    $.each(tracks, function (index, value) {
-                        tempItem = "<div class='profile-track-item' track_id='" + value.track_id + "'>" +
-                            "<div class='track-img'>" +
-                            "<img src='/resources/assets/images/music_images/" + value.track_photo + "' alt=''>" +
-                            "</div>" +
-                            "<div class='track-info-block'>" +
-                            "<p class='artist-name'>" + value.artist_name + "</p>" +
-                            "<p class='track-name'>" + value.track_name + "</p>" +
-                            "</div>" +
-                            "<div class='add-track-info'>" +
-                            "<p class='track-time'>" + value.duration + "</p>" +
-                            "<b class='fa fa-edit' data-toggle='modal' data-target='#editTrackModal'></b>" +
-                            "<b class='fa fa-times-circle' data-toggle='modal' data-target='#deleteTrack'></b>" +
-                            "<a class='fa fa-download' href='/resources/tracks/" + value.track_download_name + "' download></a>" +
-                            "</div>" +
-                            "</div>";
-                        generatedHtml += tempItem;
-                    });
-                    $(contentBlock).html(generatedHtml);
-                },
-                error: function(data)
-                {
-                    console.log(data.responseText);
-                }
-            });
+            showAlbumContent(albumId, contentBlock, token, albumName);
             animateBlock(['.music-right-sidebar'], "fadeIn", 200);
             isOpen = true;
         }
+        else
+        {
+            showAlbumContent(albumId, contentBlock, token, albumName);
+        }
     });
+
     $('#main-content').on('click', '.profile-playlist-item', function(){
         console.log('click on playlist item');
+        var token = $('input[name="token"]').val();
+        var playlistId = $(this).attr("playlist_id");
+        var playlistName = $(this).find('.profile-playlist-name').text();
+        var contentBlock = $('.music-right-sidebar .playlist-track-items');
+        $('.music-right-sidebar #playlist-edit-btn').attr('playlist_id', playlistId);
         helpName = $(this).find('.profile-playlist-name').text();
         if (!isOpen)
         {
+            showPlaylistContent(playlistId, contentBlock, token, playlistName);
             animateBlock(['.music-right-sidebar'], "fadeIn", 200);
             isOpen = true;
+        }
+        else
+        {
+            showPlaylistContent(playlistId, contentBlock, token, playlistName);
         }
     });
     $('#main-content').on('click', '.close-sidebar', function(){
@@ -127,7 +196,7 @@ $(function(){
                 {
                     var items = JSON.parse(data);
                     $.each(items, function(index, value){
-                        tempItem = '<div class="track-item" track_id="' +  value.track_id + '">' +
+                        tempItem = '<div class="track-item" track-id="' +  value.track_id + '">' +
                             '<div class="track-img">' +
                             '<img src="/resources/assets/images/music_images/' + value.track_photo + '" alt="">' +
                             '</div>' +
@@ -520,7 +589,7 @@ $(function(){
                         "<a id='to-page' onclick='toPage(\"/concerts\", true)'>Concerts</a>" +
                         "</li>" +
                         "<li class='float-lg-right list-inline-item'>" +
-                        "<a id='to-page' onclick='toPage(\"communities\", true)'>Communities</a>" +
+                        "<a id='to-page' onclick='toPage(\"/communities\", true)'>Communities</a>" +
                         "</li>" +
                         "<li class='float-lg-right list-inline-item'>" +
                         "<a id='to-page' onclick='toPage(\"/profile/playlists\", true)'>My Playlists</a>" +
@@ -768,9 +837,11 @@ $(function(){
         });
     });
 
-    $('#main-content').on('click', '.add-track-to-user', function(e){
+    $('#main-content, .music-list').on('click', '.add-track-to-user', function(e){
+        debugger;
         var trackItem = $(this).parents('.track-item');
         var trackId = $(trackItem).attr('track-id');
+        console.log(trackId);
         var token = $('input[name="_token"]').val();
         var thisBtn = this;
 
@@ -807,11 +878,14 @@ $(function(){
             error: function(data)
             {
                 console.log(data.responseText);
+                $(thisBtn).removeClass();
+                $(thisBtn).addClass('fa fa-plus');
+                $(thisBtn).addClass('add-track-to-user');
             }
         });
     });
 
-    $('#main-content').on('click', '.delete-track-from-user', function(e){
+    $('#main-content, .music-list').on('click', '.delete-track-from-user', function(e){
         var trackItem = $(this).parents('.track-item');
         var trackId = $(trackItem).attr('track-in-user');
         var token = $('input[name="_token"]').val();
@@ -844,6 +918,9 @@ $(function(){
                 else
                 {
                     console.log('error');
+                    $(thisBtn).removeClass();
+                    $(thisBtn).addClass('fa fa-times-circle');
+                    $(thisBtn).addClass('delete-track-from-user');
                 }
             },
             error: function(data)
@@ -907,6 +984,7 @@ $(function(){
                 {
                     console.log("error");
                 }
+                $('#editTrackModal').modal('hide');
             },
             error: function(data)
             {
@@ -942,15 +1020,21 @@ $(function(){
         ink.css({top: y+'px', left: x+'px'}).addClass("animate");
     };
 
+    /*Albums and playlists managment*/
+
     $('#main-content').on('click', '#editAlbumModal input[name=track-check]', function () {
         showRemoveButton('editAlbumModal');
-    });
-    $('#main-content').on('click', '#editPlaylistModal input[name=track-check]', function () {
-        showRemoveButton('editPlaylistModal');
     });
     $('#main-content').on('click', '#addAlbumModal input[name=track-check]', function () {
         showRemoveButton('addAlbumModal');
     });
+    $('#main-content').on('click', '#addPlaylistModal input[name=track-check]', function () {
+        showRemoveButton('addPlaylistModal');
+    });
+    $('#main-content').on('click', '#editPlaylistModal input[name=track-check]', function () {
+        showRemoveButton('editPlaylistModal');
+    });
+
 
     showRemoveButton = function (parentBlock) {
         var countCheckedTrack = $('#' + parentBlock + ' input[name=track-check]:checked').length;
@@ -980,13 +1064,16 @@ $(function(){
     $('#main-content').on('hidden.bs.modal', '#addAlbumModal', function () {
         cancelChecked('addAlbumModal');
     });
+    $('#main-content').on('hidden.bs.modal', '#addPlaylistModal', function () {
+        cancelChecked('addPlaylistModal');
+    });
 
     cancelChecked = function (parentElement) {
         $.each($('#' + parentElement + ' input[name=track-check]'), function (index, value) {
             value.checked = false;
         });
         $('#' + parentElement + ' .modal-footer .remove-selected-track-btn').remove();
-        if(parentElement == "addAlbumModal")
+        if(parentElement == "addAlbumModal" || parentElement == "addPlaylistModal")
         {
             $('#' + parentElement + ' .track-items').empty();
             $('#' + parentElement + ' input[class=form-control]').val("");
@@ -995,7 +1082,7 @@ $(function(){
     };
 
     var blockForAddTrack;
-    var helpName;
+    var helpName; // for track-check button
     $('#main-content').on('show.bs.modal', '#addAlbumModal', function () {
         blockForAddTrack = "#addAlbumModal";
         helpName = "";
@@ -1005,6 +1092,10 @@ $(function(){
     });
     $('#main-content').on('show.bs.modal', '#editPlaylistModal', function () {
         blockForAddTrack = "#editPlaylistModal";
+    });
+    $('#main-content').on('show.bs.modal', '#addPlaylistModal', function () {
+        blockForAddTrack = "#addPlaylistModal";
+        helpName = "";
     });
 
     $('#main-content').on('click', '#user-track-list .add-track-btn', function () {
@@ -1033,6 +1124,10 @@ $(function(){
     $('#main-content').on('click', '#editPlaylistModal .remove-selected-track-btn', function () {
         removeSelectedTrack('#editPlaylistModal');
     });
+    $('#main-content').on('click', '#addPlaylistModal .remove-selected-track-btn', function () {
+        removeSelectedTrack('#addPlaylistModal');
+    });
+
 
     removeSelectedTrack = function (parentElement) {
         $.each($(parentElement + ' input[name=track-check]'), function (index, value) {
@@ -1047,6 +1142,9 @@ $(function(){
             $(parentElement + ' .remove-selected-track-btn').remove();
         });
     };
+
+
+    /*ALBUMS*/
 
     var albumPhoto = null;
     $('#main-content').on('change', '#upload_album_img', function () {
@@ -1123,7 +1221,17 @@ $(function(){
                 /*console.log(data);
                  var status = JSON.parse(data)
                  console.log(status);*/
-
+                var album = JSON.parse(data)
+                var tempItem = '<div class="profile-album-item" album_id="' + album.album_id + '">' +
+                    '<img src="/resources/assets/images/album_images/' + album.album_photo + '" alt="">' +
+                    '<div class="profile-album-info">' +
+                    '<div class="in-profile-album-info">' +
+                    '<p class="profile-album-artist">' + album.artist_name + '</p>' +
+                    '<p class="profile-album-name">' + album.album_name + '</p>' +
+                    '<p class="profile-album-year">' + album.album_year + '</p>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
                 console.log("album added");
                 $('#addAlbumModal').modal('hide');
                 albumPhoto= null;
@@ -1255,6 +1363,7 @@ $(function(){
                 $('.music-right-sidebar').css({
                     'display' : 'none'
                 });
+                isOpen = false;
             },
             error: function(data)
             {
@@ -1262,4 +1371,220 @@ $(function(){
             }
         });
     });
+
+
+    /*PLAYLISTS*/
+    var playlistPhoto = null;
+    $('#main-content').on('change', '#upload_playlist_img', function () {
+        var input = $(this)[0];
+        if (input.file || input.files[0])
+        {
+            if (input.files[0].type.match('image.*'))
+            {
+                playlistPhoto = input.files[0];
+                var reader = new FileReader();
+                reader.onload = function(e)
+                {
+                    $('.playlist_img_label img').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+            else
+            {
+                console.log('error, it isn\'t image');
+            }
+        }
+        else
+        {
+            console.log('error');
+        }
+    });
+
+    $('#main-content').on('click', '#addPlaylistModal .btn-primary', function () {
+        var playlistPhotoFile = (playlistPhoto != null) ? playlistPhoto : "album-nophoto.png";
+        var playlistName = ($('#addPlaylistModal input[name=playlist-name]').val() != "") ? $('#addPlaylistModal input[name=playlist-name]').val() : "Unknown playlist";
+        var token = $('input[name="_token"]').val();
+        var tracks = $('#addPlaylistModal input[name=track-check]');
+        var regExp = /\s/;
+        var tracksList = new Array();
+        $.each(tracks, function (index, value) {
+            var tagList = $(value).attr('id').split(regExp);
+            tracksList.push(tagList[tagList.length - 1]);
+            console.log(tagList[tagList.length - 1]);
+        });
+
+        var formData = new FormData();
+        formData.append('_token', token);
+        formData.append('playlist_name', playlistName);
+        formData.append('file', playlistPhotoFile);
+        formData.append('tracks_list', tracksList);
+        formData.append('count_track', tracksList.length);
+
+        $.ajax({
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            url: '/profile/playlists/add',
+            type: 'POST',
+            data: formData/*({
+             _token: token,
+             artist_name: artistName,
+             album_name: albumName,
+             album_year: albumYear,
+             tracks_list: tracksList
+             })*/,
+            beforeSend: function()
+            {
+                console.log("Add is started");
+                //$(thisBtn).removeClass();
+                //$(thisBtn).addClass('fa fa-spinner fa-spin fa-3x fa-fw');
+            },
+            success: function(data)
+            {
+                /*console.log(data);
+                 var status = JSON.parse(data)
+                 console.log(status);*/
+                var playlist = JSON.parse(data)
+                var tempItem = '<div class="profile-playlist-item" playlist_id="' + playlist.playlist_id + '">' +
+                    '<img src="/resources/assets/images/album_images/' + playlist.playlist_photo + '" alt="">' +
+                    '<div class="profile-playlist-info">' +
+                    '<div class="in-profile-playlist-info">' +
+                    '<p class="profile-playlist-name">' + playlist.playlist_name + '</p>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+                console.log("playlist added");
+                $('.profile-playlist-items').prepend(tempItem);
+                $('#addPlaylistModal').modal('hide');
+                playlistPhoto = null;
+            },
+            error: function(data)
+            {
+                console.log(data.responseText);
+            }
+        });
+    });
+
+    $('#main-content').on('click', '.music-right-sidebar #playlist-edit-btn', function () {
+        var playlistId = $(this).attr('playlist_id');
+        var token = $('input[name="_token"]').val();
+
+        $.ajax({
+            url: '/profile/playlists/' + playlistId + '/getPlaylistById',
+            type: 'POST',
+            data: ({
+                _token: token
+            }),
+            beforeSend: function()
+            {
+                console.log("Load info is started");
+                //$(thisBtn).removeClass();
+                //$(thisBtn).addClass('fa fa-spinner fa-spin fa-3x fa-fw');
+            },
+            success: function(data)
+            {
+                //console.log(data);
+                var playlistInfo = JSON.parse(data)
+                console.log(playlistInfo);
+                var playlist = playlistInfo.playlist;
+                var tracks = playlistInfo.tracks;
+                $('#editPlaylistModal .playlist_img_label img').attr("src", "/resources/assets/images/album_images/" + playlist.playlist_photo);
+                $('#editPlaylistModal input[name=playlist-name]').val(playlist.playlist_name);
+//#editAlbumModalTwo_modal_track 6
+                var trackBlock = "";
+                var items = "";
+                $.each(tracks, function (index, value) {
+                    trackBlock = "<div class='track-item-check-btn'>" +
+                        "<input type='checkbox' name='track-check' id='#editPlaylistModal" + playlist.playlist_name + "_modal_track " + value.track_id + "' class='hidden'>" +
+                        "<label for='#editPlaylistModal" + playlist.playlist_name + "_modal_track " + value.track_id + "' class='track-item'>" +
+                        "<div class='track-img'>" +
+                        "<img src='/resources/assets/images/music_images/" + value.track_photo + "' alt=''>" +
+                        "</div>" +
+                        "<div class='track-info-block'>" +
+                        "<p class='artist-name'>" + value.artist_name + "</p>" +
+                        "<p class='track-name'>" + value.track_name + "</p>" +
+                        "</div>" +
+                        "<div class='add-track-info'>" +
+                        "<p class='track-time'>" + value.duration + "</p>" +
+                        "</div>" +
+                        "</label>" +
+                        "</div>";
+                    items += trackBlock;
+                });
+                $('#editPlaylistModal .track-items').html(items);
+                console.log("playlist added");
+                //$('#addAlbumModal').modal('hide');
+
+            },
+            error: function(data)
+            {
+                console.log(data.responseText);
+            }
+        });
+    });
+
+    $('#main-content').on('click', '#editPlaylistModal .btn-primary', function () {
+        var playlistId = $('.music-right-sidebar #playlist-edit-btn').attr('playlist_id');
+        var regExp = /\//;
+        var tokens = $('#editPlaylistModal .playlist_img_label img').attr("src").split(regExp);
+        var playlistPhotoFile = (playlistPhoto != null) ? playlistPhoto : tokens[tokens.length - 1];
+        var playlistName = ($('#editPlaylistModal input[name=playlist-name]').val() != "") ? $('#editPlaylistModal input[name=playlist-name]').val() : "Unknown playlist";
+        var token = $('input[name="_token"]').val();
+        var tracks = $('#editPlaylistModal input[name=track-check]');
+        regExp = /\s/;
+        var tracksList = new Array();
+        $.each(tracks, function (index, value) {
+            var tagList = $(value).attr('id').split(regExp);
+            tracksList.push(tagList[tagList.length - 1]);
+            //console.log(tagList[tagList.length - 1]);
+        });
+        console.log(tracksList);
+        var formData = new FormData();
+        formData.append('_token', token);
+        formData.append('playlist_name', playlistName);
+        formData.append('file', playlistPhotoFile);
+        formData.append('tracks_list', tracksList);
+        formData.append('count_track', tracksList.length);
+
+        $.ajax({
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            url: '/profile/playlists/' + playlistId + '/edit',
+            type: 'POST',
+            data: formData,
+            beforeSend: function()
+            {
+                console.log("Edit is started");
+                //$(thisBtn).removeClass();
+                //$(thisBtn).addClass('fa fa-spinner fa-spin fa-3x fa-fw');
+            },
+            success: function(data)
+            {
+                console.log("playlit edit");
+                playlistPhoto= null;
+                var playlist = JSON.parse(data);
+                $('.profile-playlist-items .profile-playlist-item[playlist_id=' + playlistId + ']').empty();
+                var tempItem = '<img src="/resources/assets/images/album_images/' + playlist.playlist_photo + '" alt="">' +
+                    '<div class="profile-playlist-info">' +
+                    '<div class="in-profile-playlist-info">' +
+                    '<p class="profile-playlist-name">' + playlist.playlist_name + '</p>' +
+                    '</div>' +
+                    '</div>';
+                $('.profile-playlist-items .profile-playlist-item[playlist_id=' + playlistId + ']').html(tempItem);
+                $('#editPlaylistModal').modal('hide');
+                $('.music-right-sidebar').css({
+                    'display' : 'none'
+                });
+                isOpen = false;
+            },
+            error: function(data)
+            {
+                console.log(data.responseText);
+            }
+        });
+    });
+       
 });

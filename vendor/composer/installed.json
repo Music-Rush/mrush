@@ -3059,5 +3059,85 @@
             "phpstorm",
             "sublime"
         ]
+    },
+    {
+        "name": "yangqi/htmldom",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/yangqi/Htmldom.git",
+            "reference": "eee67c01f0a82c6c5e6252880d382e586e331da7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/yangqi/Htmldom/zipball/eee67c01f0a82c6c5e6252880d382e586e331da7",
+            "reference": "eee67c01f0a82c6c5e6252880d382e586e331da7",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2015-09-10 13:45:37",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Yangqi\\Htmldom": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "yangqi",
+                "email": "i@yangqi.me"
+            }
+        ],
+        "description": "Simple Html Dom Parser for Laravel 4",
+        "keywords": [
+            "HTML Parser",
+            "laravel"
+        ]
+    },
+    {
+        "name": "james-heinrich/getid3",
+        "version": "v1.9.15",
+        "version_normalized": "1.9.15.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/JamesHeinrich/getID3.git",
+            "reference": "df9b441e547da1018b1be0e239bee095c9962c96"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/df9b441e547da1018b1be0e239bee095c9962c96",
+            "reference": "df9b441e547da1018b1be0e239bee095c9962c96",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2017-10-26 18:34:37",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "getid3/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL"
+        ],
+        "description": "PHP script that extracts useful information from popular multimedia file formats",
+        "homepage": "http://www.getid3.org/",
+        "keywords": [
+            "codecs",
+            "php",
+            "tags"
+        ]
     }
 ]

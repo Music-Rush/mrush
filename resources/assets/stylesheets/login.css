@@ -57,6 +57,7 @@
     margin-bottom: 20px;
 }
 .additional-info a{
+    cursor: pointer;
     text-decoration: none;
     color: white !important;
 }

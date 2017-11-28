@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Albums as AlbumsModel;
+use App\Models\AlbumsInArtists;
 use App\Models\AlbumsInUsers;
 use App\Models\TracksInAlbums;
 use Illuminate\Http\Request;
@@ -20,6 +21,8 @@ class Albums extends Controller {
         $tracksList = $_POST['tracks_list'];
         $trackCount = $_POST['count_track'];
 
+        $artistId = Artists::Create($artistName);
+
         $tracksId = preg_split("/,/", $tracksList);
 
         //return json_encode($_FILES['file']);
@@ -31,7 +34,6 @@ class Albums extends Controller {
             //noph
             $addedAlbum->album_name = $albumName;
             $addedAlbum->album_year = $albumYear;
-            $addedAlbum->artist_name = $artistName;
             $addedAlbum->album_photo = $_POST['file'];
         }
         else
@@ -40,7 +42,6 @@ class Albums extends Controller {
             $file = $_FILES['file'];
             $addedAlbum->album_name = $albumName;
             $addedAlbum->album_year = $albumYear;
-            $addedAlbum->artist_name = $artistName;
             $addedAlbum->album_photo = $file['name'];
 
             $filePath = $_SERVER['DOCUMENT_ROOT'] . '/resources/assets/images/album_images/' . $file['name'];
@@ -65,6 +66,20 @@ class Albums extends Controller {
         }
 
         Albums::AssociateWithUsers(\Auth::user()->user_id, $addedAlbum->album_id);
+        Albums::AssociateWithArtist($artistId, $addedAlbum->album_id);
+
+        return json_encode($addedAlbum);
+    }
+
+    public static function  AssociateWithArtist($artistId, $albumId)
+    {
+        $albumInArtist = new AlbumsInArtists();
+
+        $albumInArtist->artist_id = $artistId;
+        $albumInArtist->album_id = $albumId;
+
+        $albumInArtist->save();
+
     }
 
     public static function AssociateWithAlbums($trackId, $albumId)
@@ -209,5 +224,26 @@ class Albums extends Controller {
         $album = \App\Models\Albums::where('album_id', '=', $albumId)
             ->first();
         return json_encode($album);
+    }
+
+    public static function AlbumAddToUser()
+    {
+        Albums::AssociateWithUsers(\Auth::user()->user_id, \Route::input('album_id'));
+    }
+
+    public static function AlbumDeleteFromUser()
+    {
+        $userId = \Auth::user()->user_id;
+        $albumId = \Route::input('album_id');
+
+        $albumInUser = AlbumsInUsers::where('user_id', '=', $userId)
+            ->where('album_id', '=', $albumId)
+            ->orderBy('album_in_user_id', 'desc')
+            ->first();
+
+        if($albumInUser->delete())
+            return json_encode(true);
+        else
+            return json_encode(false);
     }
 }
