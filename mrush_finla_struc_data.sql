@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Дек 03 2017 г., 18:54
+-- Время создания: Дек 03 2017 г., 19:35
 -- Версия сервера: 5.7.11
 -- Версия PHP: 5.6.19
 
@@ -214,14 +214,15 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `created_at_user` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `comments`
 --
 
 INSERT INTO `comments` (`comment_id`, `comment_text`, `created_at_user`, `created_at`, `updated_at`) VALUES
-(2, 'edw', 2, '2017-11-21 14:51:52', '2017-11-21 14:51:52');
+(2, 'edw', 2, '2017-11-21 14:51:52', '2017-11-21 14:51:52'),
+(3, 'wefw', 1, '2017-12-03 13:21:20', '2017-12-03 13:21:20');
 
 -- --------------------------------------------------------
 
@@ -235,14 +236,15 @@ CREATE TABLE IF NOT EXISTS `comments_in_communities` (
   `community_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `comments_in_communities`
 --
 
 INSERT INTO `comments_in_communities` (`comment_in_community_id`, `comment_id`, `community_id`, `created_at`, `updated_at`) VALUES
-(2, 2, 9, '2017-11-21 14:51:52', '2017-11-21 14:51:52');
+(2, 2, 9, '2017-11-21 14:51:52', '2017-11-21 14:51:52'),
+(3, 3, 9, '2017-12-03 13:21:20', '2017-12-03 13:21:20');
 
 -- --------------------------------------------------------
 
@@ -649,19 +651,20 @@ CREATE TABLE IF NOT EXISTS `users_genres` (
 --
 
 CREATE TABLE IF NOT EXISTS `users_in_communities` (
+  `user_in_community_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `community_id` int(11) NOT NULL,
   `updated_at` timestamp NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `users_in_communities`
 --
 
-INSERT INTO `users_in_communities` (`user_id`, `community_id`, `updated_at`, `created_at`) VALUES
-(1, 9, '2017-11-26 06:07:28', '2017-11-26 06:07:28'),
-(2, 9, '2017-11-21 14:51:47', '2017-11-21 14:51:47');
+INSERT INTO `users_in_communities` (`user_in_community_id`, `user_id`, `community_id`, `updated_at`, `created_at`) VALUES
+(2, 2, 9, '2017-11-21 14:51:47', '2017-11-21 14:51:47'),
+(5, 1, 9, '2017-12-03 13:21:33', '2017-12-03 13:21:33');
 
 --
 -- Индексы сохранённых таблиц
@@ -693,7 +696,9 @@ ALTER TABLE `albums_in_artists`
 -- Индексы таблицы `albums_in_users`
 --
 ALTER TABLE `albums_in_users`
-  ADD PRIMARY KEY (`album_in_user_id`);
+  ADD PRIMARY KEY (`album_in_user_id`),
+  ADD KEY `album_id_indx` (`album_id`) USING BTREE,
+  ADD KEY `user_id_indx` (`user_id`);
 
 --
 -- Индексы таблицы `album_types`
@@ -728,7 +733,7 @@ ALTER TABLE `audit_logging`
 --
 ALTER TABLE `comments`
   ADD PRIMARY KEY (`comment_id`),
-  ADD KEY `fk_comments_created_user_id` (`created_at_user`);
+  ADD KEY `create_at_user_indx` (`created_at_user`);
 
 --
 -- Индексы таблицы `comments_in_communities`
@@ -813,7 +818,9 @@ ALTER TABLE `playlists_in_communities`
 -- Индексы таблицы `playlists_in_users`
 --
 ALTER TABLE `playlists_in_users`
-  ADD PRIMARY KEY (`playlist_in_user_id`);
+  ADD PRIMARY KEY (`playlist_in_user_id`),
+  ADD KEY `playlist_id_indx` (`playlist_id`),
+  ADD KEY `user_id_indx` (`user_id`);
 
 --
 -- Индексы таблицы `tracks`
@@ -843,7 +850,9 @@ ALTER TABLE `tracks_in_artists`
 -- Индексы таблицы `tracks_in_genres`
 --
 ALTER TABLE `tracks_in_genres`
-  ADD PRIMARY KEY (`track_in_genre_id`);
+  ADD PRIMARY KEY (`track_in_genre_id`),
+  ADD KEY `track_id_indx` (`track_id`),
+  ADD KEY `genre_id_indx` (`genre_id`);
 
 --
 -- Индексы таблицы `tracks_in_playlists`
@@ -857,7 +866,9 @@ ALTER TABLE `tracks_in_playlists`
 -- Индексы таблицы `tracks_in_users`
 --
 ALTER TABLE `tracks_in_users`
-  ADD PRIMARY KEY (`track_in_user_id`);
+  ADD PRIMARY KEY (`track_in_user_id`),
+  ADD KEY `track_id_indx` (`track_id`),
+  ADD KEY `user_id_indx` (`user_id`);
 
 --
 -- Индексы таблицы `users`
@@ -880,8 +891,9 @@ ALTER TABLE `users_genres`
 -- Индексы таблицы `users_in_communities`
 --
 ALTER TABLE `users_in_communities`
-  ADD PRIMARY KEY (`user_id`,`community_id`),
-  ADD KEY `fk_users_in_communities_community_id` (`community_id`);
+  ADD PRIMARY KEY (`user_in_community_id`),
+  ADD KEY `user_id_indx` (`user_id`),
+  ADD KEY `community_id_indx` (`community_id`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -931,12 +943,12 @@ ALTER TABLE `audit_logging`
 -- AUTO_INCREMENT для таблицы `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT для таблицы `comments_in_communities`
 --
 ALTER TABLE `comments_in_communities`
-  MODIFY `comment_in_community_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `comment_in_community_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT для таблицы `communities`
 --
@@ -1033,6 +1045,11 @@ ALTER TABLE `users`
 ALTER TABLE `users_genres`
   MODIFY `user_genre_id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT для таблицы `users_in_communities`
+--
+ALTER TABLE `users_in_communities`
+  MODIFY `user_in_community_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
 -- Ограничения внешнего ключа сохраненных таблиц
 --
 
@@ -1050,9 +1067,17 @@ ALTER TABLE `albums_in_artists`
   ADD CONSTRAINT `fk_artist_id_albums` FOREIGN KEY (`artist_id`) REFERENCES `artists` (`artist_id`);
 
 --
+-- Ограничения внешнего ключа таблицы `albums_in_users`
+--
+ALTER TABLE `albums_in_users`
+  ADD CONSTRAINT `fk_aiu_album_id` FOREIGN KEY (`album_id`) REFERENCES `albums` (`album_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_aiu_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Ограничения внешнего ключа таблицы `artists`
 --
 ALTER TABLE `artists`
+  ADD CONSTRAINT `fk_art_country` FOREIGN KEY (`country`) REFERENCES `countries` (`country_id`),
   ADD CONSTRAINT `fk_artist_type` FOREIGN KEY (`artist_type`) REFERENCES `artist_types` (`type_id`);
 
 --
@@ -1065,7 +1090,7 @@ ALTER TABLE `audit_logging`
 -- Ограничения внешнего ключа таблицы `comments`
 --
 ALTER TABLE `comments`
-  ADD CONSTRAINT `fk_comments_created_user_id` FOREIGN KEY (`created_at_user`) REFERENCES `users_in_communities` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_created_at_user_id` FOREIGN KEY (`created_at_user`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `comments_in_communities`
@@ -1114,6 +1139,13 @@ ALTER TABLE `playlists_in_communities`
   ADD CONSTRAINT `fk_playlist_id` FOREIGN KEY (`playlist_id`) REFERENCES `playlists` (`playlist_id`);
 
 --
+-- Ограничения внешнего ключа таблицы `playlists_in_users`
+--
+ALTER TABLE `playlists_in_users`
+  ADD CONSTRAINT `fk_pl_user_pl` FOREIGN KEY (`playlist_id`) REFERENCES `playlists` (`playlist_id`),
+  ADD CONSTRAINT `fk_pl_user_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
 -- Ограничения внешнего ключа таблицы `tracks`
 --
 ALTER TABLE `tracks`
@@ -1134,11 +1166,25 @@ ALTER TABLE `tracks_in_artists`
   ADD CONSTRAINT `fk_track_id` FOREIGN KEY (`track_id`) REFERENCES `tracks` (`track_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Ограничения внешнего ключа таблицы `tracks_in_genres`
+--
+ALTER TABLE `tracks_in_genres`
+  ADD CONSTRAINT `fk_tig_genre_id` FOREIGN KEY (`genre_id`) REFERENCES `genres` (`genre_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tig_track_id` FOREIGN KEY (`track_id`) REFERENCES `tracks` (`track_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Ограничения внешнего ключа таблицы `tracks_in_playlists`
 --
 ALTER TABLE `tracks_in_playlists`
   ADD CONSTRAINT `fk_tracks_in_playlists_playlist_id` FOREIGN KEY (`playlist_id`) REFERENCES `playlists` (`playlist_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_tracks_in_playlists_track_id` FOREIGN KEY (`track_id`) REFERENCES `tracks` (`track_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `tracks_in_users`
+--
+ALTER TABLE `tracks_in_users`
+  ADD CONSTRAINT `fk_tiu_track_id` FOREIGN KEY (`track_id`) REFERENCES `tracks` (`track_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tiu_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `users`
@@ -1157,8 +1203,8 @@ ALTER TABLE `users_genres`
 -- Ограничения внешнего ключа таблицы `users_in_communities`
 --
 ALTER TABLE `users_in_communities`
-  ADD CONSTRAINT `fk_users_in_communities_community_id` FOREIGN KEY (`community_id`) REFERENCES `communities` (`community_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_users_in_communities_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_uic_community_id` FOREIGN KEY (`community_id`) REFERENCES `communities` (`community_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_uic_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
