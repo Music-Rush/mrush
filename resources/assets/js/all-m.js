@@ -74,7 +74,6 @@ $(function(){
             success: function(data)
             {
                 $('.music-right-sidebar .playlist-title .playlist-name').text(playlistName);
-                console.log(data);
                 var tracks = JSON.parse(data);
                 contentBlock.empty();
                 $.each(tracks, function (index, value) {
@@ -124,13 +123,14 @@ $(function(){
         }
     });
 
-    $('#main-content').on('click', '.profile-playlist-item, .show-community-playlist', function(){
+    $('#main-content').on('click', '.profile-playlist-item', function(){
         console.log('click on playlist item');
         var token = $('input[name="token"]').val();
         var playlistId = $(this).attr("playlist_id");
         var playlistName = $(this).find('.profile-playlist-name').text();
         var contentBlock = $('.music-right-sidebar .playlist-track-items');
         $('.music-right-sidebar #playlist-edit-btn').attr('playlist_id', playlistId);
+        $('.music-right-sidebar #playlist-delete-btn').attr('playlist_id', playlistId);
         helpName = $(this).find('.profile-playlist-name').text();
         if (!isOpen)
         {
@@ -151,16 +151,9 @@ $(function(){
         var playlistName = $(this).attr("playlist_name");
         var contentBlock = $('.music-right-sidebar .playlist-track-items');
         $('.music-right-sidebar #playlist-edit-btn').attr('playlist_id', playlistId);
-        if (!isOpenComPl)
-        {
-            showPlaylistContent(playlistId, contentBlock, token, playlistName);
-            animateBlock(['.music-right-sidebar'], "fadeIn", 200);
-            isOpenComPl = true;
-        }
-        else
-        {
-            showPlaylistContent(playlistId, contentBlock, token, playlistName);
-        }
+        showPlaylistContent(playlistId, contentBlock, token, playlistName);
+        animateBlock(['.music-right-sidebar'], "fadeIn", 200);
+        isOpen = true;
     });
     $('#main-content').on('click', '.close-sidebar', function(){
         if (isOpen)
@@ -887,6 +880,46 @@ $(function(){
                     isOpen = false;
                     albumBlock.fadeOut(200, function () {
                         albumBlock.remove();
+                    });
+                }
+            },
+            error: function(data)
+            {
+                console.log(data.responseText);
+            }
+        });
+    });
+
+    $('#main-content').on('click', '#playlist-delete-btn', function () {
+        debugger;
+        var playlistId = $(this).attr("playlist_id");
+
+        $('#delete-playlist').attr('playlist_id', playlistId);
+    });
+
+    $('#main-content').on('click', '#delete-playlist', function () {
+        var playlistId = $(this).attr("playlist_id");
+        console.log(playlistId);
+        var playlistBlock = $('.profile-playlist-item[playlist_id=' + playlistId + ']');
+        console.log(playlistBlock);
+        var token = $('input[name="_token"]').val();
+
+        $.ajax({
+            url: '/profile/playlists/' + playlistId + '/delete',
+            type: 'POST',
+            data: ({
+                _token: token
+            }),
+            success: function(data)
+            {
+                var result = JSON.parse(data);
+
+                if(result.status)
+                {
+                    $('.music-right-sidebar')[0].style.display = "none";
+                    isOpen = false;
+                    playlistBlock.fadeOut(200, function () {
+                        playlistBlock.remove();
                     });
                 }
             },

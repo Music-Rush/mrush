@@ -22,6 +22,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('/profile/playlists/{playlist_id}/getPlaylistTracks', 'AllMusic\Playlists@GetPlaylistTracks');
 	Route::post('/profile/playlists/{playlist_id}/getPlaylistById', 'AllMusic\Playlists@GetPlaylistById');
 	Route::post('/profile/playlists/{playlist_id}/edit', 'AllMusic\Playlists@PlaylistEdit');
+	Route::post('/profile/playlists/{playlist_id}/delete', 'AllMusic\Playlists@PlaylistDelete');
 	Route::post('/community/create', 'AllMusic\Communities@Create');
 	Route::post('/comments/create', 'AllMusic\Comments@Create');
 	Route::post('/communities/{community_Id}/join', 'AllMusic\Communities@Join');

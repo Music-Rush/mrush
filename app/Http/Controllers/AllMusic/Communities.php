@@ -182,6 +182,7 @@ class Communities extends Controller
 
         if ($playlist->playlist_id > 0)
         {
+            \App\Http\Controllers\AllMusic\Playlists::AssociateWithUsers(\Auth::getUser()->user_id, $playlist->playlist_id);
             $playlistInCommunity = new PlaylistsInCommunities();
             $playlistInCommunity->playlist_id = $playlist->playlist_id;
             $playlistInCommunity->community_id = $community->community_id;

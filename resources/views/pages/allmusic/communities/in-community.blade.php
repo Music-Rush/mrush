@@ -49,25 +49,8 @@
         Close
     </div>
     <div class="playlist-title">
-        <p class="playlist-name">LOL</p>
-        <b class="fa fa-times-circle delete-album-from-profile" data-toggle="modal" data-target="#deleteAlbum"></b>
-        <b class="fa fa-edit" data-toggle="modal" data-target="#editAlbumModal" id="album-edit-btn"></b>
+        <p class="playlist-name"></p>
     </div>
     <div class="playlist-track-items">
-        <!--<div class="profile-track-item">
-            <div class="track-img">
-                <img src="https://upload.wikimedia.org/wikipedia/en/7/7d/Blurryface_by_Twenty_One_Pilots.png" alt="">
-            </div>
-            <div class="track-info-block">
-                <p class="artist-name">Twenty One Pilots</p>
-                <p class="track-name">Ride</p>
-            </div>
-            <div class="add-track-info">
-                <p class="track-time">2:28</p>
-                <b class="fa fa-edit" data-toggle="modal" data-target="#editTrackModal"></b>
-                <b class="fa fa-times-circle" data-toggle="modal" data-target="#deleteTrack"></b>
-                <b class="fa fa-download"></b>
-            </div>
-        </div>-->
     </div>
 </div>

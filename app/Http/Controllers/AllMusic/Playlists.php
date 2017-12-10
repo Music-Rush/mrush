@@ -145,6 +145,8 @@ class Playlists extends Controller
             ->first();
 
         $tracks = TracksInPlaylists::leftJoin('tracks', 'tracks.track_id', '=', 'tracks_in_playlists.track_id')
+            ->leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks.track_id')
+            ->leftJoin('artists', 'artists.artist_id', '=', 'tracks_in_artists.artist_id')
             ->where('tracks_in_playlists.playlist_id', '=', $playlistId)
             ->get();
 
@@ -233,5 +235,22 @@ class Playlists extends Controller
         $playlist = PlaylistsModel::where('playlist_id', '=', $playlistId)
             ->first();
         return json_encode($playlist);
+    }
+
+    public static function PlaylistDelete()
+    {
+        $userId = \Auth::user()->user_id;
+        $playlistId = \Route::input('playlist_id');
+        $playlistInUser = PlaylistsInUsers::where('user_id', '=', $userId)
+            ->where('playlist_id', '=', $playlistId)
+            ->orderBy('playlist_in_user_id', 'desc')
+            ->first();
+
+        $result['status'] = false;
+        if($playlistInUser->delete())
+            $result['status'] = true;
+
+
+        echo json_encode($result);
     }
 }
