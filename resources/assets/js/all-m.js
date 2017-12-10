@@ -32,7 +32,17 @@ $(function(){
             }),
             success: function(data)
             {
-                $('.music-right-sidebar .album-title .album-name').text(albumName);
+                var block = $('.profile-menu-container');
+                if(block.length === 0) {
+                    $('.music-right-sidebar .album-title').empty();
+                    var title = "<p class='album-name'>" + albumName + "</p>" +
+                        "<b class='fa fa-plus' album_id='" + albumId + "'></b>" +
+                        "<b class='fa fa-outdent fa-rotate-180 fa-1x'></b>" +
+                        "<b class='fa fa-play'></b>";
+                    $('.music-right-sidebar .album-title').html(title);
+                } else {
+                    $('.music-right-sidebar .album-title .album-name').text(albumName);
+                }
                 console.log(data);
                 var tracks = JSON.parse(data);
                 contentBlock.empty();
@@ -891,7 +901,6 @@ $(function(){
     });
 
     $('#main-content').on('click', '#playlist-delete-btn', function () {
-        debugger;
         var playlistId = $(this).attr("playlist_id");
 
         $('#delete-playlist').attr('playlist_id', playlistId);
@@ -934,7 +943,7 @@ $(function(){
         var trackItem = $(this).parents('.track-item');
         var trackId = $(trackItem).attr('track-id');
         console.log(trackId);
-        var token = $('input[name="_token"]').val();
+        var token = $('input[name="csrf-token"]').val();
         var thisBtn = this;
 
         $.ajax({
@@ -980,7 +989,7 @@ $(function(){
     $('#main-content, .music-list').on('click', '.album-title > .fa-plus', function(e){
         var albumId = $(this).attr('album_id');
         console.log(albumId);
-        var token = $('input[name="_token"]').val();
+        var token = $('input[name="csrf-token"]').val();
         var thisBtn = this;
 
         $.ajax({

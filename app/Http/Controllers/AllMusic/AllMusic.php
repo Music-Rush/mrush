@@ -42,7 +42,7 @@ class AllMusic extends Controller {
 		{
 			$singer = \Input::get('search_singer');
 			if ($singer != '')
-				$albums = $albums->where('albums.artist_name', 'LIKE', '%' . $singer . '%');
+				$albums = $albums->where('artists.artist_name', 'LIKE', '%' . $singer . '%');
 		}
 		if (\Input::has('search_song'))
 		{
@@ -54,7 +54,7 @@ class AllMusic extends Controller {
 		{
 			$genre = \Input::get('genre');
 			if ($genre != '')
-				$albums = $albums->where('albums.genre_id', '=', $genre);
+				$albums = $albums->where('genres.genre_id', '=', $genre);
 		}
 
 		$albums = $albums->get();
@@ -86,7 +86,7 @@ class AllMusic extends Controller {
 		{
 			$singer = \Input::get('search_singer');
 			if ($singer != '')
-				$tracks = $tracks->where('tracks.artist_name', 'LIKE', '%' . $singer . '%');
+				$tracks = $tracks->where('artists.artist_name', 'LIKE', '%' . $singer . '%');
 		}
 		if (\Input::has('search_song'))
 		{
