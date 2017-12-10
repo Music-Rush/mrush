@@ -25,6 +25,14 @@ class GenresController extends Controller
 
     public static function AssociateWithTrack($trackId, $genreId)
     {
+        $trackInGenres = TracksInGenres::where('track_id', '=', $trackId)
+            ->where('genre_id', '=', $genreId)
+            ->get();
+
+        if(!is_null($trackInGenres)) {
+            return $trackInGenres->track_in_genre_id;
+        }
+
         $trackInGenres = new TracksInGenres();
 
         $trackInGenres->track_id = $trackId;

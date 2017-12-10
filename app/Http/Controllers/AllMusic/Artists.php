@@ -25,6 +25,14 @@ class Artists extends Controller
 
     public static function AssociateWithTrack($trackId, $artistId)
     {
+        $trackInArtists = TracksInArtists::where('track_id', '=', $trackId)
+            ->where('artist_id', '=', $artistId)
+            ->first();
+
+        if(!is_null($trackInArtists)) {
+            return $trackInArtists->track_in_artist_id;
+        }
+
         $trackInArtists = new TracksInArtists();
         
         $trackInArtists->track_id = $trackId;

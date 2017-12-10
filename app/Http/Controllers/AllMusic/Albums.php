@@ -73,6 +73,14 @@ class Albums extends Controller {
 
     public static function  AssociateWithArtist($artistId, $albumId)
     {
+        $albumInArtist = AlbumsInArtists::where('album_id', '=', $albumId)
+            ->where('artist_id', '=', $artistId)
+            ->first();
+
+        if(!is_null($albumInArtist)) {
+            return;
+        }
+
         $albumInArtist = new AlbumsInArtists();
 
         $albumInArtist->artist_id = $artistId;
@@ -84,18 +92,33 @@ class Albums extends Controller {
 
     public static function AssociateWithAlbums($trackId, $albumId)
     {
+        $trackInAlbums = TracksInAlbums::where('album_id', '=', $albumId)
+            ->where('track_id', '=', $trackId)
+            ->first();
+
+        if(!is_null($trackInAlbums)) {
+            return;
+        }
+
         $trackInAlbums = new TracksInAlbums();
 
         $trackInAlbums->track_id = $trackId;
         $trackInAlbums->album_id = $albumId;
 
         $trackInAlbums->save();
-
         //return $trackInAlbums->track_in_album_id;
     }
 
     public static function AssociateWithUsers($userId, $albumId)
     {
+        $albumsInUsers = AlbumsInUsers::where('album_id', '=', $albumId)
+            ->where('user_id', '=', $userId)
+            ->first();
+
+        if(!is_null($albumsInUsers)) {
+            return;
+        }
+
         $albumsInUsers = new AlbumsInUsers();
 
         $albumsInUsers->user_id = $userId;
@@ -114,6 +137,8 @@ class Albums extends Controller {
             ->where('tracks_in_users.user_id', '=', $userId)->orderBy('tracks_in_users.track_in_user_id', 'desc')->get();*/
 
         $albums = AlbumsInUsers::leftJoin('albums', 'albums.album_id', '=', 'albums_in_users.album_id')
+            ->leftJoin('albums_in_artists', 'albums_in_artists.album_id', '=', 'albums.album_id')
+            ->leftJoin('artists', 'artists.artist_id', '=', 'albums_in_artists.artist_id')
             ->where('albums_in_users.user_id', '=', $userId)
             ->orderBy('albums_in_users.album_in_user_id', 'desc')
             ->get();
@@ -128,6 +153,10 @@ class Albums extends Controller {
 
         $tracks = TracksInAlbums::leftJoin('tracks', 'tracks.track_id', '=', 'tracks_in_albums.track_id')
             ->where('tracks_in_albums.album_id', '=', $albumId)
+            ->leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks.track_id')
+            ->leftJoin('artists', 'artists.artist_id', '=', 'tracks_in_artists.artist_id')
+            ->leftJoin('tracks_in_genres', 'tracks_in_genres.track_id', '=', 'tracks.track_id')
+            ->leftJoin('genres', 'genres.genre_id', '=', 'tracks_in_genres.genre_id')
             ->get();
 
         return json_encode($tracks);
@@ -141,9 +170,13 @@ class Albums extends Controller {
         $album = AlbumsModel::leftJoin('albums_in_users', 'albums_in_users.album_id', '=', 'albums.album_id')
             ->where('albums_in_users.user_id', '=', $userId)
             ->where('albums.album_id', '=', $albumId)
+            ->leftJoin('albums_in_artists', 'albums_in_artists.album_id', '=', 'albums.album_id')
+            ->leftJoin('artists', 'artists.artist_id', '=', 'albums_in_artists.artist_id')
             ->first();
 
         $tracks = TracksInAlbums::leftJoin('tracks', 'tracks.track_id', '=', 'tracks_in_albums.track_id')
+            ->leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks.track_id')
+            ->leftJoin('artists', 'artists.artist_id', '=', 'tracks_in_artists.artist_id')
             ->where('tracks_in_albums.album_id', '=', $albumId)
             ->get();
 
@@ -173,6 +206,7 @@ class Albums extends Controller {
         $tracksList = $_POST['tracks_list'];
         $trackCount = $_POST['count_track'];
 
+        $artistId = Artists::Create($artistName);
         $tracksId = preg_split("/,/", $tracksList);
 
         $addedAlbum = AlbumsModel::where('albums.album_id', '=', $albumId)
@@ -185,7 +219,6 @@ class Albums extends Controller {
             //noph
             $addedAlbum->album_name = $albumName;
             $addedAlbum->album_year = $albumYear;
-            $addedAlbum->artist_name = $artistName;
             $addedAlbum->album_photo = $_POST['file'];
         }
         else
@@ -194,7 +227,6 @@ class Albums extends Controller {
             $file = $_FILES['file'];
             $addedAlbum->album_name = $albumName;
             $addedAlbum->album_year = $albumYear;
-            $addedAlbum->artist_name = $artistName;
             $addedAlbum->album_photo = $file['name'];
 
             $filePath = $_SERVER['DOCUMENT_ROOT'] . '/resources/assets/images/album_images/' . $file['name'];
@@ -210,6 +242,7 @@ class Albums extends Controller {
 
         $addedAlbum->save();
 
+//        dd($tracksList);
         TracksInAlbums::where('tracks_in_albums.album_id', '=', $albumId)
             ->delete();
 
@@ -221,7 +254,10 @@ class Albums extends Controller {
             }
         }
 
-        $album = \App\Models\Albums::where('album_id', '=', $albumId)
+        Albums::AssociateWithArtist($artistId, $albumId);
+        $album = \App\Models\Albums::where('albums.album_id', '=', $albumId)
+            ->leftJoin('albums_in_artists', 'albums_in_artists.album_id', '=', 'albums.album_id')
+            ->leftJoin('artists', 'artists.artist_id', '=', 'albums_in_artists.artist_id')
             ->first();
         return json_encode($album);
     }

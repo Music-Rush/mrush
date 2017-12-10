@@ -1,2 +1,5 @@
 /vendor/**
 /.idea/**
+*.jpg
+*.mp3
+*.png

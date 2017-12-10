@@ -374,7 +374,7 @@ $(function(){
         var target = $(e.target);
         if (!target.is('b') && !target.is('a'))
         {
-            var trackId = $(this).attr('track-id') || $(this).attr('two-track-id');
+            var trackId = $(this).attr('track-id') || $(this).attr('two-track-id') || $(this).attr('track_id');
             playlist.add(trackId);
             playlist.play(trackId);
             playlist.print();

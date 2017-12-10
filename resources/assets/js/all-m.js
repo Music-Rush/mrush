@@ -786,9 +786,6 @@ $(function(){
                     "<a id='to-page' onclick='toPage(\"/concerts\", true)'>Concerts</a>" +
                     "</li>" +
                     "<li class='float-lg-right list-inline-item'>" +
-                    "<a href='' id='to-page'>Communities</a>" +
-                    "</li>" +
-                    "<li class='float-lg-right list-inline-item'>" +
                     "<a id='to-page' onclick='toPage(\"/allmusic\", true)'>All Music</a>" +
                     "</li>";
                 $('ul.main-menu').html(htmlMenu);

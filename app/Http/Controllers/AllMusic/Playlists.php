@@ -67,6 +67,14 @@ class Playlists extends Controller
 
     public static function AssociateWithPlaylists($trackId, $playlistId)
     {
+        $trackInPlaylists = TracksInPlaylists::where('track_id', '=', $trackId)
+            ->where('playlist_id', '=', $playlistId)
+            ->first();
+
+        if(!is_null($trackInPlaylists)) {
+            return;
+        }
+
         $trackInPlaylists = new TracksInPlaylists();
 
         $trackInPlaylists->track_id = $trackId;
@@ -79,6 +87,14 @@ class Playlists extends Controller
 
     public static function AssociateWithUsers($userId, $playlistId)
     {
+        $playlistInUsers = PlaylistsInUsers::where('user_id', '=', $userId)
+            ->where('playlist_id', '=', $playlistId)
+            ->first();
+
+        if(!is_null($playlistInUsers)) {
+            return;
+        }
+
         $playlistInUsers = new PlaylistsInUsers();
 
         $playlistInUsers->user_id = $userId;

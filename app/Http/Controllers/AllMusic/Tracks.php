@@ -19,8 +19,9 @@ class Tracks extends Controller
         $i = 0;
         foreach ($_FILES as $file)
         {
+            $uniqId = uniqid() . '.mp3';
             $i++;
-            $uploadFile = $uploadDir . $file['name'];
+            $uploadFile = $uploadDir . $uniqId;
             if (move_uploaded_file($file['tmp_name'], $uploadFile)){
                 $result['track'][$i] = $this->GetTrackInfo($uploadFile);
                 $result['result'][$i] = "Track is uploaded";
@@ -29,7 +30,7 @@ class Tracks extends Controller
                 $track->track_name = $result['track'][$i]['name'];
 //                $track->artist_name = $result['track'][$i]['artist'];
                 $track->track_photo = $result['track'][$i]['image_path'];
-                $track->track_download_name = $result['track'][$i]['filename'];
+                $track->track_download_name = $uniqId;
                 $track->duration = $result['track'][$i]['duration'];
                 $track->is_copy = 0;
                 $track->created_at_user = \Auth::user()->user_id;
@@ -62,7 +63,9 @@ class Tracks extends Controller
 
         if(isset($getIDObj->info['comments'])) {
             $picFileName = preg_replace("/\.mp3$/", "", $getIDObj->info['filename']);
-            $file = $picFileName . '.jpg';
+            $uniqId = uniqid();
+
+            $file = $uniqId . '.jpg';
             $length = $getIDObj->info['comments']['picture'][0]['datalength'];
             $text = $getIDObj->info['comments']['picture'][0]['data'];
             if ($length > 0) {
@@ -104,6 +107,14 @@ class Tracks extends Controller
 
     public static function AssociateWithUser($userId, $trackId)
     {
+        $trackInUsers = TracksInUsers::where('track_id', '=', $trackId)
+            ->where('user_id', '=', $userId)
+            ->first();
+
+        if(!is_null($trackInUsers)) {
+            return $trackInUsers->track_in_user_id;
+        }
+
         $trackInUsers = new TracksInUsers();
 
         $trackInUsers->track_id = $trackId;
@@ -150,13 +161,16 @@ class Tracks extends Controller
 
 
         $track = TracksModel::where('tracks.track_id', '=', $trackId)
+            ->leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks.track_id')
+            ->leftJoin('artists', 'artists.artist_id', '=', 'tracks_in_artists.artist_id')
+            ->leftJoin('tracks_in_genres', 'tracks_in_genres.track_id', '=', 'tracks.track_id')
+            ->leftJoin('genres', 'genres.genre_id', '=', 'tracks_in_genres.genre_id')
             ->first();
 
         if($track->created_at_user != $userId)
         {
             $addedTrack = new TracksModel();
             $addedTrack->track_name = $track->track_name;
-            $addedTrack->artist_name = $track->artist_name;
             $addedTrack->track_photo = $track->track_photo;
             $addedTrack->track_download_name = $track->track_download_name;
             $addedTrack->duration = $track->duration;
@@ -164,6 +178,8 @@ class Tracks extends Controller
             $addedTrack->is_copy = 1;
             $addedTrack->save();
 
+            Artists::AssociateWithTrack($addedTrack->track_id, Artists::Create($track->artist_name));
+            GenresController::AssociateWithTrack($addedTrack->track_id, GenresController::Create($track->genre_name));
             $track_in_user_id = Tracks::AssociateWithUser(\Auth::user()->user_id, $addedTrack->track_id);
         }
         else

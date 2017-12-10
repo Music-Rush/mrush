@@ -34,7 +34,9 @@ class AllMusic extends Controller {
 
 		$userId = \Auth::check() ? \Auth::user()->user_id : 0;
 
-		$albums = Albums::where('album_id', '>', 0);
+		$albums = Albums::where('albums.album_id', '>', 0)
+			->leftJoin('albums_in_artists', 'albums_in_artists.album_id', '=', 'albums.album_id')
+			->leftJoin('artists', 'artists.artist_id', '=', 'albums_in_artists.artist_id');
 
 		if (\Input::has('search_singer'))
 		{
@@ -74,11 +76,11 @@ class AllMusic extends Controller {
 //			->where('tracks.is_copy', '=', 0);
 
 		$tracks = Tracks::select(\DB::raw("*, (SELECT track_in_user_id FROM tracks_in_users WHERE tracks_in_users.user_id = {$userId} AND tracks_in_users.track_id = tracks.track_id) as exist_id"))
-			->where('tracks.is_copy', '=', 0)
 			->leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks.track_id')
 			->leftJoin('artists', 'artists.artist_id', '=', 'tracks_in_artists.artist_id')
 			->leftJoin('tracks_in_genres', 'tracks_in_genres.track_id', '=', 'tracks.track_id')
-			->leftJoin('genres', 'genres.genre_id', '=', 'tracks_in_genres.genre_id');
+			->leftJoin('genres', 'genres.genre_id', '=', 'tracks_in_genres.genre_id')
+			->where('tracks.is_copy', '=', 0);
 
 		if (\Input::has('search_singer'))
 		{

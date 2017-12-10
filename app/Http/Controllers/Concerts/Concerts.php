@@ -26,6 +26,9 @@ class Concerts extends Controller {
                 'name' => $name,
                 'where' => $where
             ];
+            $where = preg_split('/\,\s/', $where);
+            $location_id = EventLocations::Create($where[0]);
+            Events::Create($name, $where[1], $location_id, $img, $url);
             $i++;
         }
 
@@ -55,7 +58,7 @@ class Concerts extends Controller {
             }
             $i++;
         }
-        //dd($dateBlocks);
+//        dd($dateBlocks);
 
 
         $currentDate = $html->find(".current_date a", 0)->title;
@@ -78,6 +81,7 @@ class Concerts extends Controller {
 
     public function getConcerts()
     {
+        $date = date_create_from_format('Y/m/j/', str_replace('http://afisha.tut.by/day/concert/', '', $_POST['pageUrl']));
         $html = new Htmldom($_POST['pageUrl']);
         $list = $html->find('.events-block', 0);
         $i = 0;
@@ -96,6 +100,9 @@ class Concerts extends Controller {
                 'name' => $name,
                 'where' => $where
             ];
+            $where = preg_split('/\,\s/', $where);
+            $location_id = EventLocations::Create($where[0]);
+            Events::Create($name, $where[1], $location_id, $img, $url, $date);
             $i++;
         }
         return json_encode($lists);

@@ -122,6 +122,14 @@ class Communities extends Controller
 
     public function AssociateWithUser($communityId, $userId)
     {
+        $usersInCommunity = UsersInCommunity::where('community_id', '=', $communityId)
+            ->where('user_id', '=', $userId)
+            ->get();
+
+        if(!is_null($usersInCommunity)) {
+            return $usersInCommunity->user_in_community_id;
+        }
+
         $usersInCommunity = new UsersInCommunity();
         $usersInCommunity->community_id = $communityId;
         $usersInCommunity->user_id = $userId;
