@@ -64,7 +64,7 @@
     </div>
     <div class="album-title">
         <p class="album-name">LOL</p>
-        <b class="fa fa-times-circle" data-toggle="modal" data-target="#deleteAlbum"></b>
+        <b class="fa fa-times-circle delete-album-from-profile" data-toggle="modal" data-target="#deleteAlbum"></b>
         <b class="fa fa-edit" data-toggle="modal" data-target="#editAlbumModal" id="album-edit-btn"></b>
     </div>
     <div class="album-track-items">
@@ -125,7 +125,7 @@
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <p class="title">You really want to delete this album?</p>
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
+            <button type="button" class="btn btn-primary delete-album-btn" data-dismiss="modal">Yes</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
         </div>
     </div>

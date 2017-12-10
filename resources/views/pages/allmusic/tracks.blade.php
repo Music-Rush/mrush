@@ -10,9 +10,9 @@
         </div>
         <div class="add-track-info">
             <p class="track-time">{{ $item->duration }}</p>
-            @if (Auth::check())
+            @if (\App\Http\Controllers\AllMusic\AllMusic::AuthCheck())
             <b class="fa fa-heart-o"></b>
-            <b class="fa fa-plus add-track-to-user"></b>
+            <b class="add-track-to-user fa fa-plus"></b>
             @endif
             <a class="fa fa-download" href="/resources/tracks/{{ $item->track_download_name }}" download target="_blank"></a>
         </div>

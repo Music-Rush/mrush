@@ -126,6 +126,8 @@ class Playlists extends Controller
         $playlistId = \Route::input("playlist_id");
 
         $tracks = TracksInPlaylists::leftJoin('tracks', 'tracks.track_id', '=', 'tracks_in_playlists.track_id')
+            ->leftJoin('tracks_in_artists', 'tracks_in_artists.track_id', '=', 'tracks.track_id')
+            ->leftJoin('artists', 'tracks_in_artists.artist_id', '=', 'artists.artist_id')
             ->where('tracks_in_playlists.playlist_id', '=', $playlistId)
             ->get();
 

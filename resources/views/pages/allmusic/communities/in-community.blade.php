@@ -6,7 +6,7 @@
         <div class="container-fluid music-filters">
             <p class="title">Community playlist</p>
             <form action="" method="get" class="search_filter">
-                <button type="button" class="btn btn-primary show-community-playlist">Show playlist</button>
+                <button type="button" class="btn btn-primary show-community-playlist" playlist_id="{{ $playlist->playlist_id }}" playlist_name="{{ $playlist->playlist_name }}">Show playlist</button>
             </form>
             @if ($community_info->userExist)
                 <button type="button" class="btn btn-danger btn-community-leave">Unsubscribe from the community</button>
@@ -42,5 +42,32 @@
                 @endforeach
             </div>
         </div>
+    </div>
+</div>
+<div class="music-right-sidebar">
+    <div class="close-sidebar">
+        Close
+    </div>
+    <div class="playlist-title">
+        <p class="playlist-name">LOL</p>
+        <b class="fa fa-times-circle delete-album-from-profile" data-toggle="modal" data-target="#deleteAlbum"></b>
+        <b class="fa fa-edit" data-toggle="modal" data-target="#editAlbumModal" id="album-edit-btn"></b>
+    </div>
+    <div class="playlist-track-items">
+        <!--<div class="profile-track-item">
+            <div class="track-img">
+                <img src="https://upload.wikimedia.org/wikipedia/en/7/7d/Blurryface_by_Twenty_One_Pilots.png" alt="">
+            </div>
+            <div class="track-info-block">
+                <p class="artist-name">Twenty One Pilots</p>
+                <p class="track-name">Ride</p>
+            </div>
+            <div class="add-track-info">
+                <p class="track-time">2:28</p>
+                <b class="fa fa-edit" data-toggle="modal" data-target="#editTrackModal"></b>
+                <b class="fa fa-times-circle" data-toggle="modal" data-target="#deleteTrack"></b>
+                <b class="fa fa-download"></b>
+            </div>
+        </div>-->
     </div>
 </div>

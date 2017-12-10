@@ -116,7 +116,7 @@ class Albums extends Controller {
             ->first();
 
         if(!is_null($albumsInUsers)) {
-            return;
+            return $albumsInUsers->album_in_user_id;
         }
 
         $albumsInUsers = new AlbumsInUsers();
@@ -126,7 +126,7 @@ class Albums extends Controller {
 
         $albumsInUsers->save();
 
-        //return $trackInAlbums->track_in_album_id;
+        return $albumsInUsers->album_in_user_id;
     }
 
     public static function GetUserAlbums($userId)
@@ -148,7 +148,6 @@ class Albums extends Controller {
 
     public static function GetAlbumTracks()
     {
-        $userId = \Auth::user()->user_id;
         $albumId = \Route::input("album_id");
 
         $tracks = TracksInAlbums::leftJoin('tracks', 'tracks.track_id', '=', 'tracks_in_albums.track_id')
@@ -264,22 +263,31 @@ class Albums extends Controller {
 
     public static function AlbumAddToUser()
     {
-        Albums::AssociateWithUsers(\Auth::user()->user_id, \Route::input('album_id'));
+        $albumInUser = Albums::AssociateWithUsers(\Auth::user()->user_id, \Route::input('album_id'));
+
+        $result['status'] = false;
+        if (!is_null($albumInUser))
+        {
+            $result['status'] = true;
+        }
+
+        echo json_encode($result);
     }
 
     public static function AlbumDeleteFromUser()
     {
         $userId = \Auth::user()->user_id;
         $albumId = \Route::input('album_id');
-
         $albumInUser = AlbumsInUsers::where('user_id', '=', $userId)
             ->where('album_id', '=', $albumId)
             ->orderBy('album_in_user_id', 'desc')
             ->first();
 
+        $result['status'] = false;
         if($albumInUser->delete())
-            return json_encode(true);
-        else
-            return json_encode(false);
+            $result['status'] = true;
+
+
+        echo json_encode($result);
     }
 }

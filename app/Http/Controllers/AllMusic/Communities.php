@@ -46,16 +46,22 @@ class Communities extends Controller
             ->orderBy('comments_in_communities.comment_id', 'DESC')
             ->get();
 
+        $playlist = PlaylistsInCommunities::where('playlists_in_communities.community_id', '=', $communityId)
+            ->leftJoin('playlists', 'playlists.playlist_id', '=', 'playlists_in_communities.playlist_id')
+            ->first();
+
         $data = [
             'communityName' => 'Community name',
             'title' => 'In community',
             'styles' => [
                 'allmusic.css',
                 'tracks.css',
-                'community.css'
+                'community.css',
+                'profile.css'
             ],
             'community_info' => $communityInfo,
-            'comments' => $communityComments
+            'comments' => $communityComments,
+            'playlist' => $playlist
         ];
 
         if ($request->ajax())
@@ -124,7 +130,7 @@ class Communities extends Controller
     {
         $usersInCommunity = UsersInCommunity::where('community_id', '=', $communityId)
             ->where('user_id', '=', $userId)
-            ->get();
+            ->first();
 
         if(!is_null($usersInCommunity)) {
             return $usersInCommunity->user_in_community_id;

@@ -1049,12 +1049,12 @@ body{
 
 /*Left Menu*/
 .profile-container .music-right-sidebar .album-title,
-.profile-container .music-right-sidebar .playlist-title{
+.music-right-sidebar .playlist-title{
     padding-top: 15px;
     border-bottom: 1px solid rgba(0,0,0,.5);
 }
 .profile-container .music-right-sidebar .album-title p.album-name,
-.profile-container .music-right-sidebar .playlist-title p.playlist-name{
+.music-right-sidebar .playlist-title p.playlist-name{
     color: white;
     font-family: "ProximaNovaBold";
     font-size: 18px;
@@ -1062,30 +1062,30 @@ body{
     padding-left: 25px;
 }
 .profile-container .music-right-sidebar .album-title b,
-.profile-container .music-right-sidebar .playlist-title b{
+.music-right-sidebar .playlist-title b{
     float: right;
     font-size: 22px;
     margin-right: 15px;
 }
 .profile-container .music-right-sidebar .album-title b.fa-edit:hover,
-.profile-container .music-right-sidebar .playlist-title b.fa-edit:hover{
+.music-right-sidebar .playlist-title b.fa-edit:hover{
     color: yellow;
     cursor: pointer;
 }
 .profile-container .music-right-sidebar .album-title b.fa-times-circle:hover,
-.profile-container .music-right-sidebar .playlist-title b.fa-times-circle:hover{
+.music-right-sidebar .playlist-title b.fa-times-circle:hover{
     color: red;
     cursor: pointer;
 }
 .profile-container .music-right-sidebar .album-track-items,
-.profile-container .music-right-sidebar .playlist-track-items{
+.music-right-sidebar .playlist-track-items{
     padding-top: 10px;
     width: 100%;
     height: calc(100% - 135px);
     overflow: auto;
 }
 .profile-container .music-right-sidebar .album-track-items .profile-track-item,
-.profile-container .music-right-sidebar .playlist-track-items .profile-track-item{
+.music-right-sidebar .playlist-track-items .profile-track-item{
     min-width: 100%;
     height: 80px;
     margin-bottom: 15px;
@@ -1093,41 +1093,41 @@ body{
     border: 1px solid transparent;
 }
 .profile-container .music-right-sidebar .album-track-items .profile-track-item:hover,
-.profile-container .music-right-sidebar .playlist-track-items .profile-track-item:hover{
+.music-right-sidebar .playlist-track-items .profile-track-item:hover{
     border: 1px solid white;
     cursor: pointer;
 }
 .profile-container .music-right-sidebar .album-track-items .profile-track-item:hover .track-time,
-.profile-container .music-right-sidebar .playlist-track-items .profile-track-item:hover .track-time{
+.music-right-sidebar .playlist-track-items .profile-track-item:hover .track-time{
     display: none;
 }
 .profile-container .music-right-sidebar .album-track-items .profile-track-item:hover .add-track-info > b,
 .profile-container .music-right-sidebar .album-track-items .profile-track-item:hover .add-track-info > a,
-.profile-container .music-right-sidebar .playlist-track-items .profile-track-item:hover .add-track-info > a,
-.profile-container .music-right-sidebar .playlist-track-items .profile-track-item:hover .add-track-info > b{
+.music-right-sidebar .playlist-track-items .profile-track-item:hover .add-track-info > a,
+.music-right-sidebar .playlist-track-items .profile-track-item:hover .add-track-info > b{
     display: inline-block;
 }
 .profile-container .music-right-sidebar .album-track-items .track-img,
-.profile-container .music-right-sidebar .playlist-track-items .track-img{
+.music-right-sidebar .playlist-track-items .track-img{
     width: 70px;
     height: 70px;
     margin-right: 10px;
     display: inline-block;
 }
 .profile-container .music-right-sidebar .album-track-items .track-img img,
-.profile-container .music-right-sidebar .playlist-track-items .track-img img{
+.music-right-sidebar .playlist-track-items .track-img img{
     width: 70px;
     height: 70px;
 }
 .profile-container .music-right-sidebar .album-track-items .track-info-block,
-.profile-container .music-right-sidebar .playlist-track-items .track-info-block{
+.music-right-sidebar .playlist-track-items .track-info-block{
     display: inline-block;
     font-family: "ProximaNovaRegular";
     vertical-align: middle;
     margin-right: 25px;
 }
 .profile-container .music-right-sidebar .album-track-items .track-info-block > .artist-name,
-.profile-container .music-right-sidebar .playlist-track-items .track-info-block > .artist-name{
+.music-right-sidebar .playlist-track-items .track-info-block > .artist-name{
     font-size: 16px;
     color: white;
     font-weight: bold;
@@ -1135,22 +1135,22 @@ body{
     margin-bottom: 5px;
 }
 .profile-container .music-right-sidebar .album-track-items .track-info-block > .track-name,
-.profile-container .music-right-sidebar .playlist-track-items .track-info-block > .track-name{
+.music-right-sidebar .playlist-track-items .track-info-block > .track-name{
     font-size: 16px;
     color: white;
     padding: 0;
     margin: 0;
 }
 .profile-container .music-right-sidebar .album-track-items .add-track-info,
-.profile-container .music-right-sidebar .playlist-track-items .add-track-info{
+.music-right-sidebar .playlist-track-items .add-track-info{
     float: right;
     display: inline-block;
     vertical-align: middle;
 }
 .profile-container .music-right-sidebar .album-track-items .add-track-info > b,
 .profile-container .music-right-sidebar .album-track-items .add-track-info > a,
-.profile-container .music-right-sidebar .playlist-track-items .add-track-info > b,
-.profile-container .music-right-sidebar .playlist-track-items .add-track-info > a{
+.music-right-sidebar .playlist-track-items .add-track-info > b,
+.music-right-sidebar .playlist-track-items .add-track-info > a{
     color: white;
     font-size: 25px;
     display: none;
@@ -1158,23 +1158,23 @@ body{
     margin-right: 10px;
 }
 .profile-container .music-right-sidebar .album-track-items .add-track-info .fa-download:hover,
-.profile-container .music-right-sidebar .playlist-track-items .add-track-info .fa-download:hover{
+.music-right-sidebar .playlist-track-items .add-track-info .fa-download:hover{
     text-decoration: none;
     color: #16c9ad;
     cursor: pointer;
 }
 .profile-container .music-right-sidebar .album-track-items .add-track-info .fa-edit:hover,
-.profile-container .music-right-sidebar .playlist-track-items .add-track-info .fa-edit:hover{
+.music-right-sidebar .playlist-track-items .add-track-info .fa-edit:hover{
     color: yellow;
     cursor: pointer;
 }
 .profile-container .music-right-sidebar .album-track-items .add-track-info .fa-times-circle:hover,
-.profile-container .music-right-sidebar .playlist-track-items .add-track-info .fa-times-circle:hover{
+.music-right-sidebar .playlist-track-items .add-track-info .fa-times-circle:hover{
     color: red;
     cursor: pointer;
 }
 .profile-container .music-right-sidebar .album-track-items .add-track-info > .track-time,
-.profile-container .music-right-sidebar .playlist-track-items .add-track-info > .track-time{
+.music-right-sidebar .playlist-track-items .add-track-info > .track-time{
     font-family: "ProximaNovaRegular";
     font-size: 14px;
     color: white;

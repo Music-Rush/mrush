@@ -57,8 +57,10 @@
         </div>
         <div class="album-title">
             <p class="album-name"></p>
+            @if (Auth::check())
             <b class="fa fa-plus"></b>
             <b class="fa fa-outdent fa-rotate-180 fa-1x"></b>
+            @endif
             <b class="fa fa-play"></b>
 
             <!--<b class="fa fa-times-circle" data-toggle="modal" data-target="#deleteAlbum"></b>

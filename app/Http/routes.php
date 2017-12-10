@@ -13,9 +13,10 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('/profile/tracks/{track_id}/get', 'AllMusic\Tracks@GetTrackById');
 	Route::post('/profile/tracks/{track_id}/edit', 'AllMusic\Tracks@SaveTrackChanges');
 	Route::post('/profile/albums/add', 'AllMusic\Albums@Create');
-	Route::post('/profile/albums/{album_id}/getAlbumTracks', 'AllMusic\Albums@GetAlbumTracks');
 	Route::post('/profile/albums/{album_id}/getAlbumById', 'AllMusic\Albums@GetAlbumById');
 	Route::post('/profile/albums/{album_id}/edit', 'AllMusic\Albums@AlbumEdit');
+	Route::post('/allmusic/albums/{album_id}/add', 'AllMusic\Albums@AlbumAddToUser');
+	Route::post('/allmusic/albums/{album_id}/delete', 'AllMusic\Albums@AlbumDeleteFromUser');
 	Route::get('/profile/playlists', 'AllMusic\Playlists@GetUserPlaylists');
 	Route::post('/profile/playlists/add', 'AllMusic\Playlists@Create');
 	Route::post('/profile/playlists/{playlist_id}/getPlaylistTracks', 'AllMusic\Playlists@GetPlaylistTracks');
@@ -32,6 +33,7 @@ Route::get('/communities/{community_id}', 'AllMusic\Communities@GetCommunity');
 Route::get('/communities', 'AllMusic\Communities@index');
 
 //Route::post('/track/{track_id}/info', 'AllMusic\Tracks@Info');
+Route::post('/profile/albums/{album_id}/getAlbumTracks', 'AllMusic\Albums@GetAlbumTracks');
 
 Route::post('/track/info', 'AllMusic\Tracks@Info');
 

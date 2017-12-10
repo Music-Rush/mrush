@@ -1,5 +1,7 @@
 $(function(){
     var isOpen = false;
+    var isOpenComPl = false;
+
     $('#main-content').on('click', '.album-item', function(){
         console.log('click on album item');
         var token = $('input[name="token"]').val();
@@ -109,6 +111,7 @@ $(function(){
         var albumName = $(this).find('.profile-album-name').text();
         var contentBlock = $('.music-right-sidebar .album-track-items');
         $('.music-right-sidebar #album-edit-btn').attr('album_id', albumId);
+        $('.music-right-sidebar .delete-album-from-profile').attr('album_id', albumId);
         if (!isOpen)
         {
             showAlbumContent(albumId, contentBlock, token, albumName);
@@ -121,7 +124,7 @@ $(function(){
         }
     });
 
-    $('#main-content').on('click', '.profile-playlist-item', function(){
+    $('#main-content').on('click', '.profile-playlist-item, .show-community-playlist', function(){
         console.log('click on playlist item');
         var token = $('input[name="token"]').val();
         var playlistId = $(this).attr("playlist_id");
@@ -134,6 +137,25 @@ $(function(){
             showPlaylistContent(playlistId, contentBlock, token, playlistName);
             animateBlock(['.music-right-sidebar'], "fadeIn", 200);
             isOpen = true;
+        }
+        else
+        {
+            showPlaylistContent(playlistId, contentBlock, token, playlistName);
+        }
+    });
+
+    $('#main-content').on('click', '.show-community-playlist', function(){
+        console.log('click on playlist item');
+        var token = $('input[name="token"]').val();
+        var playlistId = $(this).attr("playlist_id");
+        var playlistName = $(this).attr("playlist_name");
+        var contentBlock = $('.music-right-sidebar .playlist-track-items');
+        $('.music-right-sidebar #playlist-edit-btn').attr('playlist_id', playlistId);
+        if (!isOpenComPl)
+        {
+            showPlaylistContent(playlistId, contentBlock, token, playlistName);
+            animateBlock(['.music-right-sidebar'], "fadeIn", 200);
+            isOpenComPl = true;
         }
         else
         {
@@ -447,6 +469,7 @@ $(function(){
     {
         animateBlock($('.music-right-sidebar'), "fadeOut", 200);
         isOpen = false;
+        isOpenComPl = false;
         console.log(pageName);
         $('.loading-back').fadeIn(400);
         $('#main-content').load(pageName, function(){
@@ -834,8 +857,47 @@ $(function(){
         });
     });
 
-    $('#main-content, .music-list').on('click', '.add-track-to-user', function(e){
-        debugger;
+    $('#main-content').on('click', '.delete-album-from-profile', function () {
+        var albumId = $(this).attr("album_id");
+
+        $('.delete-album-btn').attr('album_id', albumId);
+    });
+
+    $('#main-content').on('click', '.delete-album-btn', function () {
+        var albumId = $(this).attr("album_id");
+        console.log(albumId);
+        var albumBlock = $('.profile-album-item[album_id=' + albumId + ']');
+        console.log(albumBlock);
+        var token = $('input[name="_token"]').val();
+
+        $.ajax({
+            url: '/allmusic/albums/' + albumId + '/delete',
+            type: 'POST',
+            data: ({
+                _token: token
+            }),
+            success: function(data)
+            {
+                console.log(data);
+                var result = JSON.parse(data);
+
+                if(result.status)
+                {
+                    $('.music-right-sidebar')[0].style.display = "none";
+                    isOpen = false;
+                    albumBlock.fadeOut(200, function () {
+                        albumBlock.remove();
+                    });
+                }
+            },
+            error: function(data)
+            {
+                console.log(data.responseText);
+            }
+        });
+    });
+
+    $('#main-content, .music-list').on('click', '.add-track-to-user, .add-track-info > .fa-plus', function(e){
         var trackItem = $(this).parents('.track-item');
         var trackId = $(trackItem).attr('track-id');
         console.log(trackId);
@@ -878,6 +940,51 @@ $(function(){
                 $(thisBtn).removeClass();
                 $(thisBtn).addClass('fa fa-plus');
                 $(thisBtn).addClass('add-track-to-user');
+            }
+        });
+    });
+
+    $('#main-content, .music-list').on('click', '.album-title > .fa-plus', function(e){
+        var albumId = $(this).attr('album_id');
+        console.log(albumId);
+        var token = $('input[name="_token"]').val();
+        var thisBtn = this;
+
+        $.ajax({
+            url: '/allmusic/albums/' + albumId + '/add',
+            type: 'POST',
+            data: {_token: token},
+            beforeSend: function()
+            {
+                $(thisBtn).removeClass();
+                $(thisBtn).addClass('fa fa-spinner fa-spin fa-3x fa-fw');
+            },
+            success: function(data)
+            {
+                console.log(data);
+                var result = JSON.parse(data);
+                if (result.status)
+                {
+                    console.log('okay');
+                    $(thisBtn).removeClass();
+                    $(thisBtn).addClass('fa fa-check');
+                    setTimeout(function(){
+                        $(thisBtn).removeClass();
+                        $(thisBtn).addClass('fa fa-times-circle');
+                        $(thisBtn).addClass('delete-track-from-user');
+                    }, 500);
+                    $(thisBtn).attr('album_id', albumId);
+                }
+                else
+                {
+                    console.log('error');
+                }
+            },
+            error: function(data)
+            {
+                console.log(data.responseText);
+                $(thisBtn).removeClass();
+                $(thisBtn).addClass('fa fa-plus');
             }
         });
     });

@@ -108,4 +108,13 @@ class AllMusic extends Controller {
 
 		echo json_encode($tracks);
 	}
+
+	public static function AuthCheck()
+	{
+		if(\Auth::check()) {
+			return true;
+		}
+
+		return false;
+	}
 }

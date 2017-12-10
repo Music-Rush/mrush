@@ -312,6 +312,11 @@ ul.music-choice li a{
     font-size: 22px;
     margin-right: 15px;
     color: white;
+    cursor: pointer;
+}
+#main-content .music-right-sidebar .album-title b.fa-play:hover,
+#main-content .music-right-sidebar .album-title b.fa-outdent:hover {
+    color: #089680;
 }
 #main-content .music-right-sidebar .album-title b.fa-edit:hover{
     color: yellow;

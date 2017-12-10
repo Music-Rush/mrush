@@ -1,9 +1,7 @@
 <?php namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 
-class PlaylistsInCommunities extends Model {
+class PlaylistsInCommunities extends \Eloquent {
 
-	//
-
+    protected $primaryKey = 'playlist_in_community_id';
 }

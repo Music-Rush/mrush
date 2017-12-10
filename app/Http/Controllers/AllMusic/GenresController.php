@@ -27,7 +27,7 @@ class GenresController extends Controller
     {
         $trackInGenres = TracksInGenres::where('track_id', '=', $trackId)
             ->where('genre_id', '=', $genreId)
-            ->get();
+            ->first();
 
         if(!is_null($trackInGenres)) {
             return $trackInGenres->track_in_genre_id;
